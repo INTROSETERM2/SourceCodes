@@ -4,9 +4,8 @@ public class ProductType {
 	private String productTypeName;
 	
 	
-	public ProductType(int productTypeID, String productTypeName)
+	public ProductType(String productTypeName)
 	{
-		this.productTypeID = productTypeID;
 		this.productTypeName = productTypeName;
 	}
 	

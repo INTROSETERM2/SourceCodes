@@ -1,21 +1,11 @@
-import java.awt.List;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 
-import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
-import com.mysql.jdbc.Statement;
 
 public class DBConnect {
 
 	private java.sql.Connection con;
-	private java.sql.Statement st;
 	private ResultSet rs;
 	
 	public DBConnect(){
@@ -23,11 +13,62 @@ public class DBConnect {
 			Class.forName("com.mysql.jdbc.Driver");
 			
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","");
-			st = con.createStatement();
+			con.createStatement();
 			
 		}catch(Exception ex){
 			System.out.println("Error: " +ex);
 		}
+	}
+	
+	//get next available productID
+	
+	public int getNextAvailableProductID()
+	{
+		String query = "select MAX(productID) from products";
+		Integer resultMax = 1;
+		try{
+			  PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+
+			rs = preparedStatement.executeQuery();
+			
+			while(rs.next())
+			{
+				resultMax = rs.getInt("max(productID)");
+				if(resultMax != null)
+					return resultMax+ 1;
+			}
+			
+
+		}catch(Exception ex){
+			System.out.println(ex);
+		}
+		
+		return resultMax;
+	}
+	
+	//get next available productTypeID	
+	public int getNextAvailableProductTypeID()
+	{
+		String query = "select MAX(product_TypeID) from product_types";
+		Integer resultMax = 1;
+		try{
+			  PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+
+			rs = preparedStatement.executeQuery();
+			
+			while(rs.next())
+			{
+				resultMax = rs.getInt("max(product_TypeID)");
+				if(resultMax != null)
+					return resultMax+ 1;
+			}
+			
+
+		}catch(Exception ex){
+			System.out.println(ex);
+		}
+		
+		return resultMax;
 	}
 	
 	//gets current time and translates it into java.sql.Date
@@ -123,58 +164,44 @@ public class DBConnect {
 		return pictureSource;
 	}
 	
-	/*for ManagerReceipt*/
-	public void addReceipt(int staffID, float sold_price, int sold_quantity, String customerName, int sold_branch)
-	{
-		String query = "insert into receipts(staffID, sold_price, sold_quantity, customer_name, sold_branch, sold_date, sold_total_price) VALUES (?,?,?,?,?,?,?)";		
-		
-		try{
-			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
-			  preparedStatement.setInt(1, staffID);
-			  preparedStatement.setFloat(2, sold_price);	
-			  preparedStatement.setInt(3, sold_quantity);
-			  preparedStatement.setString(4, customerName);
-			  preparedStatement.setInt(5, sold_branch);
-			  preparedStatement.setDate(6, getCurrentDate());
-			  preparedStatement.setFloat(7, sold_price * sold_quantity);
-			  preparedStatement.executeUpdate();
-			
-		}catch(Exception ex){
-			System.out.println(ex);
-		}
-	}
-	
-	public void deleteReceipt(int receipt_number)
-	{
-		String query = "delete from receipts where receipt_number = ?";		
-		
-		try{
-			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
-			preparedStatement.setInt(1, receipt_number);  
-			preparedStatement.executeUpdate();
-			
-		}catch(Exception ex){
-			System.out.println(ex);
-		}
-	}
-	/*End of ManagerReceipt*/
 	
 
 	/*for ManagerProduct*/
-	public void addProduct(int quantity, String productName, float buyPrice, int productTypeID, int branch, String buyOrigin, String picture)
+//	public void addProduct(int quantity, String productName, float buyPrice, int productTypeID, int branch, String buyOrigin, String picture)
+//	{
+//		String query = "insert into products(quantity, product_name, buy_price, buy_date, product_typeID, branch, buy_origin, picture) VALUES (?,?,?,?,?,?,?,?)";		
+//		
+//		try{
+//			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+//			  preparedStatement.setInt(1, quantity);
+//			  preparedStatement.setString(2, productName);	
+//			  preparedStatement.setFloat(3, buyPrice);
+//			  preparedStatement.setDate(4, getCurrentDate());
+//			  preparedStatement.setInt(5, productTypeID);
+//			  preparedStatement.setInt(6, branch);
+//			  preparedStatement.setString(7, buyOrigin);
+//			  preparedStatement.setString(8, picture);
+//			  preparedStatement.executeUpdate();
+//			
+//		}catch(Exception ex){
+//			System.out.println(ex);
+//		}
+//	}
+//	
+	public void addProduct(Product product)
 	{
 		String query = "insert into products(quantity, product_name, buy_price, buy_date, product_typeID, branch, buy_origin, picture) VALUES (?,?,?,?,?,?,?,?)";		
 		
 		try{
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
-			  preparedStatement.setInt(1, quantity);
-			  preparedStatement.setString(2, productName);	
-			  preparedStatement.setFloat(3, buyPrice);
+			  preparedStatement.setInt(1, product.getQuantity());
+			  preparedStatement.setString(2, product.getProductName());	
+			  preparedStatement.setFloat(3, product.getBuyPrice());
 			  preparedStatement.setDate(4, getCurrentDate());
-			  preparedStatement.setInt(5, productTypeID);
-			  preparedStatement.setInt(6, branch);
-			  preparedStatement.setString(7, buyOrigin);
-			  preparedStatement.setString(8, picture);
+			  preparedStatement.setInt(5, product.getProductTypeID().getProductTypeId());
+			  preparedStatement.setInt(6, product.getBranch().getBranchID());
+			  preparedStatement.setString(7, product.getBuyOrigin());
+			  preparedStatement.setString(8, product.getPicture());
 			  preparedStatement.executeUpdate();
 			
 		}catch(Exception ex){
@@ -212,5 +239,73 @@ public class DBConnect {
 	
 	//end of ManagerProduct
 	
+	
+	/*For ManagerProductType*/
+	public void addProductType(ProductType productType)
+	{
+		String query = "insert into product_types(product_type_name) VALUES (?)";		
+		
+		try{
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			  preparedStatement.setString(1, productType.getProductTypeName());
+
+			  preparedStatement.executeUpdate();
+			
+		}catch(Exception ex){
+			System.out.println(ex);
+		}
+	}
+
+	public void deleteProductType(int productID)
+	{
+		String query = "delete from product_types where product_typeID = ?";		
+			 
+		try{
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			  preparedStatement.setInt(1, productID);
+			  preparedStatement.executeUpdate();
+			
+		}catch(Exception ex){
+			System.out.println(ex);
+		}
+	}
+	/*End of ManagerProductType*/
+	
+	/*For ManagerReceipt */
+	public void addReceipt(Receipt receipt)
+	{
+		String query = "insert into receipts(receiptID, staffID, sold_price, sold_quantity, sold_date, customer_name, sold_branch, sold_total_price) VALUES (?,?,?,?,?,?,?,?)";		
+		
+		try{
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			  preparedStatement.setInt(1, receipt.getReceiptID());
+			  preparedStatement.setInt(2, receipt.getStaffID());	
+			  preparedStatement.setFloat(3, receipt.getSoldPrice());
+			  preparedStatement.setInt(4, receipt.getSoldQuantity());
+			  preparedStatement.setDate(5, getCurrentDate());
+			  preparedStatement.setString(6, receipt.getCustomerName());
+			  preparedStatement.setInt(7, receipt.getSoldBranch().getBranchID());
+			  preparedStatement.setFloat(8, receipt.getSoldTotalPrice());
+			  preparedStatement.executeUpdate();
+			
+		}catch(Exception ex){
+			System.out.println(ex);
+		}
+	}
+
+	public void deleteReceipt(int receiptID)
+	{
+		String query = "delete from receipts where receiptID = ?";		
+		
+		try{
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			preparedStatement.setInt(1, receiptID);  
+			preparedStatement.executeUpdate();
+			
+		}catch(Exception ex){
+			System.out.println(ex);
+		}
+	}
+	/*end of ManagerReceipt*/
 }
 		  

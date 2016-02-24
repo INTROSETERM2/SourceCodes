@@ -1,13 +1,10 @@
 
 public class ManagerProduct {
-	private DBConnect db;
+	private DBConnect db = new DBConnect();
+ 
 	public void addProduct(Product product)
 	{
-		db = new DBConnect();
-		
-		db.addProduct(product.getQuantity(), product.getProductName(), product.getBuyPrice(), 
-				product.getProductTypeID().getProductTypeId(), product.getBranch().getBranchID(), 
-				product.getBuyOrigin(), product.getPicture());
+		db.addProduct(product);
 	}
 	
 	public void deleteProduct(int productID)
@@ -17,7 +14,7 @@ public class ManagerProduct {
 	
 	public void modifyProduct(int productID)
 	{
-		
+
 	}
 	
 	public void decrementProduct(int productID)

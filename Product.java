@@ -11,7 +11,7 @@ public class Product {
 	private String buyOrigin;
 	private String picture;
 	
-	public Product(int quantity, String productName, float buyPrice, int productId, ProductType productTypeID, String picture, Branch branch, String buyOrigin)
+	public Product(int productID, int quantity, SimpleDateFormat buyDate, String productName, float buyPrice, int productId, ProductType productTypeID, String picture, Branch branch, String buyOrigin)
 	{
 		this.productID = productID;
 		this.quantity =quantity;

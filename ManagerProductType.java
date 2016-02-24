@@ -1,15 +1,15 @@
 
 public class ManagerProductType {
 
-	private DBConnect db;
-	public void addProductType(Product product)
+	private DBConnect db = new DBConnect();
+	public void addProductType(ProductType productType)
 	{
-		
+		db.addProductType(productType);
 	}
 	
 	public void deleteProductType(int productID)
 	{
-		
+		db.deleteProductType(productID);
 	}
 	
 	public void modifyProductType()
