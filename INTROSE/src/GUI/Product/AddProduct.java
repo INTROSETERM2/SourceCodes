@@ -29,10 +29,10 @@ public class AddProduct {
 		
 	jPanel.setSize(600,450);
 	GridBagLayout gbl_jPanel = new GridBagLayout();
-	gbl_jPanel.columnWidths = new int[]{71, 93, 94, 86, 177, 0};
-	gbl_jPanel.rowHeights = new int[]{74, 17, 166, 14, 27, 20, 23, 0};
+	gbl_jPanel.columnWidths = new int[]{45, 88, 89, 86, 177, 0};
+	gbl_jPanel.rowHeights = new int[]{48, 17, 161, 14, 20, 14, 20, 35, 23, 0};
 	gbl_jPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-	gbl_jPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+	gbl_jPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 	jPanel.setLayout(gbl_jPanel);
 	
 	JLabel lblAddProduct = new JLabel("Add Product");
@@ -74,37 +74,37 @@ public class AddProduct {
 	
 	JLabel lblProductId = new JLabel("Product ID");
 	GridBagConstraints gbc_lblProductId = new GridBagConstraints();
-	gbc_lblProductId.anchor = GridBagConstraints.SOUTH;
+	gbc_lblProductId.anchor = GridBagConstraints.NORTH;
 	gbc_lblProductId.fill = GridBagConstraints.HORIZONTAL;
 	gbc_lblProductId.insets = new Insets(0, 0, 5, 5);
 	gbc_lblProductId.gridx = 1;
-	gbc_lblProductId.gridy = 4;
+	gbc_lblProductId.gridy = 5;
 	jPanel.add(lblProductId, gbc_lblProductId);
 	
 	JLabel lblProductType = new JLabel("Product Type");
 	GridBagConstraints gbc_lblProductType = new GridBagConstraints();
-	gbc_lblProductType.anchor = GridBagConstraints.SOUTH;
+	gbc_lblProductType.anchor = GridBagConstraints.NORTH;
 	gbc_lblProductType.fill = GridBagConstraints.HORIZONTAL;
 	gbc_lblProductType.insets = new Insets(0, 0, 5, 5);
 	gbc_lblProductType.gridx = 2;
-	gbc_lblProductType.gridy = 4;
+	gbc_lblProductType.gridy = 5;
 	jPanel.add(lblProductType, gbc_lblProductType);
 	
 	JLabel lblQuantity = new JLabel("Quantity");
 	GridBagConstraints gbc_lblQuantity = new GridBagConstraints();
-	gbc_lblQuantity.anchor = GridBagConstraints.SOUTHWEST;
+	gbc_lblQuantity.anchor = GridBagConstraints.NORTHWEST;
 	gbc_lblQuantity.insets = new Insets(0, 0, 5, 5);
 	gbc_lblQuantity.gridx = 3;
-	gbc_lblQuantity.gridy = 4;
+	gbc_lblQuantity.gridy = 5;
 	jPanel.add(lblQuantity, gbc_lblQuantity);
 	
 	JLabel lblBuyingPrice = new JLabel("Buying price");
 	GridBagConstraints gbc_lblBuyingPrice = new GridBagConstraints();
-	gbc_lblBuyingPrice.anchor = GridBagConstraints.SOUTH;
+	gbc_lblBuyingPrice.anchor = GridBagConstraints.NORTH;
 	gbc_lblBuyingPrice.fill = GridBagConstraints.HORIZONTAL;
 	gbc_lblBuyingPrice.insets = new Insets(0, 0, 5, 0);
 	gbc_lblBuyingPrice.gridx = 4;
-	gbc_lblBuyingPrice.gridy = 4;
+	gbc_lblBuyingPrice.gridy = 5;
 	jPanel.add(lblBuyingPrice, gbc_lblBuyingPrice);
 	
 	JLabel lblgeneratedBy = new JLabel("#####");
@@ -113,7 +113,7 @@ public class AddProduct {
 	gbc_lblgeneratedBy.fill = GridBagConstraints.HORIZONTAL;
 	gbc_lblgeneratedBy.insets = new Insets(0, 0, 5, 5);
 	gbc_lblgeneratedBy.gridx = 1;
-	gbc_lblgeneratedBy.gridy = 5;
+	gbc_lblgeneratedBy.gridy = 6;
 	jPanel.add(lblgeneratedBy, gbc_lblgeneratedBy);
 	
 	JComboBox comboBox = new JComboBox();
@@ -122,7 +122,7 @@ public class AddProduct {
 	gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 	gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 	gbc_comboBox.gridx = 2;
-	gbc_comboBox.gridy = 5;
+	gbc_comboBox.gridy = 6;
 	jPanel.add(comboBox, gbc_comboBox);
 	
 	textField_1 = new JTextField();
@@ -130,7 +130,7 @@ public class AddProduct {
 	gbc_textField_1.anchor = GridBagConstraints.NORTHWEST;
 	gbc_textField_1.insets = new Insets(0, 0, 5, 5);
 	gbc_textField_1.gridx = 3;
-	gbc_textField_1.gridy = 5;
+	gbc_textField_1.gridy = 6;
 	jPanel.add(textField_1, gbc_textField_1);
 	textField_1.setColumns(10);
 	
@@ -140,7 +140,7 @@ public class AddProduct {
 	gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
 	gbc_textField_3.insets = new Insets(0, 0, 5, 0);
 	gbc_textField_3.gridx = 4;
-	gbc_textField_3.gridy = 5;
+	gbc_textField_3.gridy = 6;
 	jPanel.add(textField_3, gbc_textField_3);
 	textField_3.setColumns(10);
 	
@@ -149,7 +149,7 @@ public class AddProduct {
 	gbc_btnAdd.anchor = GridBagConstraints.NORTH;
 	gbc_btnAdd.fill = GridBagConstraints.HORIZONTAL;
 	gbc_btnAdd.gridx = 4;
-	gbc_btnAdd.gridy = 6;
+	gbc_btnAdd.gridy = 8;
 	jPanel.add(btnAdd, gbc_btnAdd);
 	}
 	

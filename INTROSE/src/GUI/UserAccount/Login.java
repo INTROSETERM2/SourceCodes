@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import net.miginfocom.swing.MigLayout;
 
-public class Login {
+public class Login implements ActionListener{
 	JPanel jPanel = new JPanel();
 	JButton buttonLogin = new JButton("Login");
 	private JTextField fieldUsername;
@@ -53,4 +53,10 @@ public class Login {
     		}
     	}
     }
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }

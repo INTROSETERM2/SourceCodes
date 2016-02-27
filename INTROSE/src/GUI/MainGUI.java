@@ -1,8 +1,12 @@
 package GUI;
 import java.awt.BorderLayout;
+
 import javax.swing.*;
 
+import GUI.Product.AddProduct;
 import GUI.BranchUI.AddBranch;
+import GUI.ControlPanel.GUIMainControlPanel;
+import GUI.Receipt.POSReceipt;
 import GUI.UserAccount.Login;
 
 
@@ -19,9 +23,10 @@ public class MainGUI {
 		
 		Login login = new Login();
 		POSReceipt posReceipt = new POSReceipt();
+		AddProduct addProduct = new AddProduct();
+		
 		AddBranch addBranch = new AddBranch();
-		
-		
+
 		GUIMainControlPanel guiControlPanel = new GUIMainControlPanel();
 		
 		splitPane.setEnabled(false);
@@ -29,8 +34,7 @@ public class MainGUI {
 		leftLabel.add(guiControlPanel.getJPanel());
 		//rightLabel.add(posReceipt.getJPanel());
 		//rightLabel.add(login.getJPanel());
-		rightLabel.add(addBranch.getJPanel());
-		
+		rightLabel.add(addProduct.getJPanel());
 		
 		
         frame.add(splitPane, BorderLayout.CENTER);
@@ -39,11 +43,15 @@ public class MainGUI {
         frame.setResizable(false);
         frame.setVisible(true);	  
 		frame.setSize(790,450);
-
-
 	}
 	
 	public static void main(String[] args) {
+		 try 
+		    { 
+		        UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"); 
+		    } 
+		    catch(Exception e){ 
+		    }
 		MainGUI sp = new MainGUI();
 		
 	}
