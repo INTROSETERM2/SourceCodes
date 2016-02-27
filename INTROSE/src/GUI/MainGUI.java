@@ -14,7 +14,7 @@ public class MainGUI {
 	private JLabel leftLabel = new JLabel();
 	private JLabel rightLabel = new JLabel();	
 	private JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(leftLabel),new JScrollPane(rightLabel));
-	private JFrame frame = new JFrame();
+	private JFrame frame = new JFrame("POS MAKER CONTACT US: 09$$$$$$$$");
 	
 	
 	public MainGUI(){
@@ -28,6 +28,8 @@ public class MainGUI {
 		AddBranch addBranch = new AddBranch();
 
 		GUIMainControlPanel guiControlPanel = new GUIMainControlPanel();
+		
+		
 		
 		splitPane.setEnabled(false);
 		splitPane.setResizeWeight(.2d);
