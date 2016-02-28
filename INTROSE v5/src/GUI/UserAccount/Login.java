@@ -9,8 +9,8 @@ import net.miginfocom.swing.MigLayout;
 public class Login implements ActionListener{
 	JPanel jPanel = new JPanel();
 	JButton buttonLogin = new JButton("Login");
-	private JTextField fieldUsername;
-	private JTextField fieldPassword;
+	private JTextField txtUsername;
+	private JTextField txtPassword;
 	private final JLabel lblPassword = new JLabel("Password:");
 	private final JLabel lblStatus = new JLabel("Status:");
 	private final JLabel lblWrongPassword = new JLabel("wrong password");
@@ -22,15 +22,15 @@ public class Login implements ActionListener{
 		JLabel lblUsername = new JLabel("Username:");
 		jPanel.add(lblUsername, "cell 4 7,alignx left,aligny center");
 		
-		fieldUsername = new JTextField();
-		jPanel.add(fieldUsername, "cell 5 7,growx,aligny top");
-		fieldUsername.setColumns(10);
+		txtUsername = new JTextField();
+		jPanel.add(txtUsername, "cell 5 7,growx,aligny top");
+		txtUsername.setColumns(10);
 		
 		jPanel.add(lblPassword, "cell 4 8,alignx left,aligny center");
 		
-		fieldPassword = new JTextField();
-		jPanel.add(fieldPassword, "cell 5 8,growx,aligny top");
-		fieldPassword.setColumns(10);
+		txtPassword = new JTextField();
+		jPanel.add(txtPassword, "cell 5 8,growx,aligny top");
+		txtPassword.setColumns(10);
 		buttonLogin.addActionListener(act);
 		jPanel.add(buttonLogin, "cell 5 9,alignx left,aligny top");
 		

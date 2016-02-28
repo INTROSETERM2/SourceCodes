@@ -19,9 +19,9 @@ import com.jgoodies.forms.layout.FormSpecs;
 public class AddBranch {
 	
 	JPanel jPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField txtBranch;
+	private JTextField txtUsername;
+	private JTextField txtPassword;
 	
 	public AddBranch(){
 		
@@ -50,15 +50,15 @@ public class AddBranch {
 	gbc_lblNameOfBranch.gridy = 3;
 	jPanel.add(lblNameOfBranch, gbc_lblNameOfBranch);
 	
-	textField = new JTextField();
-	GridBagConstraints gbc_textField = new GridBagConstraints();
-	gbc_textField.anchor = GridBagConstraints.NORTH;
-	gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-	gbc_textField.insets = new Insets(0, 0, 5, 5);
-	gbc_textField.gridx = 3;
-	gbc_textField.gridy = 3;
-	jPanel.add(textField, gbc_textField);
-	textField.setColumns(10);
+	txtBranch = new JTextField();
+	GridBagConstraints gbc_txtBranch = new GridBagConstraints();
+	gbc_txtBranch.anchor = GridBagConstraints.NORTH;
+	gbc_txtBranch.fill = GridBagConstraints.HORIZONTAL;
+	gbc_txtBranch.insets = new Insets(0, 0, 5, 5);
+	gbc_txtBranch.gridx = 3;
+	gbc_txtBranch.gridy = 3;
+	jPanel.add(txtBranch, gbc_txtBranch);
+	txtBranch.setColumns(10);
 	
 	JLabel lblUsername = new JLabel("Username");
 	GridBagConstraints gbc_lblUsername = new GridBagConstraints();
@@ -68,15 +68,15 @@ public class AddBranch {
 	gbc_lblUsername.gridy = 5;
 	jPanel.add(lblUsername, gbc_lblUsername);
 	
-	textField_1 = new JTextField();
-	GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-	gbc_textField_1.anchor = GridBagConstraints.NORTH;
-	gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-	gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-	gbc_textField_1.gridx = 3;
-	gbc_textField_1.gridy = 5;
-	jPanel.add(textField_1, gbc_textField_1);
-	textField_1.setColumns(10);
+	txtUsername = new JTextField();
+	GridBagConstraints gbc_txtUsername = new GridBagConstraints();
+	gbc_txtUsername.anchor = GridBagConstraints.NORTH;
+	gbc_txtUsername.fill = GridBagConstraints.HORIZONTAL;
+	gbc_txtUsername.insets = new Insets(0, 0, 5, 5);
+	gbc_txtUsername.gridx = 3;
+	gbc_txtUsername.gridy = 5;
+	jPanel.add(txtUsername, gbc_txtUsername);
+	txtUsername.setColumns(10);
 	
 	JLabel lblPassword = new JLabel("Password");
 	GridBagConstraints gbc_lblPassword = new GridBagConstraints();
@@ -86,15 +86,15 @@ public class AddBranch {
 	gbc_lblPassword.gridy = 6;
 	jPanel.add(lblPassword, gbc_lblPassword);
 	
-	textField_2 = new JTextField();
-	GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-	gbc_textField_2.anchor = GridBagConstraints.NORTH;
-	gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-	gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-	gbc_textField_2.gridx = 3;
-	gbc_textField_2.gridy = 6;
-	jPanel.add(textField_2, gbc_textField_2);
-	textField_2.setColumns(10);
+	txtPassword = new JTextField();
+	GridBagConstraints gbc_txtPassword = new GridBagConstraints();
+	gbc_txtPassword.anchor = GridBagConstraints.NORTH;
+	gbc_txtPassword.fill = GridBagConstraints.HORIZONTAL;
+	gbc_txtPassword.insets = new Insets(0, 0, 5, 5);
+	gbc_txtPassword.gridx = 3;
+	gbc_txtPassword.gridy = 6;
+	jPanel.add(txtPassword, gbc_txtPassword);
+	txtPassword.setColumns(10);
 	
 	JButton btnEnter = new JButton("ENTER");
 	GridBagConstraints gbc_btnEnter = new GridBagConstraints();

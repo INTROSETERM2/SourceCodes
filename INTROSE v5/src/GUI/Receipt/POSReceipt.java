@@ -8,12 +8,12 @@ import net.miginfocom.swing.MigLayout;
 
 public class POSReceipt {
 	JPanel jPanel = new JPanel();
-	private JTextField textField_2;
+	private JTextField txtTotalAmount;
 	private JTable table;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
+	private JTextField txtItemName;
+	private JTextField txtQuality;
+	private JTextField txtPrice;
+	private JTextField txtStaff;
 
 	public POSReceipt() {
 		jPanel.setSize(600,450);
@@ -28,9 +28,9 @@ public class POSReceipt {
 		JLabel lblTotalAmount = new JLabel("Total Amount");
 		jPanel.add(lblTotalAmount, "cell 8 0,alignx left,aligny center");
 		
-		textField_2 = new JTextField();
-		jPanel.add(textField_2, "cell 10 0 3 1,growx,aligny top");
-		textField_2.setColumns(10);
+		txtTotalAmount = new JTextField();
+		jPanel.add(txtTotalAmount, "cell 10 0 3 1,growx,aligny top");
+		txtTotalAmount.setColumns(10);
 		
 		JLabel lblDate = new JLabel("Date");
 		jPanel.add(lblDate, "cell 0 1,alignx right,aligny center");
@@ -53,24 +53,24 @@ public class POSReceipt {
 		JLabel lblStaff = new JLabel("Staff");
 		jPanel.add(lblStaff, "cell 12 3,alignx left,aligny top");
 		
-		textField_3 = new JTextField();
-		jPanel.add(textField_3, "cell 0 4 3 1,growx,aligny center");
-		textField_3.setColumns(10);
+		txtItemName = new JTextField();
+		jPanel.add(txtItemName, "cell 0 4 3 1,growx,aligny center");
+		txtItemName.setColumns(10);
 		
 		JButton btnPreview = new JButton("Preview");
 		jPanel.add(btnPreview, "cell 4 4,alignx left,aligny top");
 		
-		textField_4 = new JTextField();
-		jPanel.add(textField_4, "cell 6 4,growx,aligny center");
-		textField_4.setColumns(10);
+		txtQuality = new JTextField();
+		jPanel.add(txtQuality, "cell 6 4,growx,aligny center");
+		txtQuality.setColumns(10);
 		
-		textField_5 = new JTextField();
-		jPanel.add(textField_5, "cell 8 4 3 1,growx,aligny center");
-		textField_5.setColumns(10);
+		txtPrice = new JTextField();
+		jPanel.add(txtPrice, "cell 8 4 3 1,growx,aligny center");
+		txtPrice.setColumns(10);
 		
-		textField_6 = new JTextField();
-		jPanel.add(textField_6, "cell 12 4,alignx left,aligny center");
-		textField_6.setColumns(10);
+		txtStaff = new JTextField();
+		jPanel.add(txtStaff, "cell 12 4,alignx left,aligny center");
+		txtStaff.setColumns(10);
 		
 		JButton btnAdd = new JButton("Add");
 		jPanel.add(btnAdd, "cell 0 5 13 1,growx,aligny top");

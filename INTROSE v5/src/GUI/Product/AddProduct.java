@@ -20,9 +20,9 @@ import javax.swing.JComboBox;
 public class AddProduct {
 	
 	JPanel jPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_3;
+	private JTextField txtDate;
+	private JTextField txtQuantity;
+	private JTextField txtBuyingPrice;
 	private JTable table;
 	
 	public AddProduct(){
@@ -62,15 +62,15 @@ public class AddProduct {
 	gbc_lblDate.gridy = 3;
 	jPanel.add(lblDate, gbc_lblDate);
 	
-	textField = new JTextField();
-	GridBagConstraints gbc_textField = new GridBagConstraints();
-	gbc_textField.anchor = GridBagConstraints.NORTH;
-	gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-	gbc_textField.insets = new Insets(0, 0, 5, 5);
-	gbc_textField.gridx = 1;
-	gbc_textField.gridy = 4;
-	jPanel.add(textField, gbc_textField);
-	textField.setColumns(10);
+	txtDate = new JTextField();
+	GridBagConstraints gbc_txtDate = new GridBagConstraints();
+	gbc_txtDate.anchor = GridBagConstraints.NORTH;
+	gbc_txtDate.fill = GridBagConstraints.HORIZONTAL;
+	gbc_txtDate.insets = new Insets(0, 0, 5, 5);
+	gbc_txtDate.gridx = 1;
+	gbc_txtDate.gridy = 4;
+	jPanel.add(txtDate, gbc_txtDate);
+	txtDate.setColumns(10);
 	
 	JLabel lblProductId = new JLabel("Product ID");
 	GridBagConstraints gbc_lblProductId = new GridBagConstraints();
@@ -116,33 +116,33 @@ public class AddProduct {
 	gbc_lblgeneratedBy.gridy = 6;
 	jPanel.add(lblgeneratedBy, gbc_lblgeneratedBy);
 	
-	JComboBox comboBox = new JComboBox();
-	GridBagConstraints gbc_comboBox = new GridBagConstraints();
-	gbc_comboBox.anchor = GridBagConstraints.NORTH;
-	gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-	gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-	gbc_comboBox.gridx = 2;
-	gbc_comboBox.gridy = 6;
-	jPanel.add(comboBox, gbc_comboBox);
+	JComboBox cmbProductType = new JComboBox();
+	GridBagConstraints gbc_cmbProductType = new GridBagConstraints();
+	gbc_cmbProductType.anchor = GridBagConstraints.NORTH;
+	gbc_cmbProductType.fill = GridBagConstraints.HORIZONTAL;
+	gbc_cmbProductType.insets = new Insets(0, 0, 5, 5);
+	gbc_cmbProductType.gridx = 2;
+	gbc_cmbProductType.gridy = 6;
+	jPanel.add(cmbProductType, gbc_cmbProductType);
 	
-	textField_1 = new JTextField();
-	GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-	gbc_textField_1.anchor = GridBagConstraints.NORTHWEST;
-	gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-	gbc_textField_1.gridx = 3;
-	gbc_textField_1.gridy = 6;
-	jPanel.add(textField_1, gbc_textField_1);
-	textField_1.setColumns(10);
+	txtQuantity = new JTextField();
+	GridBagConstraints gbc_txtQuantity = new GridBagConstraints();
+	gbc_txtQuantity.anchor = GridBagConstraints.NORTHWEST;
+	gbc_txtQuantity.insets = new Insets(0, 0, 5, 5);
+	gbc_txtQuantity.gridx = 3;
+	gbc_txtQuantity.gridy = 6;
+	jPanel.add(txtQuantity, gbc_txtQuantity);
+	txtQuantity.setColumns(10);
 	
-	textField_3 = new JTextField();
-	GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-	gbc_textField_3.anchor = GridBagConstraints.NORTH;
-	gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
-	gbc_textField_3.insets = new Insets(0, 0, 5, 0);
-	gbc_textField_3.gridx = 4;
-	gbc_textField_3.gridy = 6;
-	jPanel.add(textField_3, gbc_textField_3);
-	textField_3.setColumns(10);
+	txtBuyingPrice = new JTextField();
+	GridBagConstraints gbc_txtBuyingPrice = new GridBagConstraints();
+	gbc_txtBuyingPrice.anchor = GridBagConstraints.NORTH;
+	gbc_txtBuyingPrice.fill = GridBagConstraints.HORIZONTAL;
+	gbc_txtBuyingPrice.insets = new Insets(0, 0, 5, 0);
+	gbc_txtBuyingPrice.gridx = 4;
+	gbc_txtBuyingPrice.gridy = 6;
+	jPanel.add(txtBuyingPrice, gbc_txtBuyingPrice);
+	txtBuyingPrice.setColumns(10);
 	
 	JButton btnAdd = new JButton("ADD");
 	GridBagConstraints gbc_btnAdd = new GridBagConstraints();

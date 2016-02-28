@@ -72,14 +72,14 @@ public class ClientDailyReport {
 	gbc_lblDate.gridy = 2;
 	jPanel.add(lblDate, gbc_lblDate);
 	
-	JComboBox comboBox = new JComboBox();
-	GridBagConstraints gbc_comboBox = new GridBagConstraints();
-	gbc_comboBox.anchor = GridBagConstraints.NORTH;
-	gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-	gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-	gbc_comboBox.gridx = 2;
-	gbc_comboBox.gridy = 2;
-	jPanel.add(comboBox, gbc_comboBox);
+	JComboBox cmbDate = new JComboBox();
+	GridBagConstraints gbc_cmbDate = new GridBagConstraints();
+	gbc_cmbDate.anchor = GridBagConstraints.NORTH;
+	gbc_cmbDate.fill = GridBagConstraints.HORIZONTAL;
+	gbc_cmbDate.insets = new Insets(0, 0, 5, 5);
+	gbc_cmbDate.gridx = 2;
+	gbc_cmbDate.gridy = 2;
+	jPanel.add(cmbDate, gbc_cmbDate);
 	
 	table = new JTable();
 	GridBagConstraints gbc_table = new GridBagConstraints();

@@ -51,14 +51,14 @@ public class BranchReport {
 	gbc_lblTimeline.gridy = 3;
 	jPanel.add(lblTimeline, gbc_lblTimeline);
 	
-	JComboBox comboBox = new JComboBox();
-	GridBagConstraints gbc_comboBox = new GridBagConstraints();
-	gbc_comboBox.anchor = GridBagConstraints.NORTH;
-	gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-	gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-	gbc_comboBox.gridx = 3;
-	gbc_comboBox.gridy = 3;
-	jPanel.add(comboBox, gbc_comboBox);
+	JComboBox cmbTimeline = new JComboBox();
+	GridBagConstraints gbc_cmbTimeline = new GridBagConstraints();
+	gbc_cmbTimeline.anchor = GridBagConstraints.NORTH;
+	gbc_cmbTimeline.fill = GridBagConstraints.HORIZONTAL;
+	gbc_cmbTimeline.insets = new Insets(0, 0, 5, 5);
+	gbc_cmbTimeline.gridx = 3;
+	gbc_cmbTimeline.gridy = 3;
+	jPanel.add(cmbTimeline, gbc_cmbTimeline);
 	
 	JLabel lblFrom = new JLabel("From");
 	GridBagConstraints gbc_lblFrom = new GridBagConstraints();
@@ -68,14 +68,14 @@ public class BranchReport {
 	gbc_lblFrom.gridy = 3;
 	jPanel.add(lblFrom, gbc_lblFrom);
 	
-	JComboBox comboBox_1 = new JComboBox();
-	GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
-	gbc_comboBox_1.anchor = GridBagConstraints.NORTH;
-	gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
-	gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
-	gbc_comboBox_1.gridx = 5;
-	gbc_comboBox_1.gridy = 3;
-	jPanel.add(comboBox_1, gbc_comboBox_1);
+	JComboBox cmbFromDate = new JComboBox();
+	GridBagConstraints gbc_cmbFromDate = new GridBagConstraints();
+	gbc_cmbFromDate.anchor = GridBagConstraints.NORTH;
+	gbc_cmbFromDate.fill = GridBagConstraints.HORIZONTAL;
+	gbc_cmbFromDate.insets = new Insets(0, 0, 5, 5);
+	gbc_cmbFromDate.gridx = 5;
+	gbc_cmbFromDate.gridy = 3;
+	jPanel.add(cmbFromDate, gbc_cmbFromDate);
 	
 	JLabel lblTo = new JLabel("To");
 	GridBagConstraints gbc_lblTo = new GridBagConstraints();
@@ -85,14 +85,14 @@ public class BranchReport {
 	gbc_lblTo.gridy = 3;
 	jPanel.add(lblTo, gbc_lblTo);
 	
-	JComboBox comboBox_2 = new JComboBox();
-	GridBagConstraints gbc_comboBox_2 = new GridBagConstraints();
-	gbc_comboBox_2.anchor = GridBagConstraints.NORTH;
-	gbc_comboBox_2.fill = GridBagConstraints.HORIZONTAL;
-	gbc_comboBox_2.insets = new Insets(0, 0, 5, 0);
-	gbc_comboBox_2.gridx = 7;
-	gbc_comboBox_2.gridy = 3;
-	jPanel.add(comboBox_2, gbc_comboBox_2);
+	JComboBox cmbToDate = new JComboBox();
+	GridBagConstraints gbc_cmbToDate = new GridBagConstraints();
+	gbc_cmbToDate.anchor = GridBagConstraints.NORTH;
+	gbc_cmbToDate.fill = GridBagConstraints.HORIZONTAL;
+	gbc_cmbToDate.insets = new Insets(0, 0, 5, 0);
+	gbc_cmbToDate.gridx = 7;
+	gbc_cmbToDate.gridy = 3;
+	jPanel.add(cmbToDate, gbc_cmbToDate);
 	
 	table = new JTable();
 	GridBagConstraints gbc_table = new GridBagConstraints();
