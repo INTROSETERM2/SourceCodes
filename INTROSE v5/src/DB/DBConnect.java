@@ -1,6 +1,7 @@
 package DB;
 import java.sql.DriverManager;
 
+
 import java.sql.ResultSet;
 
 import com.mysql.jdbc.PreparedStatement;
@@ -20,7 +21,7 @@ public class DBConnect {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
 			con.createStatement();
 			
 		}catch(Exception ex){

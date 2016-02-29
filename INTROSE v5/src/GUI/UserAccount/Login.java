@@ -1,14 +1,15 @@
 package GUI.UserAccount;
-import javax.swing.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import net.miginfocom.swing.MigLayout;
 
 public class Login implements ActionListener{
+	
 	JPanel jPanel = new JPanel();
-	JButton buttonLogin = new JButton("Login");
+	private JButton btnLogin = new JButton("Login");
 	private JTextField txtUsername;
 	private JTextField txtPassword;
 	private final JLabel lblPassword = new JLabel("Password:");
@@ -31,8 +32,9 @@ public class Login implements ActionListener{
 		txtPassword = new JTextField();
 		jPanel.add(txtPassword, "cell 5 8,growx,aligny top");
 		txtPassword.setColumns(10);
-		buttonLogin.addActionListener(act);
-		jPanel.add(buttonLogin, "cell 5 9,alignx left,aligny top");
+		
+		btnLogin.addActionListener(act);
+		jPanel.add(btnLogin, "cell 5 9,alignx left,aligny top");
 		
 		jPanel.add(lblStatus, "cell 4 10");
 		
@@ -43,12 +45,10 @@ public class Login implements ActionListener{
 		return jPanel;
 	}
 	
-	private class ActListener implements ActionListener
-    {
-    	public void actionPerformed(ActionEvent e)
-    	{
-    		if(e.getSource() == buttonLogin)
-    		{
+	private class ActListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		if(e.getSource() == btnLogin){
+    			//Kung ano mangyayari kapag pinindot button
     			System.out.println("t(O_O)t");	
     		}
     	}

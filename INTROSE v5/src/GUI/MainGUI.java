@@ -7,6 +7,7 @@ import GUI.Product.AddProduct;
 import GUI.BranchUI.AddBranch;
 import GUI.ControlPanel.GUIMainControlPanel;
 import GUI.Receipt.POSReceipt;
+import GUI.ReportUI.ClientDailyReport;
 import GUI.UserAccount.Login;
 
 
@@ -26,6 +27,8 @@ public class MainGUI {
 		AddProduct addProduct = new AddProduct();
 		
 		AddBranch addBranch = new AddBranch();
+		
+		ClientDailyReport clientDailyReport = new ClientDailyReport();
 
 		GUIMainControlPanel guiControlPanel = new GUIMainControlPanel();
 		
@@ -36,7 +39,7 @@ public class MainGUI {
 		leftLabel.add(guiControlPanel.getJPanel());
 		//rightLabel.add(posReceipt.getJPanel());
 		//rightLabel.add(login.getJPanel());
-		rightLabel.add(addProduct.getJPanel());
+		rightLabel.add(clientDailyReport.getJPanel());
 		
 		
         frame.add(splitPane, BorderLayout.CENTER);
