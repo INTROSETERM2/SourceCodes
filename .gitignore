@@ -1,0 +1,21 @@
+*.log
+*.zip
+*.snap
+*.resources
+*.prefs
+*.xmi
+*.index
+*.txt
+*.png
+*.lock
+*.fdt
+*.fdx
+.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_0.fnm
+*.frq
+*.nrm
+*.prx
+*.tii
+*.tis
+.metadata/.plugins/org.eclipse.core.resources/.projects/INTROSE v5/.markers.snap
+*.zip
+*.txt

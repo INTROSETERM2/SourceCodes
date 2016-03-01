@@ -1,6 +1,9 @@
 package GUI.UserAccount;
 
 import javax.swing.*;
+
+import DB.DBConnect;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,8 +13,8 @@ public class Login implements ActionListener{
 	
 	JPanel jPanel = new JPanel();
 	private JButton btnLogin = new JButton("Login");
-	private JTextField txtUsername;
-	private JTextField txtPassword;
+	private JTextField txtUsername = new JTextField();
+	private JTextField txtPassword = new JTextField();
 	private final JLabel lblPassword = new JLabel("Password:");
 	private final JLabel lblStatus = new JLabel("Status:");
 	private final JLabel lblWrongPassword = new JLabel("wrong password");
@@ -23,13 +26,11 @@ public class Login implements ActionListener{
 		JLabel lblUsername = new JLabel("Username:");
 		jPanel.add(lblUsername, "cell 4 7,alignx left,aligny center");
 		
-		txtUsername = new JTextField();
 		jPanel.add(txtUsername, "cell 5 7,growx,aligny top");
 		txtUsername.setColumns(10);
 		
 		jPanel.add(lblPassword, "cell 4 8,alignx left,aligny center");
 		
-		txtPassword = new JTextField();
 		jPanel.add(txtPassword, "cell 5 8,growx,aligny top");
 		txtPassword.setColumns(10);
 		
@@ -48,6 +49,9 @@ public class Login implements ActionListener{
 	private class ActListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		if(e.getSource() == btnLogin){
+    			
+    			DBConnect db = new DBConnect();
+    			int check = db.login(txtUsername.getText(), txtPassword.getText());
     			//Kung ano mangyayari kapag pinindot button
     			System.out.println("t(O_O)t");	
     		}
