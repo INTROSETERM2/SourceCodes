@@ -39,7 +39,7 @@ public class MainGUI {
 		leftLabel.add(guiControlPanel.getJPanel());
 		//rightLabel.add(posReceipt.getJPanel());
 		//rightLabel.add(login.getJPanel());
-		rightLabel.add(clientDailyReport.getJPanel());
+		rightLabel.add(login.getJPanel());
 		
 		
         frame.add(splitPane, BorderLayout.CENTER);
@@ -51,12 +51,12 @@ public class MainGUI {
 	}
 	
 	public static void main(String[] args) {
-		 try 
-		    { 
-		        UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"); 
-		    } 
-		    catch(Exception e){ 
-		    }
+//		 try 
+//		    { 
+//		        UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"); 
+//		    } 
+//		    catch(Exception e){ 
+//		    }
 		MainGUI sp = new MainGUI();
 		
 	}

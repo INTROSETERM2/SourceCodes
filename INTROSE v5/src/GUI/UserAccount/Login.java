@@ -51,7 +51,7 @@ public class Login implements ActionListener{
     		if(e.getSource() == btnLogin){
     			
     			DBConnect db = new DBConnect();
-    			int check = db.login(txtUsername.getText(), txtPassword.getText());
+    			int userAccountNumber = db.login(txtUsername.getText(), txtPassword.getText());
     			//Kung ano mangyayari kapag pinindot button
     			System.out.println("t(O_O)t");	
     		}
