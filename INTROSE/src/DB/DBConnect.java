@@ -1,6 +1,7 @@
 package DB;
 import java.sql.DriverManager;
 
+
 import java.sql.ResultSet;
 
 import com.mysql.jdbc.PreparedStatement;
@@ -20,7 +21,10 @@ public class DBConnect {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			
+//chester	con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","");
+
+			
 			con.createStatement();
 			
 		}catch(Exception ex){
@@ -170,7 +174,7 @@ public class DBConnect {
 		String query = "select username, password, staffID from staff_account where username = ? and password = ?";
 		String userpassword = "";
 		String dbusername = "";
-		int user_accountnumber = -1; 
+		int staff_accountnumber = -1; 
 		try{
 			  PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			  preparedStatement.setString(1, username);
@@ -184,11 +188,11 @@ public class DBConnect {
 				dbusername = rs.getString("username");
 				userpassword = rs.getString("password");
 
-				user_accountnumber = rs.getInt("staffID");
+				staff_accountnumber = rs.getInt("staffID");
 		
 				if(userpassword == password && dbusername == username)
 				{
-					return user_accountnumber;
+					return staff_accountnumber;
 				}
 			}
 			
@@ -197,7 +201,30 @@ public class DBConnect {
 			System.out.println(ex);
 		}
 	
-		return user_accountnumber;
+		return staff_accountnumber;
+	}
+	
+	public int getRank(int account_number)
+	{
+		String query = "select rank from staff_account where staffID = ?";
+		int staff_rank = -1; 
+		try{
+			  PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			  preparedStatement.setInt(1, account_number);
+
+			rs = preparedStatement.executeQuery();
+			
+			while(rs.next())
+			{	
+				staff_rank = rs.getInt("rank");
+			}
+			
+
+		}catch(Exception ex){
+			System.out.println(ex);
+		}
+	
+		return staff_rank;
 	}
 		  
 	public String getPicture(int productID)
