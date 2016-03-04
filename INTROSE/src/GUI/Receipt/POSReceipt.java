@@ -120,7 +120,8 @@ public class POSReceipt implements ActionListener{
     					Integer.parseInt(txtQuantity.getText()), today, txtCustomer.getText(), MainGUI.BRANCH, 1);
     			
     			db.addReceipt(receipt);
- 
+    			
+    			
   
     		}
     	}
