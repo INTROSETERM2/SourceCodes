@@ -1,16 +1,14 @@
 package Manager;
 
 import Branch.Branch;
+
 import Product.Product;
 import ProductType.ProductType;
-import Staff.Staff;
 
 //will be used when i can fix it
 public abstract class Manager {
 
 	public abstract void add(Branch branch);
-	
-	public abstract void add(Staff staff);
 	
 	public abstract void add(Product product);
 	

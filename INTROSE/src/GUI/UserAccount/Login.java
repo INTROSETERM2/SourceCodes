@@ -5,6 +5,7 @@ import javax.swing.*;
 import Branch.Branch;
 import DB.DBConnect;
 import GUI.MainGUI;
+import GUI.ControlPanel.GUIClientLandingPanel;
 import GUI.Product.AddProduct;
 import GUI.Receipt.POSReceipt;
 
@@ -47,6 +48,7 @@ public class Login implements ActionListener{
 		btnLogin.addActionListener(act);
 		jPanel.add(btnLogin, "cell 5 9,alignx left,aligny top");
 		
+		
 	}
 	
 	public JPanel getJPanel() {
@@ -64,17 +66,34 @@ public class Login implements ActionListener{
 	    		System.out.println("ID:" + MainGUI.BRANCH.getBranchID());
 	    		if(MainGUI.BRANCH.getBranchID() != -1)
 				{
-					POSReceipt posReceipt = new POSReceipt();
+	    			if(MainGUI.BRANCH.getBranchID() == 0)//si client eto
+	    			{
+	    				GUIClientLandingPanel guiClientLandingPanel = new GUIClientLandingPanel();
+	    				mainGUI.setRightSplit(guiClientLandingPanel.getJPanel());
+						mainGUI.removeRightSplit(getJPanel());
+
+	    			}
+	    			else
+	    			{
+	    				
+					POSReceipt posReceipt = new POSReceipt(mainGUI);
+					
+				
+
 					mainGUI.setRightSplit(posReceipt.getJPanel());
 					mainGUI.setLeftSplit();
-					mainGUI.removeRightSplit(getJPanel());
+					//mainGUI.removeRightSplit(getJPanel());
+					mainGUI.removeAllRightSplit();
+
+					mainGUI.setRightSplit(posReceipt.getJPanel());
 
 			
 	    			System.out.println(MainGUI.BRANCH.getBranchID());
+	    			}
 				}
 				else  
 				{
-					JOptionPane.showMessageDialog(null, "Wrong Username of Password");
+					JOptionPane.showMessageDialog(null, "Wrong Username or Password");
 					txtPassword.setText("");
 					txtUsername.setText("");
 				}

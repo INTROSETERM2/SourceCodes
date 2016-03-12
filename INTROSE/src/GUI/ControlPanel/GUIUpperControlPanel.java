@@ -3,6 +3,7 @@ package GUI.ControlPanel;
 import javax.swing.JPanel;
 
 import GUI.MainGUI;
+import GUI.Receipt.POSReceipt;
 import GUI.UserAccount.Login;
 
 import javax.swing.JLabel;
@@ -33,6 +34,7 @@ public class GUIUpperControlPanel implements ActionListener{
 		jPanel.setLayout(new MigLayout("", "[136px]", "[23px][23px][23px][][][][][][][][][][][]"));
 		
 		lblControlPanel.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		lblControlPanel.setText(mainGUI.BRANCH.getBranchName());
 		jPanel.add(lblControlPanel, "cell 0 0,alignx left,aligny top");
 		
 
@@ -59,6 +61,9 @@ public class GUIUpperControlPanel implements ActionListener{
     		if(e.getSource() == btnAddSales){
     			//Kung ano mangyayari kapag pinindot button
     			System.out.println("t(O_O)t");	
+    			POSReceipt posReceipt = new POSReceipt(mainGUI);
+    			mainGUI.removeAllRightSplit();
+    			mainGUI.setRightSplit(posReceipt.getJPanel());
     		}
     		if(e.getSource() == btnPushDailyReport){
     			//Kung ano mangyayari kapag pinindot button
@@ -73,16 +78,17 @@ public class GUIUpperControlPanel implements ActionListener{
     			
     			
     			MainGUI.BRANCH.setBranchID(-1);
-
-    			mainGUI.removeAllRightSplit();
-    			mainGUI.setRightSplit(login.getJPanel());
-				
+//
+//    			mainGUI.removeAllRightSplit();
+//    			mainGUI.setRightSplit(login.getJPanel());
+//				
+//    			
+//    			mainGUI.removeAllLeftSplit();
+//    			
+//    			
+//    			System.out.println("t(O_O)t");	
     			
-    			mainGUI.removeAllLeftSplit();
-    			
-    			
-    			System.out.println("t(O_O)t");	
-    			
+    			mainGUI.logout();
     		}
     	}
     }

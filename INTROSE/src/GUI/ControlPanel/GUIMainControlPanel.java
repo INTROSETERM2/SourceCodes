@@ -24,7 +24,7 @@ public class GUIMainControlPanel {
 		  
 		panel.setLayout(new BorderLayout());
 		
-		POSReceipt posReceipt = new POSReceipt();
+		//POSReceipt posReceipt = new POSReceipt();
 		AddBranch addBranch = new AddBranch();		
 		
 //		topPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

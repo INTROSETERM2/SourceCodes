@@ -19,8 +19,9 @@ public class ManagerProduct {
 
 	}
 	
-	public void decrementProduct(int productID)
+
+	public void decrementProduct(String productName, int quantity)
 	{
-		db.decrementProduct(productID);
+		db.decrementProduct(productName, quantity);
 	}
 }

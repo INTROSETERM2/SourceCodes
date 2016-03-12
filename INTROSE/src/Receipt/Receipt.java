@@ -7,35 +7,50 @@ import DB.DBConnect;
 
 public class Receipt {
 	private int receiptID;
-	private int staffID;
+	private String staffName;
 	private double soldPrice;
 	private int soldQuantity;
 	private Date soldDate;
 	private String customerName;
 	private Branch soldBranch;
-	private double soldTotalPrice;
 	private int soldProductID;	
+	private String soldProductName;
 	private DBConnect db = new DBConnect();
 	
-	public Receipt(int staffID, double soldPrice, int soldQuantity, Date soldDate, String customerName, Branch soldBranch, int soldProductID)
+	public Receipt(String staffName, double soldPrice, int soldQuantity, Date soldDate, String customerName, Branch soldBranch, int soldProductID, String soldProductName)
 	{
 		this.receiptID = db.getNextAvailableReceiptID();
-		this.staffID = staffID;
+		this.staffName= staffName;
 		this.soldPrice = soldPrice;
 		this.soldQuantity = soldQuantity;
 		this.soldDate = soldDate;
 		this.customerName = customerName; 
 		this.soldBranch = soldBranch;
-		this.soldTotalPrice = soldQuantity * soldPrice; 
 		this.soldProductID = soldProductID;
+		this.soldProductName = soldProductName;
+
+	}
+	
+	public Receipt(int receiptID, String staffName, double soldPrice, int soldQuantity, Date soldDate, String customerName, Branch soldBranch, int soldProductID, String soldProductName)
+	{
+		this.receiptID = receiptID;
+		this.staffName= staffName;
+		this.soldPrice = soldPrice;
+		this.soldQuantity = soldQuantity;
+		this.soldDate = soldDate;
+		this.customerName = customerName; 
+		this.soldBranch = soldBranch;
+		this.soldProductID = soldProductID;
+		this.soldProductName = soldProductName;
+
 	}
 
 	public int getReceiptID(){
 		return receiptID;
 
 	}
-	public int getStaffID() {
-		return staffID;
+	public String getStaffName() {
+		return staffName;
 	}
 
 	public double getSoldPrice() {
@@ -57,15 +72,15 @@ public class Receipt {
 	public Branch getSoldBranch() {
 		return soldBranch;
 	}
-
-	public double getSoldTotalPrice() {
-		return soldTotalPrice;
-	}
-
+	
 	public int getSoldProductID() {
 		return soldProductID;
 	}
-	
+
+	public String getSoldProductName() {
+		return soldProductName;
+	}
+
 	
 	
 	

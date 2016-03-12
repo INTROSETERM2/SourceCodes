@@ -1,10 +1,7 @@
 package Branch;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import DB.DBConnect;
-import Staff.Staff;
 
 public class Branch {
 	private int branchID;
