@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -383,6 +384,14 @@ public class POSReceipt implements ActionListener {
 						e.printStackTrace();
 					}
 				}
+				JLabel image = new JLabel(IMAGE);
+				JDialog dialog = new JDialog();
+				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                dialog.setTitle("Image Preview");
+//				dialog.setUndecorated(true);
+				dialog.add(image);
+				dialog.pack();
+				dialog.setVisible(true);
 				mainGUI.removeAllLeftSplit();
 				mainGUI.setLeftSplit();
 			}
