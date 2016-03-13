@@ -388,12 +388,10 @@ public class POSReceipt implements ActionListener {
 				JDialog dialog = new JDialog();
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                 dialog.setTitle("Image Preview");
-//				dialog.setUndecorated(true);
 				dialog.add(image);
 				dialog.pack();
+				dialog.setLocationRelativeTo(null);
 				dialog.setVisible(true);
-				mainGUI.removeAllLeftSplit();
-				mainGUI.setLeftSplit();
 			}
 
 			if (a.getSource() == btnAdd) {
