@@ -28,8 +28,8 @@ public class DBConnect {
 			Class.forName("com.mysql.jdbc.Driver");
 
 			// chester con =
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
-//			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp", "root", "");
+			// DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp", "root", "");
 
 			con.createStatement();
 
@@ -346,18 +346,18 @@ public class DBConnect {
 		String query = "select productID, picture from products where productID  = ?";
 		String pictureSource = "no";
 		int dbProductID = -1;
+		
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			preparedStatement.setInt(1, productID);
 
 			rs = preparedStatement.executeQuery();
-
 			while (rs.next()) {
 				dbProductID = rs.getInt("productID");
 				pictureSource = rs.getString("picture");
+				System.out.println("sshit"+ pictureSource);
 
 				if (dbProductID == productID) {
-					System.out.println(pictureSource);
 					return pictureSource;
 				}
 			}

@@ -2,10 +2,13 @@ package GUI.Receipt;
 
 import java.awt.Color;
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,7 +52,7 @@ public class POSReceipt implements ActionListener {
 	private JComboBox cmbItemName;
 	private JComboBox cmbQuantity;
 	private JTextField txtPrice = new JTextField();
-	private JTextField txtStaff = new JTextField(null);
+	private JTextField txtStaff = new JTextField();
 	private JTextField txtCustomer = new JTextField();
 
 	private JLabel lblCustomer = new JLabel("Customer");
@@ -72,15 +75,9 @@ public class POSReceipt implements ActionListener {
 	private JButton btnAdd = new JButton("Add");
 	private JLabel lblTotalAmountComputed = new JLabel(String.valueOf(db.getTotalSalesToday()) + " php");
 	private MainGUI mainGUI;
-	private JButton btnEdit = new JButton("Edit");
 
 	public static ImageIcon IMAGE = null;
-	private JLabel labelPicture = new JLabel("Select Picture");
 
-	private boolean staffField;
-	private boolean priceField;
-	private boolean customerField = true;
-	private JCheckBox chckbxCheckInput = new JCheckBox("Check Input");
 
 	public POSReceipt(MainGUI mainGUI) {
 		this.mainGUI = mainGUI;
@@ -91,13 +88,12 @@ public class POSReceipt implements ActionListener {
 		lblTotalAmountComputed.setOpaque(true);
 		setTable();
 		ActListener act = new ActListener();
-		chckbxCheckInput.addActionListener(act);
 
 		JScrollPane scrollPane = new JScrollPane();
 
 		scrollPane.setViewportView(table);
-		jPanel.setSize(580, 450);
-		jPanel.setLayout(new MigLayout("", "[33px][12px][59px][grow][16px][71px][17px][74px][42px][64px][12px][89px][12px][85px]", "[20px][20px][218px][14px][23px][23px][]"));
+		jPanel.setSize(580, 1000);
+		jPanel.setLayout(new MigLayout("", "[33px][12px][59px][grow][16px][71px][17px][74px][42px][64px][12px][89px][12px][85px]", "[20px][20px][218px][14px][23px][23px][][][][][][][][][][][][][][]"));
 
 		jPanel.add(lblTotalAmountComputed, "cell 11 0 3 1");
 
@@ -111,177 +107,218 @@ public class POSReceipt implements ActionListener {
 
 		jPanel.add(lblDatenow, "cell 2 1");
 
-		jPanel.add(scrollPane, "cell 0 2 14 1,grow");
-
-		jPanel.add(lblItemName, "cell 0 3,growx,aligny bottom");
-
-		btnPreview.addActionListener(act);
-		jPanel.add(btnPreview, "cell 2 3,growx,aligny top");
-
-		jPanel.add(lblQuantity, "cell 3 3,alignx left,aligny bottom");
-
-		jPanel.add(lblCustomer, "cell 7 3,aligny bottom");
-
-		jPanel.add(lblPrice, "cell 9 3,alignx left,aligny bottom");
-
-		jPanel.add(lblStaff, "cell 13 3,alignx left,aligny bottom");
-		cmbItemName = new JComboBox(db.getProducts().toArray());
-		cmbItemName.addActionListener(act);
-		jPanel.add(cmbItemName, "cell 0 4 3 1,growx,aligny center");
-
-		cmbQuantity = new JComboBox();
-		cmbQuantity.addActionListener(act);
-
-		jPanel.add(cmbQuantity, "cell 3 4 4 1,growx,aligny center");
-
-		txtCustomer.setColumns(10);
-		jPanel.add(txtCustomer, "cell 7 4 2 1,growx");
-
-		jPanel.add(txtPrice, "cell 9 4 3 1,growx,aligny center");
-		txtPrice.setColumns(10);
-
-		jPanel.add(txtStaff, "cell 13 4,alignx left,aligny center");
-		txtStaff.setColumns(10);
-
-		btnAdd.addActionListener(act);
-
-		txtStaff.setText("");
-
-		jPanel.add(btnEdit, "cell 0 5 3 1,growx");
-		
-		jPanel.add(chckbxCheckInput, "cell 9 5");
-		jPanel.add(btnAdd, "cell 11 5 3 1,growx,aligny top");
-		btnEdit.addActionListener(act);
-		btnEdit.setEnabled(false);
+		jPanel.add(scrollPane, "cell 0 2 14 15,grow");
 		ListSelectionModel listSelectionModel = table.getSelectionModel();
 		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				ListSelectionModel lsm = (ListSelectionModel) e.getSource();
-				btnEdit.setEnabled(!lsm.isSelectionEmpty());
 			}
 		});
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
+		
+		 table.addMouseListener(new MouseAdapter() {
+	            public void mousePressed(MouseEvent e) {
+	            	if (e.getClickCount() == 2) {
+	            		System.out.println("double clicked");
+	            		mainGUI.removeAllRightSplit();
+	    				POSReceipt posReceipt = new POSReceipt(mainGUI);
+	    				mainGUI.setRightSplit(posReceipt.getJPanel());
+
+	    				int row = table.getSelectedRow();	
+	    				int column = table.getColumnCount();
+
+	    				int receiptNumber = 0;
+	    				String productName = "";
+	    				double price = 0;
+	    				int quantity = 0;
+	    				String staff = "";
+	    				String customer = "";
+	    				//chester changes
+	    				boolean dec = true;
+	    				try{
+	    					Double d = Double.parseDouble(txtPrice.getText());
+	    					String[] split = d.toString().split("\\.");
+	    					
+	    					if(split[1].length() > 2){
+	    						dec = false;
+	    					}
+	    				}catch(final NumberFormatException e1){
+	    					//System.out.println(e);
+	    				}
+	    				
+	    				if(dec == false){
+	    					JOptionPane.showMessageDialog(null, "Decimal places are limited to 2");
+	    					
+	    				}
+	    				else{
+	    					receiptNumber = Integer.parseInt((String) table.getValueAt(row, 0));
+	    					productName = (String) table.getValueAt(row, 1);
+	    					price = new Double(table.getValueAt(row, 2).toString());
+	    					quantity = Integer.parseInt((String) table.getValueAt(row, 3));
+	    					customer  = (String) table.getValueAt(row, 4);
+	    					staff = (String) table.getValueAt(row, 5);
+	    	
+	    					EditReceipt editReceipt = new EditReceipt(mainGUI, receiptNumber, productName, price, quantity, customer, staff);
+	    				}
+	            	}
+	            }
+	        });
+		
+				btnAdd.addActionListener(act);
+														
+																jPanel.add(lblItemName, "cell 0 17,growx,aligny bottom");
+														
+																btnPreview.addActionListener(act);
+																jPanel.add(btnPreview, "cell 2 17,growx,aligny top");
+												
+														jPanel.add(lblQuantity, "cell 3 17,alignx left,aligny bottom");
+										
+												jPanel.add(lblCustomer, "cell 7 17,aligny bottom");
+								
+										jPanel.add(lblPrice, "cell 9 17,alignx left,aligny bottom");
+								
+										jPanel.add(lblStaff, "cell 13 17,alignx left,aligny bottom");
+										
+												cmbQuantity = new JComboBox();
+												cmbQuantity.addActionListener(act);
+														cmbItemName = new JComboBox(db.getProducts().toArray());
+														cmbItemName.addActionListener(act);
+														jPanel.add(cmbItemName, "cell 0 18 3 1,growx,aligny center");
+														
+														AutoCompleteDecorator.decorate(this.cmbItemName);
+												
+														jPanel.add(cmbQuantity, "cell 3 18 3 1,growx,aligny center");
+														AutoCompleteDecorator.decorate(this.cmbQuantity);
+								
+										txtCustomer.setColumns(10);
+										jPanel.add(txtCustomer, "cell 7 18 2 1,growx");
+										
+												txtCustomer.getDocument().addDocumentListener(new DocumentListener() {
+													public void changedUpdate(DocumentEvent e) {
+														changed();
+													}
+										
+													public void removeUpdate(DocumentEvent e) {
+														changed();
+													}
+										
+													public void insertUpdate(DocumentEvent e) {
+														changed();
+													}
+										
+													public void changed() {
+														if (txtStaff.getText().equals("") || txtCustomer.getText().equals("") || txtPrice.getText().equals("")) {
+															btnAdd.setEnabled(false);
+														} else {
+															btnAdd.setEnabled(true);
+														}
+										
+													}
+												});
+						
+								jPanel.add(txtPrice, "cell 9 18 3 1,growx,aligny center");
+								txtPrice.setColumns(10);
+								
+										txtPrice.getDocument().addDocumentListener(new DocumentListener() {
+											public void changedUpdate(DocumentEvent e) {
+												changed();
+											}
+								
+											public void removeUpdate(DocumentEvent e) {
+												changed();
+											}
+								
+											public void insertUpdate(DocumentEvent e) {
+												changed();
+											}
+								
+											public void changed() {
+												if (txtStaff.getText().equals("") || txtCustomer.getText().equals("") || txtPrice.getText().equals("")) {
+													btnAdd.setEnabled(false);
+												} else {
+													btnAdd.setEnabled(true);
+												}
+											}
+										});
+						
+								jPanel.add(txtStaff, "cell 13 18,alignx left,aligny center");
+								txtStaff.setColumns(10);
+								
+										txtStaff.setText("");
+										
+												txtStaff.getDocument().addDocumentListener(new DocumentListener() {
+													public void changedUpdate(DocumentEvent e) {
+														changed();
+													}
+										
+													public void removeUpdate(DocumentEvent e) {
+														changed();
+													}
+										
+													public void insertUpdate(DocumentEvent e) {
+														changed();
+													}
+										
+													public void changed() {
+														if (txtStaff.getText().equals("") || txtCustomer.getText().equals("") || txtPrice.getText().equals("")) {
+															btnAdd.setEnabled(false);
+														} else {
+															btnAdd.setEnabled(true);
+														}
+										
+													}
+												});
+				
+						
+						jPanel.add(btnAdd, "cell 11 19,growx,aligny top");
+						
 		btnAdd.setEnabled(false);
-
-		txtCustomer.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e) {
-				changed();
-			}
-
-			public void removeUpdate(DocumentEvent e) {
-				changed();
-			}
-
-			public void insertUpdate(DocumentEvent e) {
-				changed();
-			}
-
-			public void changed() {
-				if (txtCustomer.getText().equals("")) {
-					customerField = true;
-				} else {
-					customerField = true;
-				}
-
-			}
-		});
-
-		txtPrice.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e) {
-				changed();
-			}
-
-			public void removeUpdate(DocumentEvent e) {
-				changed();
-			}
-
-			public void insertUpdate(DocumentEvent e) {
-				changed();
-			}
-
-			public void changed() {
-				if (txtPrice.getText().equals("")) {
-					priceField = false;
-				} else {
-					priceField = true;
-				}
-
-			}
-		});
-
-		txtStaff.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e) {
-				changed();
-			}
-
-			public void removeUpdate(DocumentEvent e) {
-				changed();
-			}
-
-			public void insertUpdate(DocumentEvent e) {
-				changed();
-			}
-
-			public void changed() {
-				if (txtStaff.getText().equals("")) {
-					staffField = false;
-				} else {
-					staffField = true;
-				}
-
-			}
-		});
 	
-		 txtStaff.addFocusListener(new FocusListener() {
-
-	            @Override
-	            public void focusGained(FocusEvent e) {
-	            	chckbxCheckInput.setSelected(false);
-	            	btnAdd.setEnabled(false);
-	            }
-
-	            @Override
-	            public void focusLost(FocusEvent e) {
-	            	chckbxCheckInput.setSelected(false);
-	            	btnAdd.setEnabled(false);
-
-	            }
-	        });
-		 txtCustomer.addFocusListener(new FocusListener() {
-
-	            @Override
-	            public void focusGained(FocusEvent e) {
-	            	chckbxCheckInput.setSelected(false);
-	            	btnAdd.setEnabled(false);
-	            }
-
-	            @Override
-	            public void focusLost(FocusEvent e) {
-	            	chckbxCheckInput.setSelected(false);
-	            	btnAdd.setEnabled(false);
-
-	            }
-	        });
-		 txtPrice.addFocusListener(new FocusListener() {
-
-	            @Override
-	            public void focusGained(FocusEvent e) {
-	            	chckbxCheckInput.setSelected(false);
-	            	btnAdd.setEnabled(false);
-	            }
-
-	            @Override
-	            public void focusLost(FocusEvent e) {
-	            	chckbxCheckInput.setSelected(false);
-	            	btnAdd.setEnabled(false);
-
-	            }
-	        });
-		 AutoCompleteDecorator.decorate(this.cmbItemName);
-		 AutoCompleteDecorator.decorate(this.cmbQuantity);
-
+//		 txtStaff.addFocusListener(new FocusListener() {
+//
+//	            @Override
+//	            public void focusGained(FocusEvent f) {
+//	            	btnAdd.setEnabled(false);
+//	            }
+//
+//	            @Override
+//	            public void focusLost(FocusEvent f) {
+//	            	btnAdd.setEnabled(false);
+//
+//	            }
+//
+//	        });
+//		 txtCustomer.addFocusListener(new FocusListener() {
+//
+//	            @Override
+//	            public void focusGained(FocusEvent f) {
+//	            	btnAdd.setEnabled(false);
+//	            }
+//
+//	            @Override
+//	            public void focusLost(FocusEvent f) {
+//	            	btnAdd.setEnabled(false);
+//
+//	            }
+//
+//	        });
+//		 txtPrice.addFocusListener(new FocusListener() {
+//
+//	            @Override
+//	            public void focusGained(FocusEvent f) {
+//	            	btnAdd.setEnabled(false);
+//	            }
+//
+//	            @Override
+//	            public void focusLost(FocusEvent f) {
+//	            	btnAdd.setEnabled(false);
+//
+//	            }
+//	  
+//	        });
+//		 
 	}
 	
 
@@ -292,19 +329,15 @@ public class POSReceipt implements ActionListener {
 	public void setTable() {
 		table = new JTable(db.retrieveDailySales());
 		table.getTableHeader().setReorderingAllowed(false);
+		
+		
 
 	}
 
 	private class ActListener implements ActionListener {
 		public void actionPerformed(ActionEvent a) {
 					
-			if (a.getSource() == chckbxCheckInput)
-			{
-				if(customerField == true && staffField == true && priceField == true)
-				{
-					btnAdd.setEnabled(true);
-				}
-			}
+
 			if (a.getSource() == cmbItemName) {
 				DBConnect db = new DBConnect();
 
@@ -327,49 +360,7 @@ public class POSReceipt implements ActionListener {
 					cmbQuantity.insertItemAt(quantityContent.get(i), i);
 			}
 
-			if (a.getSource() == btnEdit) {
-				mainGUI.removeAllRightSplit();
-				POSReceipt posReceipt = new POSReceipt(mainGUI);
-				mainGUI.setRightSplit(posReceipt.getJPanel());
-
-				int row = table.getSelectedRow();
-				int column = table.getColumnCount();
-
-				int receiptNumber = 0;
-				String productName = "";
-				double price = 0;
-				int quantity = 0;
-				String staff = "";
-				String customer = "";
-				//chester changes
-				boolean dec = true;
-				try{
-					Double d = Double.parseDouble(txtPrice.getText());
-					String[] split = d.toString().split("\\.");
-					
-					if(split[1].length() > 2){
-						dec = false;
-					}
-				}catch(final NumberFormatException e){
-					//System.out.println(e);
-				}
-				
-				if(dec == false){
-					JOptionPane.showMessageDialog(null, "Decimal places are limited to 2");
-					
-				}
-				else{
-					receiptNumber = Integer.parseInt((String) table.getValueAt(row, 0));
-					productName = (String) table.getValueAt(row, 1);
-					price = new Double(table.getValueAt(row, 2).toString());
-					quantity = Integer.parseInt((String) table.getValueAt(row, 3));
-					customer  = (String) table.getValueAt(row, 4);
-					staff = (String) table.getValueAt(row, 5);
-	
-					EditReceipt editReceipt = new EditReceipt(mainGUI, receiptNumber, productName, price, quantity, customer, staff);
-				}
-				//chester changes end
-			}
+		
 
 			if (a.getSource() == btnPreview) {
 				// Kung ano mangyayari kapag pinindot button
@@ -392,11 +383,15 @@ public class POSReceipt implements ActionListener {
 				dialog.pack();
 				dialog.setLocationRelativeTo(null);
 				dialog.setVisible(true);
+				mainGUI.removeAllLeftSplit();
+				mainGUI.setLeftSplit();
 			}
 
 			if (a.getSource() == btnAdd) {
 				// check if number o hindi
 								
+				System.out.println("SHIT");
+
 				boolean ret = true;
 				boolean dec = true;//chester changes
 				try{
@@ -442,6 +437,7 @@ public class POSReceipt implements ActionListener {
 
 				}
 				else {
+					
 					table = new JTable();
 					db.retrieveDailySales();
 

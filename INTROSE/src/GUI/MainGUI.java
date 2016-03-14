@@ -50,9 +50,10 @@ public class MainGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);	  
-		frame.setSize(1000,450);
+//		frame.setSize(1000,450);
 	
 
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setLocationRelativeTo(null);
 	}
 	
