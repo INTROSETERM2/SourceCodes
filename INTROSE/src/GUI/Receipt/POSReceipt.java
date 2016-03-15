@@ -205,10 +205,9 @@ public class POSReceipt implements ActionListener {
 			public void insertUpdate(DocumentEvent e) {
 				changed();
 			}
-
+			//removed txtCustomer.getTExt().equals("") in if statement
 			public void changed() {
-				if (txtStaff.getText().equals("") || txtCustomer.getText().equals("")
-						|| txtPrice.getText().equals("")) {
+				if (txtStaff.getText().equals("") || txtPrice.getText().equals("")) {
 					btnAdd.setEnabled(false);
 				} else {
 					btnAdd.setEnabled(true);
@@ -232,10 +231,9 @@ public class POSReceipt implements ActionListener {
 			public void insertUpdate(DocumentEvent e) {
 				changed();
 			}
-
+			//removed txtCustomer.getTExt().equals("") in if statement
 			public void changed() {
-				if (txtStaff.getText().equals("") || txtCustomer.getText().equals("")
-						|| txtPrice.getText().equals("")) {
+				if (txtStaff.getText().equals("") || txtPrice.getText().equals("")) {
 					btnAdd.setEnabled(false);
 				} else {
 					btnAdd.setEnabled(true);
@@ -260,10 +258,9 @@ public class POSReceipt implements ActionListener {
 			public void insertUpdate(DocumentEvent e) {
 				changed();
 			}
-
+			//removed txtCustomer.getTExt().equals("") in if statement
 			public void changed() {
-				if (txtStaff.getText().equals("") || txtCustomer.getText().equals("")
-						|| txtPrice.getText().equals("")) {
+				if (txtStaff.getText().equals("") || txtPrice.getText().equals("")) {
 					btnAdd.setEnabled(false);
 				} else {
 					btnAdd.setEnabled(true);
