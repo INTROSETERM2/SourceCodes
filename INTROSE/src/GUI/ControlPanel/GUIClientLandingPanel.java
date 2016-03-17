@@ -99,7 +99,8 @@ public class GUIClientLandingPanel implements ActionListener{
 	    jmb.add(product);
 	    jmb.add(report);
 	    jmb.add(account);
-	
+	    
+	    
 	    
 	}
 	

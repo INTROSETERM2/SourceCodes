@@ -71,8 +71,10 @@ public class Login implements ActionListener{
 	    				GUIClientLandingPanel guiClientLandingPanel = new GUIClientLandingPanel();
 	    				mainGUI.setRightSplit(guiClientLandingPanel.getJPanel());
 						mainGUI.removeRightSplit(getJPanel());
+						mainGUI.setLeftSplit();
 
 	    			}
+	    			
 	    			else
 	    			{
 	    				

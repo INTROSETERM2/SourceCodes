@@ -15,6 +15,10 @@ import java.awt.Font;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
+
+import GUI.MainGUI;
+import GUI.Receipt.POSReceipt;
+
 import com.jgoodies.forms.layout.FormSpecs;
 
 public class AddBranch implements ActionListener{
@@ -28,9 +32,10 @@ public class AddBranch implements ActionListener{
 	JLabel lblUsername = new JLabel("Username");
 	JLabel lblPassword = new JLabel("Password");
 	JButton btnEnter = new JButton("ENTER");
+	private MainGUI mainGUI;
 	
-	public AddBranch(){
-		
+	public AddBranch(MainGUI mainGUI){
+		this.mainGUI = mainGUI;
 		ActListener act = new ActListener();
 		
 		jPanel.setSize(600,450);
@@ -103,6 +108,7 @@ public class AddBranch implements ActionListener{
 		gbc_btnEnter.gridy = 10;
 		btnEnter.addActionListener(act);
 		jPanel.add(btnEnter, gbc_btnEnter);
+		
 	}
 	
 	

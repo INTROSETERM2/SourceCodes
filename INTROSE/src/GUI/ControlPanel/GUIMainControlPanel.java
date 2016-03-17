@@ -25,7 +25,7 @@ public class GUIMainControlPanel {
 		panel.setLayout(new BorderLayout());
 		
 		//POSReceipt posReceipt = new POSReceipt();
-		AddBranch addBranch = new AddBranch();		
+		//AddBranch addBranch = new AddBranch();		
 		
 //		topPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 //		topPanel.setPreferredSize(new Dimension(2000, 600));
@@ -37,10 +37,20 @@ public class GUIMainControlPanel {
 		
 		GUIUpperControlPanel guiUpperControlPanel = new GUIUpperControlPanel(guiMain);
 		GUIPictureControlPanel guiBottomControlPanel = new GUIPictureControlPanel();
-				
+		GUIClientUpperControlPanel guiClientUpperControlPanel = new GUIClientUpperControlPanel(guiMain);
+
 		splitPane.setEnabled(true);
 		splitPane.setResizeWeight(.5d);
-		toplabel.add(guiUpperControlPanel.getJPanel());
+		
+		if(MainGUI.BRANCH.getBranchID()==0)
+		{
+			toplabel.add(guiClientUpperControlPanel.getJPanel());
+
+		}
+		else{
+			toplabel.add(guiUpperControlPanel.getJPanel());
+
+		}
 		//rightLabel.add(posReceipt.getJPanel());
 		//rightLabel.add(login.getJPanel());
 		bottomlabel.add(guiBottomControlPanel.getJPanel());
