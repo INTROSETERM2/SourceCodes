@@ -1,5 +1,7 @@
 package Branch;
 
+import java.util.ArrayList;
+
 import DB.DBConnect;
 
 public class ManagerBranch {
@@ -18,5 +20,9 @@ public class ManagerBranch {
 	public void modifyBranch()
 	{
 
+	}
+	
+	public ArrayList<String> getBranches(){
+		return db.getBranches();
 	}
 }

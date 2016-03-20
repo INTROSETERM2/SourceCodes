@@ -27,7 +27,7 @@ public class DBConnect {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 //			always changed this for DB access
-			con =DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","root");
+			con =DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
 //			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp", "root", "");
 
 			con.createStatement();
@@ -529,7 +529,23 @@ public class DBConnect {
 	// }
 	// }
 	//
-
+	
+	public ArrayList<String> getBranches(){
+		String query = "SELECT branchName FROM branches";
+		ArrayList<String> branches = new ArrayList<String>();
+		try{
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			rs = preparedStatement.executeQuery(query);
+			
+			while(rs.next())
+				branches.add(rs.getString("branchName"));
+		}
+		catch(Exception e){
+			System.out.println(e);
+		}
+		return branches;
+	}
+	
 	public void deleteBranch(int branchID) {
 		String query = "delete from branches where branchID = ?";
 

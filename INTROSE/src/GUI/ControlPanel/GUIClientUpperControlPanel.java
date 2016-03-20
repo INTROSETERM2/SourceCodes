@@ -14,6 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JScrollPane;
@@ -21,6 +24,8 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import Branch.ManagerBranch;
 
 import java.awt.Color;
 
@@ -39,6 +44,7 @@ public class GUIClientUpperControlPanel implements ActionListener{
 	private Login login = new Login(mainGUI);
 	private final JScrollPane scrollPane = new JScrollPane();
 	private JTable table = new JTable();
+	private ManagerBranch manBranch = new ManagerBranch();
 
 	public GUIClientUpperControlPanel(MainGUI mainGUI){
 		
@@ -67,9 +73,22 @@ public class GUIClientUpperControlPanel implements ActionListener{
 		
 		jPanel.add(scrollPane);
 		table.setBackground(Color.WHITE);
-		 table = new JTable(new DefaultTableModel(new Object[]{"Branch Name"}, 0));
-		  table.setBorder(new EmptyBorder(0, 0, 0, 0));
-		  table.setBackground(UIManager.getColor("Button.background"));
+		DefaultTableModel model = new DefaultTableModel(new Object[]{"Branch Name"}, 0) {
+ 		   @Override
+ 		   public boolean isCellEditable(int row, int column) {
+ 		       return false;
+ 		   }
+		};
+		
+		ArrayList<String> branches = new ArrayList<String>();
+		branches = manBranch.getBranches();
+		
+		for(int i = 0; i < branches.size();i++){
+			model.addRow(new Object[]{branches.get(i)});
+		}
+		table.setBorder(new EmptyBorder(0, 0, 0, 0));
+		table.setBackground(UIManager.getColor("Button.background"));
+		table.setModel(model);
 		scrollPane.setViewportView(table);
 		
 		JButton btnManageBranch = new JButton("View Report (Select Above)");
@@ -79,6 +98,14 @@ public class GUIClientUpperControlPanel implements ActionListener{
 		System.out.println("t(O_O)t"); 
 		FinancialReportRename financialReport = new FinancialReportRename(mainGUI); 
 		mainGUI.setRightSplit(financialReport.getJPanel());
+		
+        table.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent m) {
+            	if (m.getClickCount() == 2) {
+            		System.out.println("boss");
+            	}
+            }
+        });
 	}
 	
 	public JPanel getJPanel() {
