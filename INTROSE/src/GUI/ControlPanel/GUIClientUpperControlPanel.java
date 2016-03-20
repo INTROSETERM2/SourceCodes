@@ -5,7 +5,9 @@ import javax.swing.JPanel;
 import GUI.MainGUI;
 import GUI.BranchUI.AddBranch;
 import GUI.BranchUI.AddBranchRename;
+import GUI.Product.AddProductRename;
 import GUI.Receipt.POSReceipt;
+import GUI.ReportUI.BranchReportRename;
 import GUI.ReportUI.FinancialReport;
 import GUI.ReportUI.FinancialReportRename;
 import GUI.UserAccount.Login;
@@ -33,7 +35,7 @@ public class GUIClientUpperControlPanel implements ActionListener{
 	
 	private JPanel jPanel = new JPanel();	
 	private JButton btnAllBranches = new JButton("Yearly Report (All Branches)");	
-	private JButton btnViewDailyReport = new JButton("Inventory");
+	private JButton btnInventory = new JButton("Inventory");
 	private JButton btnAddBranch = new JButton("Add Branch");
 	private JButton btnDeleteBranch = new JButton("Del Branch");
 	private JButton btnLogout = new JButton("Logout");		
@@ -56,15 +58,15 @@ public class GUIClientUpperControlPanel implements ActionListener{
 		btnAddBranch.addActionListener(act);
 		btnAllBranches.setBounds(7, 11, 190, 23);
 		btnAllBranches.addActionListener(act);
-		btnViewDailyReport.setBounds(7, 278, 190, 23);
-		btnViewDailyReport.addActionListener(act);
+		btnInventory.setBounds(7, 278, 190, 23);
+		btnInventory.addActionListener(act);
 		btnLogout.setBounds(7, 326, 190, 23);
 		btnLogout.addActionListener(act);
 
 		
 		jPanel.add(btnAllBranches);
 		jPanel.add(btnAddBranch );
-		jPanel.add(btnViewDailyReport );
+		jPanel.add(btnInventory );
 		jPanel.add(btnLogout );
 		
 		btnDeleteBranch.setBounds(98, 237, 99, 23);
@@ -102,7 +104,11 @@ public class GUIClientUpperControlPanel implements ActionListener{
         table.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent m) {
             	if (m.getClickCount() == 2) {
-            		System.out.println("boss");
+            		
+        			mainGUI.removeAllRightSplit();
+        			System.out.println("t(O_O)t"); 
+        			BranchReportRename viewBranchReport = new BranchReportRename(mainGUI); 
+        			mainGUI.setRightSplit(viewBranchReport.getJPanel());
             	}
             }
         });
@@ -127,9 +133,12 @@ public class GUIClientUpperControlPanel implements ActionListener{
     			AddBranchRename addBranch = new AddBranchRename(mainGUI);
     			mainGUI.setRightSplit(addBranch.getJPanel());
     		}
-    		if(e.getSource() == btnViewDailyReport){
+    		if(e.getSource() == btnInventory){
     			//Kung ano mangyayari kapag pinindot button
-    			System.out.println("t(O_O)t");
+    			mainGUI.removeAllRightSplit();
+    			System.out.println("t(O_O)t"); 
+    			AddProductRename addProduct = new AddProductRename(mainGUI); 
+    			mainGUI.setRightSplit(addProduct.getJPanel());
     		}
     		if(e.getSource() == btnLogout){
     			//Kung ano mangyayari kapag pinindot button
