@@ -27,7 +27,7 @@ import java.awt.Color;
 public class GUIClientUpperControlPanel implements ActionListener{
 	
 	private JPanel jPanel = new JPanel();	
-	private JButton btnAllBranches = new JButton("All Branches");	
+	private JButton btnAllBranches = new JButton("Yearly Report (All Branches)");	
 	private JButton btnViewDailyReport = new JButton("Inventory");
 	private JButton btnAddBranch = new JButton("Add Branch");
 	private JButton btnDeleteBranch = new JButton("Del Branch");
@@ -46,11 +46,11 @@ public class GUIClientUpperControlPanel implements ActionListener{
 		jPanel.setSize(223,450);
 		jPanel.setLayout(null);
 		
-		btnAddBranch.setBounds(7, 208, 92, 23);
+		btnAddBranch.setBounds(7, 237, 92, 23);
 		btnAddBranch.addActionListener(act);
 		btnAllBranches.setBounds(7, 11, 190, 23);
 		btnAllBranches.addActionListener(act);
-		btnViewDailyReport.setBounds(7, 271, 190, 23);
+		btnViewDailyReport.setBounds(7, 278, 190, 23);
 		btnViewDailyReport.addActionListener(act);
 		btnLogout.setBounds(7, 326, 190, 23);
 		btnLogout.addActionListener(act);
@@ -61,7 +61,7 @@ public class GUIClientUpperControlPanel implements ActionListener{
 		jPanel.add(btnViewDailyReport );
 		jPanel.add(btnLogout );
 		
-		btnDeleteBranch.setBounds(98, 208, 99, 23);
+		btnDeleteBranch.setBounds(98, 237, 99, 23);
 		jPanel.add(btnDeleteBranch);
 		scrollPane.setBounds(7, 62, 190, 146);
 		
@@ -71,6 +71,10 @@ public class GUIClientUpperControlPanel implements ActionListener{
 		  table.setBorder(new EmptyBorder(0, 0, 0, 0));
 		  table.setBackground(UIManager.getColor("Button.background"));
 		scrollPane.setViewportView(table);
+		
+		JButton btnManageBranch = new JButton("View Report (Select Above)");
+		btnManageBranch.setBounds(7, 208, 190, 23);
+		jPanel.add(btnManageBranch);
 		mainGUI.removeAllRightSplit();
 		System.out.println("t(O_O)t"); 
 		FinancialReportRename financialReport = new FinancialReportRename(mainGUI); 

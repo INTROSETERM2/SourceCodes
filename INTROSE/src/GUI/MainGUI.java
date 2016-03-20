@@ -30,8 +30,6 @@ public class MainGUI {
 	public MainGUI(){
 		  
 		frame.setLayout(new BorderLayout());
-				
-
 		rightScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		rightScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		rightScrollPane.setPreferredSize(new Dimension(2000, 600));
