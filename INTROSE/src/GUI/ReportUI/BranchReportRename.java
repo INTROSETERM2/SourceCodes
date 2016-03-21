@@ -76,6 +76,7 @@ public class BranchReportRename implements ActionListener {
 
 	public BranchReportRename(MainGUI mainGUI) {
 		this.mainGUI = mainGUI;
+		ActListener act = new ActListener();
 		lblTotalAmountComputed.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblTotalAmountComputed.setForeground(Color.red);
 		lblTotalAmountComputed.setBackground(Color.white);
@@ -115,9 +116,11 @@ public class BranchReportRename implements ActionListener {
 		
 		
 		rdbtnDaily.setBounds(56, 66, 63, 23);
+		rdbtnDaily.addActionListener(act);
 		jPanel.add(rdbtnDaily);
 		
 		rdbtnMonthly.setBounds(117, 66, 73, 23);
+		rdbtnMonthly.addActionListener(act);
 		jPanel.add(rdbtnMonthly);
 
 		comboBoxMonthly.setModel(new DefaultComboBoxModel(new String[] {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}));
@@ -144,7 +147,8 @@ public class BranchReportRename implements ActionListener {
 		jPanel.add(lblTotalSales);
 
 		//btnAdd.setEnabled(false);
-	
+		
+			
 	}
 
 	public JPanel getJPanel() {
@@ -156,10 +160,21 @@ public class BranchReportRename implements ActionListener {
 		table.getTableHeader().setReorderingAllowed(false);
 
 	}
+	
+	private class ActListener implements ActionListener {
+		public void actionPerformed(ActionEvent a) {
+			if(a.getSource() == rdbtnDaily){
+				System.out.println("daily");
+			}
+			
+			if(a.getSource() == rdbtnMonthly){
+				System.out.println("monthly");
+			}
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 }
