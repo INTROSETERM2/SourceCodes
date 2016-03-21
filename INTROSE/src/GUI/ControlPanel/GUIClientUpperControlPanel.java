@@ -92,10 +92,6 @@ public class GUIClientUpperControlPanel implements ActionListener{
 		table.setBackground(UIManager.getColor("Button.background"));
 		table.setModel(model);
 		scrollPane.setViewportView(table);
-		
-		JButton btnManageBranch = new JButton("View Report (Select Above)");
-		btnManageBranch.setBounds(7, 208, 190, 23);
-		jPanel.add(btnManageBranch);
 		mainGUI.removeAllRightSplit();
 		System.out.println("t(O_O)t"); 
 		FinancialReportRename financialReport = new FinancialReportRename(mainGUI); 

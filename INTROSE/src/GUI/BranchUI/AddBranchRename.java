@@ -74,7 +74,7 @@ public class AddBranchRename implements ActionListener {
 		lblTotalAmountComputed.setBackground(Color.white);
 		lblTotalAmountComputed.setOpaque(true);
 		setTable();
-		ActListener act = new ActListener();
+		//ActListener act = new ActListener();
 
 		JScrollPane scrollPane = new JScrollPane();
 
@@ -95,14 +95,14 @@ public class AddBranchRename implements ActionListener {
 		});
 		btnAdd.setBounds(295, 311, 128, 23);
 
-		btnAdd.addActionListener(act);
+		//btnAdd.addActionListener(act);
 
 
-		cmbQuantity = new JComboBox();
-		cmbQuantity.addActionListener(act);
+		//cmbQuantity = new JComboBox();
+		//cmbQuantity.addActionListener(act);
 		cmbItemName = new JComboBox(db.getProducts().toArray());
 		cmbItemName.setBounds(7, 488, -87, -22);
-		cmbItemName.addActionListener(act);
+		//cmbItemName.addActionListener(act);
 		jPanel.setLayout(null);
 		lblBranchCreation.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblBranchCreation.setBounds(206, 69, 217, 53);
