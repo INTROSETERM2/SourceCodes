@@ -45,48 +45,56 @@ import java.awt.Font;
 public class POSReceipt implements ActionListener {
 	JPanel jPanel = new JPanel();
 	DBConnect db = new DBConnect();
-
-	// private JTable table = new JTable();
-	private JTable table = new JTable();
-
-	private JComboBox cmbItemName;
-	private JComboBox cmbQuantity;
-	private JTextField txtPrice = new JTextField();
-	private JTextField txtStaff = new JTextField();
-	private JTextField txtCustomer = new JTextField();
-
-	private JLabel lblCustomer = new JLabel("Customer");
-	private JLabel lblBranch = new JLabel("Branch:");
-	private JLabel branchNumber = new JLabel(Integer.toString(MainGUI.BRANCH.getBranchID()));
-	private JLabel lblTotalAmount = new JLabel("Total Amount");
-	private JLabel lblDate = new JLabel("Date:");
-
+	
 	// for Date
 	private DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	private Date today = Calendar.getInstance().getTime();
 	private String currentDate = df.format(today);
+	
+	// Combo Boxes
+	private JComboBox cmbItemName;
+	private JComboBox cmbQuantity;
+	
+	// Text Fields
+	private JTextField txtCustomer = new JTextField();
+	private JTextField txtPrice = new JTextField();
+	private JTextField txtStaff = new JTextField();
 
+	// Labels
+	private JLabel lblBranch = new JLabel("Branch:");
+	private JLabel branchNumber = new JLabel(Integer.toString(MainGUI.BRANCH.getBranchID()));
+	private JLabel lblTotalAmount = new JLabel("Total Amount");
+	private JLabel lblTotalAmountComputed = new JLabel(String.valueOf(db.getTotalSalesToday()) + " php");
+	private JLabel lblDate = new JLabel("Date:");
 	private JLabel lblDatenow = new JLabel(currentDate);
 	private JLabel lblItemName = new JLabel("Item name");
 	private JLabel lblQuantity = new JLabel("Quantity");
+	private JLabel lblCustomer = new JLabel("Customer");
 	private JLabel lblPrice = new JLabel("Price");
 	private JLabel lblStaff = new JLabel("Staff");
+
+	// Buttons
 	private JButton btnPreview = new JButton("Preview");
 	private JButton btnAdd = new JButton("Add");
-	private JLabel lblTotalAmountComputed = new JLabel(String.valueOf(db.getTotalSalesToday()) + " php");
+	
+	// Tables
+	private JTable table = new JTable();
+	
 	private MainGUI mainGUI;
 
 	public static ImageIcon IMAGE = null;
 
 	public POSReceipt(MainGUI mainGUI) {
 		this.mainGUI = mainGUI;
+		ActListener act = new ActListener();
+		
 		lblTotalAmountComputed.setFont(new Font("Tahoma", Font.PLAIN, 20));
 
 		lblTotalAmountComputed.setForeground(Color.red);
 		lblTotalAmountComputed.setBackground(Color.white);
 		lblTotalAmountComputed.setOpaque(true);
 		setTable();
-		ActListener act = new ActListener();
+
 
 		JScrollPane scrollPane = new JScrollPane();
 
@@ -94,7 +102,7 @@ public class POSReceipt implements ActionListener {
 		jPanel.setPreferredSize(new Dimension(1000, 500));
 		jPanel.setLayout(new MigLayout("", "[33px][12px][140.00px][grow][16px][71px][17px][74px][42px][64px][12px][89px][12px][85px]", "[20px][20px][218px][14px][23px][23px][][][][][][][][][][][][][][]"));
 		
-				jPanel.add(lblTotalAmount, "cell 7 0,alignx left,aligny center");
+		jPanel.add(lblTotalAmount, "cell 7 0,alignx left,aligny center");
 
 		jPanel.add(lblTotalAmountComputed, "cell 8 0 6 1");
 
