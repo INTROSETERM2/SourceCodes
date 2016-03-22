@@ -51,12 +51,10 @@ public class GUIMainControlPanel {
 			toplabel.add(guiUpperControlPanel.getJPanel());
 
 		}
-		//rightLabel.add(posReceipt.getJPanel());
-		//rightLabel.add(login.getJPanel());
+
 		bottomlabel.add(guiBottomControlPanel.getJPanel());
         panel.add(splitPane, BorderLayout.CENTER);
         panel.setVisible(true);	  
-		//panel.setSize(790,450);
         
 		panel.setSize(170,410);
 	}

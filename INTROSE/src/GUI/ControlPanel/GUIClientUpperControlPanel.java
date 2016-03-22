@@ -4,7 +4,7 @@ import javax.swing.JPanel;
 
 import GUI.MainGUI;
 import GUI.BranchUI.AddBranch;
-import GUI.BranchUI.AddBranchRename;
+import GUI.BranchUI.AddBranch;
 import GUI.Product.AddProductRename;
 import GUI.Receipt.POSReceipt;
 import GUI.ReportUI.BranchReportRename;
@@ -126,7 +126,7 @@ public class GUIClientUpperControlPanel implements ActionListener{
     		if(e.getSource() == btnAddBranch){
     			mainGUI.removeAllRightSplit();
     			System.out.println("t(O_O)t");
-    			AddBranchRename addBranch = new AddBranchRename(mainGUI);
+    			AddBranch addBranch = new AddBranch(mainGUI);
     			mainGUI.setRightSplit(addBranch.getJPanel());
     		}
     		if(e.getSource() == btnInventory){

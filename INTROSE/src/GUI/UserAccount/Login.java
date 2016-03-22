@@ -72,15 +72,14 @@ public class Login implements ActionListener{
 	    				mainGUI.setRightSplit(guiClientLandingPanel.getJPanel());
 						mainGUI.removeRightSplit(getJPanel());
 						mainGUI.setLeftSplit();
+						
 
 	    			}
 	    			
 	    			else
 	    			{
 	    				
-					POSReceipt posReceipt = new POSReceipt(mainGUI);
-					
-				
+					POSReceipt posReceipt = new POSReceipt(mainGUI);				
 
 					mainGUI.setRightSplit(posReceipt.getJPanel());
 					mainGUI.setLeftSplit();
@@ -90,7 +89,6 @@ public class Login implements ActionListener{
 					mainGUI.setRightSplit(posReceipt.getJPanel());
 
 			
-	    			System.out.println(MainGUI.BRANCH.getBranchID());
 	    			}
 				}
 				else  

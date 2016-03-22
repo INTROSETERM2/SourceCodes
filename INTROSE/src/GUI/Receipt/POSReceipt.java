@@ -316,6 +316,7 @@ public class POSReceipt implements ActionListener {
 		//
 		// });
 		//
+		
 	}
 
 	public JPanel getJPanel() {
@@ -355,6 +356,7 @@ public class POSReceipt implements ActionListener {
 
 			if (a.getSource() == btnPreview) {
 				GUIPictureControlPanel picControl = new GUIPictureControlPanel();
+
 				String filePath = db.getPicture(db.getProductID(cmbItemName.getSelectedItem().toString()));
 				if (filePath == "no") {
 					JOptionPane.showMessageDialog(null, "No picture for selected product or no product selected!");
@@ -374,7 +376,7 @@ public class POSReceipt implements ActionListener {
 				dialog.setLocationRelativeTo(null);
 				dialog.setVisible(true);
 				mainGUI.removeAllLeftSplit();
-				mainGUI.setLeftSplit();
+//				mainGUI.setLeftSplit(); BUG NI ANDRIC
 			}
 
 			if (a.getSource() == btnAdd) {
