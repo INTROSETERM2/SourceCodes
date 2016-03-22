@@ -54,7 +54,13 @@ public class BranchReportRename implements ActionListener {
 
 	private JComboBox cmbItemName;
 	private JComboBox cmbQuantity;
-
+	JComboBox comboBox = new JComboBox();
+	JComboBox comboBox_1 = new JComboBox();
+	JLabel lblMonth = new JLabel("Month");
+	JLabel lblYear = new JLabel("Year");
+	JPanel panel = new JPanel();
+	JScrollPane scrollPane_1 = new JScrollPane();
+	JLabel label_2 = new JLabel("Total Sales:");
 
 	// for Date
 	private JButton btnPreview = new JButton("Preview");
@@ -62,16 +68,9 @@ public class BranchReportRename implements ActionListener {
 	
 	private MainGUI mainGUI;
 	private final JLabel lblBranchName = new JLabel("Branch Name");
-	private JTable table_1;
 	
 	JRadioButton rdbtnDaily = new JRadioButton("Daily");
 	JRadioButton rdbtnMonthly = new JRadioButton("Monthly");
-	JComboBox comboBoxMonthly = new JComboBox();
-	JComboBox comboBoxYearly = new JComboBox();
-	JLabel lblMonth = new JLabel("Month");
-	JLabel lblYear = new JLabel("Year");
-	JScrollPane scrollPane_1 = new JScrollPane();
-	private final JLabel lblTotalSales = new JLabel("Total Sales:");
 	//public static ImageIcon IMAGE = null;
 
 	public BranchReportRename(MainGUI mainGUI) {
@@ -122,29 +121,12 @@ public class BranchReportRename implements ActionListener {
 		rdbtnMonthly.setBounds(117, 66, 73, 23);
 		rdbtnMonthly.addActionListener(act);
 		jPanel.add(rdbtnMonthly);
-
-		comboBoxMonthly.setModel(new DefaultComboBoxModel(new String[] {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}));
-		comboBoxMonthly.setBounds(96, 106, 85, 20);
-		jPanel.add(comboBoxMonthly);
-
-		comboBoxYearly.setBounds(220, 106, 73, 20);
-		jPanel.add(comboBoxYearly);
-
-		lblMonth.setBounds(57, 106, 63, 20);
-		jPanel.add(lblMonth);
-
-		lblYear.setBounds(191, 109, 63, 17);
-		jPanel.add(lblYear);
-
-		scrollPane_1.setBounds(56, 150, 828, 371);
-		jPanel.add(scrollPane_1);
 		
-		table_1 = new JTable();
-		scrollPane_1.setViewportView(table_1);
-		lblTotalSales.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTotalSales.setBounds(57, 530, 122, 23);
 		
-		jPanel.add(lblTotalSales);
+		panel.setBounds(57, 96, 873, 468);
+		jPanel.add(panel);
+		panel.setLayout(null);
+
 
 		//btnAdd.setEnabled(false);
 		
@@ -164,11 +146,41 @@ public class BranchReportRename implements ActionListener {
 	private class ActListener implements ActionListener {
 		public void actionPerformed(ActionEvent a) {
 			if(a.getSource() == rdbtnDaily){
+				panel.removeAll();
+				scrollPane_1.setBounds(32, 56, 807, 368);
+				panel.add(scrollPane_1);
+			
+				label_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+				label_2.setBounds(32, 435, 122, 23);
+				panel.add(label_2);
 				System.out.println("daily");
+				jPanel.repaint();
 			}
 			
 			if(a.getSource() == rdbtnMonthly){
+				//asd
+				panel.removeAll();
+				comboBox.setBounds(71, 11, 85, 20);
+				panel.add(comboBox);
+				
+				comboBox_1.setBounds(195, 11, 73, 20);
+				panel.add(comboBox_1);
+
+				lblMonth.setBounds(32, 11, 63, 20);
+				panel.add(lblMonth);
+				
+				
+				lblYear.setBounds(166, 14, 63, 17);
+				panel.add(lblYear);
+				
+				scrollPane_1.setBounds(32, 56, 807, 368);
+				panel.add(scrollPane_1);
+			
+				label_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+				label_2.setBounds(32, 435, 122, 23);
+				panel.add(label_2);
 				System.out.println("monthly");
+				jPanel.repaint();
 			}
 		}
 	}
