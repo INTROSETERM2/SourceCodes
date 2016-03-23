@@ -26,9 +26,9 @@ public class DBConnect {
 	public DBConnect() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-//			always changed this for DB access
-//			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp", "root", "root");
+			// always changed this for DB access
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
+//			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp", "root", "");
 
 			con.createStatement();
 
@@ -54,7 +54,7 @@ public class DBConnect {
 			System.out.println(ex);
 		}
 
-		return Math.round(total*100.0)/100.0;
+		return Math.round(total * 100.0) / 100.0;
 	}
 
 	public DefaultTableModel retrieveDailySales() {
@@ -136,7 +136,7 @@ public class DBConnect {
 	}
 
 	public ArrayList<String> getProducts() {
-		String query = "SELECT product_name FROM introse_mp.products";
+		String query = "SELECT product_name FROM products";
 		ArrayList<String> products = new ArrayList<String>();
 		products.add("Select");
 
@@ -345,7 +345,7 @@ public class DBConnect {
 		String query = "select productID, picture from products where productID  = ?";
 		String pictureSource = "no";
 		int dbProductID = -1;
-		
+
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			preparedStatement.setInt(1, productID);
@@ -354,7 +354,6 @@ public class DBConnect {
 			while (rs.next()) {
 				dbProductID = rs.getInt("productID");
 				pictureSource = rs.getString("picture");
-				System.out.println("sshit"+ pictureSource);
 
 				if (dbProductID == productID) {
 					return pictureSource;
@@ -435,7 +434,7 @@ public class DBConnect {
 	}
 	/* End of ManagerProductType */
 
-	public int getProductID(String soldProductName) {// chesterwashere
+	public int getProductID(String soldProductName) {
 		System.out.println("hi");
 		String query = "SELECT p.productID FROM receipts r, products p WHERE p.product_name = '" + soldProductName
 				+ "'";
@@ -452,7 +451,6 @@ public class DBConnect {
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
-		System.out.println("Product ID: " + productID);
 		return productID;
 	}
 
@@ -511,41 +509,38 @@ public class DBConnect {
 	/* end of ManagerStaff */
 
 	/* For ManagerBranch */
-	// public void addBranch(Branch branch)
-	// {
-	// String query = "insert into branches(branchID, branch_name,
-	// branch_number_of_staff) VALUES (?,?,?)";
-	//
-	// try{
-	// PreparedStatement preparedStatement = (PreparedStatement)
-	// con.prepareStatement(query);
-	// preparedStatement.setInt(1, branch.getBranchID());
-	// preparedStatement.setString(2, branch.getBranchName());
-	// preparedStatement.setInt(3, branch.getBranchNumberOfStaff());
-	// preparedStatement.executeUpdate();
-	//
-	// }catch(Exception ex){
-	// System.out.println(ex);
-	// }
-	// }
-	//
-	
-	public ArrayList<String> getBranches(){
+	public void addBranch(Branch branch) {
+		String query = "insert into branches(branchName, branchUsername, branchPassword, branchCreationDate) VALUES ( ?, ?, ?, ?)";
+
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			preparedStatement.setString(1, branch.getBranchName());
+			preparedStatement.setString(2, branch.getBranchUsername());
+			preparedStatement.setString(3, branch.getBranchPassword());
+			preparedStatement.setDate(4, getCurrentDate());
+			
+			preparedStatement.executeUpdate();
+
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+	}
+
+	public ArrayList<String> getBranches() {
 		String query = "SELECT branchName FROM branches";
 		ArrayList<String> branches = new ArrayList<String>();
-		try{
+		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			rs = preparedStatement.executeQuery(query);
-			
-			while(rs.next())
+
+			while (rs.next())
 				branches.add(rs.getString("branchName"));
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			System.out.println(e);
 		}
 		return branches;
 	}
-	
+
 	public void deleteBranch(int branchID) {
 		String query = "delete from branches where branchID = ?";
 
@@ -589,9 +584,7 @@ public class DBConnect {
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
-		
-	}
-	
 
+	}
 
 }

@@ -87,9 +87,6 @@ public class BranchReportRename implements ActionListener {
 		scrollPane.setViewportView(table);
 		jPanel.setPreferredSize(new Dimension(1000, 575));
 		
-	
-	
-
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		table.addMouseListener(new MouseAdapter() {

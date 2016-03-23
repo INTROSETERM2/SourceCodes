@@ -45,67 +45,108 @@ import java.awt.Font;
 public class POSReceipt implements ActionListener {
 	JPanel jPanel = new JPanel();
 	DBConnect db = new DBConnect();
-
-	// private JTable table = new JTable();
-	private JTable table = new JTable();
-
-	private JComboBox cmbItemName;
-	private JComboBox cmbQuantity;
-	private JTextField txtPrice = new JTextField();
-	private JTextField txtStaff = new JTextField();
-	private JTextField txtCustomer = new JTextField();
-
-	private JLabel lblCustomer = new JLabel("Customer");
-	private JLabel lblBranch = new JLabel("Branch:");
-	private JLabel branchNumber = new JLabel(Integer.toString(MainGUI.BRANCH.getBranchID()));
-	private JLabel lblTotalAmount = new JLabel("Total Amount");
-	private JLabel lblDate = new JLabel("Date:");
-
+	
 	// for Date
 	private DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	private Date today = Calendar.getInstance().getTime();
 	private String currentDate = df.format(today);
+	
+	// Combo Boxes
+	private JComboBox cmbItemName;
+	private JComboBox cmbQuantity;
+	
+	// Text Fields
+	private JTextField txtCustomer = new JTextField();
+	private JTextField txtPrice = new JTextField();
+	private JTextField txtStaff = new JTextField();
 
+	// Labels
+	private JLabel lblBranch = new JLabel("Branch:");
+	private JLabel branchNumber = new JLabel(Integer.toString(MainGUI.BRANCH.getBranchID()));
+	private JLabel lblTotalAmount = new JLabel("Total Amount");
+	private JLabel lblTotalAmountComputed = new JLabel(String.valueOf(db.getTotalSalesToday()) + " php");
+	private JLabel lblDate = new JLabel("Date:");
 	private JLabel lblDatenow = new JLabel(currentDate);
 	private JLabel lblItemName = new JLabel("Item name");
 	private JLabel lblQuantity = new JLabel("Quantity");
+	private JLabel lblCustomer = new JLabel("Customer");
 	private JLabel lblPrice = new JLabel("Price");
 	private JLabel lblStaff = new JLabel("Staff");
+
+	// Buttons
 	private JButton btnPreview = new JButton("Preview");
 	private JButton btnAdd = new JButton("Add");
-	private JLabel lblTotalAmountComputed = new JLabel(String.valueOf(db.getTotalSalesToday()) + " php");
+	
+	// Tables
+	private JTable table = new JTable();
+	
+	public static ImageIcon IMAGE = null;
 	private MainGUI mainGUI;
 
-	public static ImageIcon IMAGE = null;
+	
 
 	public POSReceipt(MainGUI mainGUI) {
 		this.mainGUI = mainGUI;
-		lblTotalAmountComputed.setFont(new Font("Tahoma", Font.PLAIN, 20));
-
-		lblTotalAmountComputed.setForeground(Color.red);
-		lblTotalAmountComputed.setBackground(Color.white);
-		lblTotalAmountComputed.setOpaque(true);
-		setTable();
 		ActListener act = new ActListener();
-
-		JScrollPane scrollPane = new JScrollPane();
-
-		scrollPane.setViewportView(table);
+		
+		// Panel
 		jPanel.setPreferredSize(new Dimension(1000, 500));
 		jPanel.setLayout(new MigLayout("", "[33px][12px][140.00px][grow][16px][71px][17px][74px][42px][64px][12px][89px][12px][85px]", "[20px][20px][218px][14px][23px][23px][][][][][][][][][][][][][][]"));
 		
-				jPanel.add(lblTotalAmount, "cell 7 0,alignx left,aligny center");
-
-		jPanel.add(lblTotalAmountComputed, "cell 8 0 6 1");
-
+		// Combo Boxes
+		cmbItemName = new JComboBox(db.getProducts().toArray());
+		cmbItemName.addActionListener(act);
+		jPanel.add(cmbItemName, "cell 0 18 3 1,growx,aligny center");
+		AutoCompleteDecorator.decorate(this.cmbItemName);
+		
+		cmbQuantity = new JComboBox();
+		cmbQuantity.addActionListener(act);
+		jPanel.add(cmbQuantity, "cell 3 18,growx,aligny center");
+		AutoCompleteDecorator.decorate(this.cmbQuantity);
+		
+		// Text Fields
+		txtCustomer.setColumns(10);
+		jPanel.add(txtCustomer, "cell 5 18 3 1,growx");
+		
+		txtPrice.setColumns(10);
+		jPanel.add(txtPrice, "cell 8 18 4 1,growx,aligny center");
+		
+		txtStaff.setColumns(10);
+		jPanel.add(txtStaff, "cell 13 18,alignx left,aligny center");
+		txtStaff.setText("");
+		
+		// Labels
 		jPanel.add(lblBranch, "cell 0 0,alignx right,aligny center");
-
 		jPanel.add(branchNumber, "cell 2 0");
-
+		jPanel.add(lblTotalAmount, "cell 7 0,alignx left,aligny center");
+		
+		lblTotalAmountComputed.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblTotalAmountComputed.setForeground(Color.red);
+		lblTotalAmountComputed.setBackground(Color.white);
+		lblTotalAmountComputed.setOpaque(true);
+		jPanel.add(lblTotalAmountComputed, "cell 8 0 6 1");
+		
 		jPanel.add(lblDate, "cell 0 1,alignx right,aligny center");
-
 		jPanel.add(lblDatenow, "cell 2 1");
+		jPanel.add(lblItemName, "cell 0 17,growx,aligny bottom");
+		jPanel.add(lblQuantity, "cell 3 17,alignx left,aligny bottom");
+		jPanel.add(lblCustomer, "cell 5 17,aligny bottom");
+		jPanel.add(lblPrice, "cell 8 17,alignx left,aligny bottom");
+		jPanel.add(lblStaff, "cell 13 17,alignx left,aligny bottom");
+		
+		// Buttons
+		btnPreview.addActionListener(act);
+		jPanel.add(btnPreview, "cell 2 17,growx,aligny top");
+		
+		btnAdd.addActionListener(act);
+		jPanel.add(btnAdd, "cell 0 19 14 1,growx,aligny top");
+		btnAdd.setEnabled(false);
 
+		// Tables
+		setTable();
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportView(table);
 		jPanel.add(scrollPane, "cell 0 2 14 15,grow");
 		ListSelectionModel listSelectionModel = table.getSelectionModel();
 		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
@@ -115,11 +156,11 @@ public class POSReceipt implements ActionListener {
 		});
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
+		
+		// Edit Table (If double clicked)
 		table.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					System.out.println("double clicked");
 					mainGUI.removeAllRightSplit();
 					POSReceipt posReceipt = new POSReceipt(mainGUI);
 					mainGUI.setRightSplit(posReceipt.getJPanel());
@@ -133,8 +174,8 @@ public class POSReceipt implements ActionListener {
 					int quantity = 0;
 					String staff = "";
 					String customer = "";
-					// chester changes
 					boolean dec = true;
+					
 					try {
 						Double d = Double.parseDouble(txtPrice.getText());
 						String[] split = d.toString().split("\\.");
@@ -164,35 +205,7 @@ public class POSReceipt implements ActionListener {
 			}
 		});
 
-		btnAdd.addActionListener(act);
-
-		jPanel.add(lblItemName, "cell 0 17,growx,aligny bottom");
-
-		btnPreview.addActionListener(act);
-		jPanel.add(btnPreview, "cell 2 17,growx,aligny top");
-
-		jPanel.add(lblQuantity, "cell 3 17,alignx left,aligny bottom");
-
-		jPanel.add(lblCustomer, "cell 5 17,aligny bottom");
-
-		jPanel.add(lblPrice, "cell 8 17,alignx left,aligny bottom");
-
-		jPanel.add(lblStaff, "cell 13 17,alignx left,aligny bottom");
-
-		cmbQuantity = new JComboBox();
-		cmbQuantity.addActionListener(act);
-		cmbItemName = new JComboBox(db.getProducts().toArray());
-		cmbItemName.addActionListener(act);
-		jPanel.add(cmbItemName, "cell 0 18 3 1,growx,aligny center");
-
-		AutoCompleteDecorator.decorate(this.cmbItemName);
-
-		jPanel.add(cmbQuantity, "cell 3 18,growx,aligny center");
-		AutoCompleteDecorator.decorate(this.cmbQuantity);
-
-		txtCustomer.setColumns(10);
-		jPanel.add(txtCustomer, "cell 5 18 3 1,growx");
-
+		// Enables btnAdd if fields are filled
 		txtCustomer.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
 				changed();
@@ -205,20 +218,18 @@ public class POSReceipt implements ActionListener {
 			public void insertUpdate(DocumentEvent e) {
 				changed();
 			}
-			//removed txtCustomer.getTExt().equals("") in if statement
+			
 			public void changed() {
 				if (txtStaff.getText().equals("") || txtPrice.getText().equals("")) {
 					btnAdd.setEnabled(false);
 				} else {
 					btnAdd.setEnabled(true);
 				}
-
 			}
+			
 		});
-
-		jPanel.add(txtPrice, "cell 8 18 4 1,growx,aligny center");
-		txtPrice.setColumns(10);
-
+		
+		// Enables btnAdd if fields are filled
 		txtPrice.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
 				changed();
@@ -231,7 +242,7 @@ public class POSReceipt implements ActionListener {
 			public void insertUpdate(DocumentEvent e) {
 				changed();
 			}
-			//removed txtCustomer.getTExt().equals("") in if statement
+			
 			public void changed() {
 				if (txtStaff.getText().equals("") || txtPrice.getText().equals("")) {
 					btnAdd.setEnabled(false);
@@ -239,13 +250,10 @@ public class POSReceipt implements ActionListener {
 					btnAdd.setEnabled(true);
 				}
 			}
+			
 		});
 
-		jPanel.add(txtStaff, "cell 13 18,alignx left,aligny center");
-		txtStaff.setColumns(10);
-
-		txtStaff.setText("");
-
+		// Enables btnAdd if fields are filled
 		txtStaff.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
 				changed();
@@ -258,65 +266,18 @@ public class POSReceipt implements ActionListener {
 			public void insertUpdate(DocumentEvent e) {
 				changed();
 			}
-			//removed txtCustomer.getTExt().equals("") in if statement
+			
 			public void changed() {
 				if (txtStaff.getText().equals("") || txtPrice.getText().equals("")) {
 					btnAdd.setEnabled(false);
 				} else {
 					btnAdd.setEnabled(true);
 				}
-
 			}
+			
 		});
-
-		jPanel.add(btnAdd, "cell 0 19 14 1,growx,aligny top");
-
-		btnAdd.setEnabled(false);
-
-		// txtStaff.addFocusListener(new FocusListener() {
-		//
-		// @Override
-		// public void focusGained(FocusEvent f) {
-		// btnAdd.setEnabled(false);
-		// }
-		//
-		// @Override
-		// public void focusLost(FocusEvent f) {
-		// btnAdd.setEnabled(false);
-		//
-		// }
-		//
-		// });
-		// txtCustomer.addFocusListener(new FocusListener() {
-		//
-		// @Override
-		// public void focusGained(FocusEvent f) {
-		// btnAdd.setEnabled(false);
-		// }
-		//
-		// @Override
-		// public void focusLost(FocusEvent f) {
-		// btnAdd.setEnabled(false);
-		//
-		// }
-		//
-		// });
-		// txtPrice.addFocusListener(new FocusListener() {
-		//
-		// @Override
-		// public void focusGained(FocusEvent f) {
-		// btnAdd.setEnabled(false);
-		// }
-		//
-		// @Override
-		// public void focusLost(FocusEvent f) {
-		// btnAdd.setEnabled(false);
-		//
-		// }
-		//
-		// });
-		//
 	}
+	//End of POSReceipt constructor
 
 	public JPanel getJPanel() {
 		return jPanel;
@@ -325,14 +286,15 @@ public class POSReceipt implements ActionListener {
 	public void setTable() {
 		table = new JTable(db.retrieveDailySales());
 		table.getTableHeader().setReorderingAllowed(false);
-
 	}
 
+	//ActionListeners
 	private class ActListener implements ActionListener {
 		public void actionPerformed(ActionEvent a) {
-
+			
+			//Listens for input of cmbItemName
+			//Places cmbQuantity content based on cmbItemName
 			if (a.getSource() == cmbItemName) {
-				
 
 				cmbQuantity.removeAllItems();
 				db.retrieveDailySales();
@@ -351,11 +313,13 @@ public class POSReceipt implements ActionListener {
 
 				for (i = 0; i < quantityContent.size(); i++)
 					cmbQuantity.insertItemAt(quantityContent.get(i), i);
+				
 			}
-
+			
+			//Shows image according to currently selected product
 			if (a.getSource() == btnPreview) {
-				GUIPictureControlPanel picControl = new GUIPictureControlPanel();
 				String filePath = db.getPicture(db.getProductID(cmbItemName.getSelectedItem().toString()));
+				
 				if (filePath == "no") {
 					JOptionPane.showMessageDialog(null, "No picture for selected product or no product selected!");
 				} else {
@@ -365,6 +329,7 @@ public class POSReceipt implements ActionListener {
 						e.printStackTrace();
 					}
 				}
+				
 				JLabel image = new JLabel(IMAGE);
 				JDialog dialog = new JDialog();
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -373,50 +338,42 @@ public class POSReceipt implements ActionListener {
 				dialog.pack();
 				dialog.setLocationRelativeTo(null);
 				dialog.setVisible(true);
-				mainGUI.removeAllLeftSplit();
-				mainGUI.setLeftSplit();
+//				mainGUI.removeAllLeftSplit(); 
+//				mainGUI.setLeftSplit(); 
 			}
 
+			//Adds products if all criterion are met
 			if (a.getSource() == btnAdd) {
-				// check if number o hindi
 
-				boolean ret = true;
-				boolean dec = true;// chester changes
+				boolean ret = true;// number input checker
+				boolean dec = true;// 2 decimal places checker
 				try {
 					Double d = Double.parseDouble(txtPrice.getText());
 					String[] split = d.toString().split("\\.");
 
-					if (split[1].length() > 2) {
+					if (split[1].length() > 2) 
 						dec = false;
-					}
+					
 				} catch (final NumberFormatException e) {
 					ret = false;
 				}
-				// chester changes end
-				if (ret == false) {
+				
+				if (ret == false) { // number checker
 					JOptionPane.showMessageDialog(null, "Please input numbers only on the price");
 					txtPrice.setText("");
-					// txtStaff.setText("");
-					// txtCustomer.setText("");
-					// cmbItemName.setSelectedIndex(0);
-
-					// mainGUI.removeAllRightSplit();
-					// POSReceipt posReceipt = new POSReceipt(mainGUI);
-					// mainGUI.setRightSplit(posReceipt.getJPanel());
-				} // chester changes
-				else if (dec == false) {
+				} 
+				else if (dec == false) { //2 decimal places checker
 					JOptionPane.showMessageDialog(null, "Decimal places are limited to 2");
 					mainGUI.removeAllRightSplit();
 					POSReceipt posReceipt = new POSReceipt(mainGUI);
 					mainGUI.setRightSplit(posReceipt.getJPanel());
-				} // chester changes end
+				} //positive number checker
 				else if (Double.parseDouble(txtPrice.getText()) < 0) {
 					JOptionPane.showMessageDialog(null, "Please input numbers not less than 0");
 					mainGUI.removeAllRightSplit();
 					POSReceipt posReceipt = new POSReceipt(mainGUI);
 					mainGUI.setRightSplit(posReceipt.getJPanel());
 				}
-
 				else if (cmbItemName.getSelectedItem().toString() == "Select"
 						|| cmbQuantity.getSelectedItem().toString() == "Select") {
 					JOptionPane.showMessageDialog(null, "Please fill in all the data");
@@ -424,8 +381,7 @@ public class POSReceipt implements ActionListener {
 					POSReceipt posReceipt = new POSReceipt(mainGUI);
 					mainGUI.setRightSplit(posReceipt.getJPanel());
 
-				} else {
-
+				} else { 
 					table = new JTable();
 					db.retrieveDailySales();
 
