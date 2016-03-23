@@ -319,7 +319,6 @@ public class POSReceipt implements ActionListener {
 			
 			//Shows image according to currently selected product
 			if (a.getSource() == btnPreview) {
-				
 				String filePath = db.getPicture(db.getProductID(cmbItemName.getSelectedItem().toString()));
 				
 				if (filePath == "no") {
@@ -340,8 +339,8 @@ public class POSReceipt implements ActionListener {
 				dialog.pack();
 				dialog.setLocationRelativeTo(null);
 				dialog.setVisible(true);
-				mainGUI.removeAllLeftSplit();
-//				mainGUI.setLeftSplit(); BUG NI ANDRIC
+//				mainGUI.removeAllLeftSplit(); 
+//				mainGUI.setLeftSplit(); 
 			}
 
 			//Adds products if all criterion are met

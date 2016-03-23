@@ -14,15 +14,15 @@ import net.miginfocom.swing.MigLayout;
 public class GUIPictureControlPanel implements ActionListener{
 	
 	private JPanel jPanel = new JPanel();
-	private JLabel lblPicturePanel = new JLabel(POSReceipt.IMAGE);
+//	private JLabel lblPicturePanel = new JLabel(POSReceipt.IMAGE);
 	
 	public GUIPictureControlPanel(){
 		
 		jPanel.setSize(150,450);
 		jPanel.setLayout(null);
 		
-		lblPicturePanel.setBounds(0, 0, 150, 450);
-		jPanel.add(lblPicturePanel);
+//		lblPicturePanel.setBounds(0, 0, 150, 450);
+//		jPanel.add(lblPicturePanel);
 
 	}
 	public JPanel getJPanel() {
