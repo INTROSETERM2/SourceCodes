@@ -354,7 +354,6 @@ public class DBConnect {
 			while (rs.next()) {
 				dbProductID = rs.getInt("productID");
 				pictureSource = rs.getString("picture");
-				System.out.println("sshit" + pictureSource);
 
 				if (dbProductID == productID) {
 					return pictureSource;
@@ -435,7 +434,7 @@ public class DBConnect {
 	}
 	/* End of ManagerProductType */
 
-	public int getProductID(String soldProductName) {// chesterwashere
+	public int getProductID(String soldProductName) {
 		System.out.println("hi");
 		String query = "SELECT p.productID FROM receipts r, products p WHERE p.product_name = '" + soldProductName
 				+ "'";
@@ -452,7 +451,6 @@ public class DBConnect {
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
-		System.out.println("Product ID: " + productID);
 		return productID;
 	}
 
