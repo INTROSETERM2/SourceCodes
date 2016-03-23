@@ -95,6 +95,9 @@ public class MainGUI {
 		frame.repaint();
 	}
 	
+	public Dimension getRightJPanelSize(){
+		return rightJPanel.getSize();
+	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

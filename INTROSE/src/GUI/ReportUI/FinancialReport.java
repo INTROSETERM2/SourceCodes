@@ -1,108 +1,95 @@
 package GUI.ReportUI;
 
-import javax.swing.JButton;
-
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 
+import GUI.MainGUI;
 import net.miginfocom.swing.MigLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import javax.swing.JLabel;
+
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.layout.FormSpecs;
+import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.JComboBox;
 
-public class FinancialReport {
-	
+public class FinancialReport implements ActionListener  {
 	private JPanel jPanel = new JPanel();
-	private JTable table = new JTable();
-	private JLabel lblFinancialReport = new JLabel("Financial Report");
-	private JLabel lblTimeline = new JLabel("Timeline");
-	private JComboBox cmbTimeline = new JComboBox();
-	private JLabel lblFrom = new JLabel("From");
-	private JComboBox cmbFromDate = new JComboBox();
-	private JLabel lblTo = new JLabel("To");
-	private JComboBox cmbToDate = new JComboBox();
 	
-	public FinancialReport(){
-			
-		jPanel.setSize(600,450);
-		GridBagLayout gbl_jPanel = new GridBagLayout();
-		gbl_jPanel.columnWidths = new int[]{54, 38, 37, 114, 24, 114, 12, 144, 0};
-		gbl_jPanel.rowHeights = new int[]{30, 17, 44, 20, 282, 0};
-		gbl_jPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_jPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		jPanel.setLayout(gbl_jPanel);
+	// Labels
+	private JLabel lblYearlyReport = new JLabel("Yearly Report of All Branches");
+	private JLabel lblTotalCapital = new JLabel("Total Capital:");
+	private JLabel lblCapital = new JLabel("");
+	private JLabel lblTotalNet = new JLabel("Total Net:");
+	private JLabel lblNet = new JLabel("");
+	private JTable tblYearReport;
+	
+	//Scroll Pane
+	private JScrollPane scrollPane = new JScrollPane();
+	
+	public FinancialReport(MainGUI mainGUI){
+		jPanel.setPreferredSize(new Dimension(1000, 778));
+		jPanel.setLayout(null);
+		lblYearlyReport.setBounds(368, 28, 263, 50);
 		
-		lblFinancialReport.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		GridBagConstraints gbc_lblFinancialReport = new GridBagConstraints();
-		gbc_lblFinancialReport.anchor = GridBagConstraints.NORTHWEST;
-		gbc_lblFinancialReport.insets = new Insets(0, 0, 5, 5);
-		gbc_lblFinancialReport.gridwidth = 3;
-		gbc_lblFinancialReport.gridx = 1;
-		gbc_lblFinancialReport.gridy = 1;
-		jPanel.add(lblFinancialReport, gbc_lblFinancialReport);
+		// Labels
+		lblYearlyReport.setFont(new Font("Tahoma", Font.BOLD, 18));
+		jPanel.add(lblYearlyReport);
+		lblTotalCapital.setBounds(21, 627, 122, 23);
 		
-		GridBagConstraints gbc_lblTimeline = new GridBagConstraints();
-		gbc_lblTimeline.anchor = GridBagConstraints.WEST;
-		gbc_lblTimeline.insets = new Insets(0, 0, 5, 5);
-		gbc_lblTimeline.gridx = 1;
-		gbc_lblTimeline.gridy = 3;
-		jPanel.add(lblTimeline, gbc_lblTimeline);
+		lblTotalCapital.setFont(new Font("Tahoma", Font.BOLD, 16));
+		jPanel.add(lblTotalCapital);
+		lblTotalNet.setBounds(21, 661, 122, 23);
 		
-		GridBagConstraints gbc_cmbTimeline = new GridBagConstraints();
-		gbc_cmbTimeline.anchor = GridBagConstraints.NORTH;
-		gbc_cmbTimeline.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cmbTimeline.insets = new Insets(0, 0, 5, 5);
-		gbc_cmbTimeline.gridx = 3;
-		gbc_cmbTimeline.gridy = 3;
-		jPanel.add(cmbTimeline, gbc_cmbTimeline);
+		lblTotalNet.setFont(new Font("Tahoma", Font.BOLD, 16));
+		jPanel.add(lblTotalNet);
+		lblCapital.setBounds(153, 627, 0, 23);
 		
-		GridBagConstraints gbc_lblFrom = new GridBagConstraints();
-		gbc_lblFrom.anchor = GridBagConstraints.WEST;
-		gbc_lblFrom.insets = new Insets(0, 0, 5, 5);
-		gbc_lblFrom.gridx = 4;
-		gbc_lblFrom.gridy = 3;
-		jPanel.add(lblFrom, gbc_lblFrom);
+		jPanel.add(lblCapital);
+		lblNet.setBounds(153, 661, 0, 23);
+		jPanel.add(lblNet);
 		
-		GridBagConstraints gbc_cmbFromDate = new GridBagConstraints();
-		gbc_cmbFromDate.anchor = GridBagConstraints.NORTH;
-		gbc_cmbFromDate.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cmbFromDate.insets = new Insets(0, 0, 5, 5);
-		gbc_cmbFromDate.gridx = 5;
-		gbc_cmbFromDate.gridy = 3;
-		jPanel.add(cmbFromDate, gbc_cmbFromDate);
+		tblYearReport = new JTable();
+		scrollPane.setBounds(21, 121, 957, 495);
+		scrollPane.setViewportView(tblYearReport);
 		
-		GridBagConstraints gbc_lblTo = new GridBagConstraints();
-		gbc_lblTo.anchor = GridBagConstraints.WEST;
-		gbc_lblTo.insets = new Insets(0, 0, 5, 5);
-		gbc_lblTo.gridx = 6;
-		gbc_lblTo.gridy = 3;
-		jPanel.add(lblTo, gbc_lblTo);
+		jPanel.add(scrollPane);
 		
-		GridBagConstraints gbc_cmbToDate = new GridBagConstraints();
-		gbc_cmbToDate.anchor = GridBagConstraints.NORTH;
-		gbc_cmbToDate.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cmbToDate.insets = new Insets(0, 0, 5, 0);
-		gbc_cmbToDate.gridx = 7;
-		gbc_cmbToDate.gridy = 3;
-		jPanel.add(cmbToDate, gbc_cmbToDate);
+		DefaultTableModel model = new DefaultTableModel(new Object[]{"Period Covered","Branches","Gross","Net"}, 0) {
+ 		   @Override
+ 		   public boolean isCellEditable(int row, int column) {
+ 		       return false;
+ 		   }
+		};
 		
-		GridBagConstraints gbc_table = new GridBagConstraints();
-		gbc_table.fill = GridBagConstraints.BOTH;
-		gbc_table.gridwidth = 7;
-		gbc_table.gridx = 1;
-		gbc_table.gridy = 4;
-		jPanel.add(table, gbc_table);
+		tblYearReport.setModel(model);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(88, 89, 79, 23);
+		jPanel.add(comboBox);
+		
+		JLabel lblYear = new JLabel("Year: ");
+		lblYear.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblYear.setBounds(34, 87, 65, 23);
+		jPanel.add(lblYear);
+		
 	}
 	
 	public JPanel getJPanel() {
-		return jPanel;
+		return this.jPanel;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -54,13 +54,13 @@ public class BranchReportRename implements ActionListener {
 
 	private JComboBox cmbItemName;
 	private JComboBox cmbQuantity;
-	JComboBox comboBox = new JComboBox();
-	JComboBox comboBox_1 = new JComboBox();
-	JLabel lblMonth = new JLabel("Month");
-	JLabel lblYear = new JLabel("Year");
-	JPanel panel = new JPanel();
-	JScrollPane scrollPane_1 = new JScrollPane();
-	JLabel label_2 = new JLabel("Total Sales:");
+	private JComboBox comboBox = new JComboBox();
+	private JComboBox comboBox_1 = new JComboBox();
+	private JLabel lblMonth = new JLabel("Month");
+	private JLabel lblYear = new JLabel("Year");
+	private JPanel panel = new JPanel();
+	private JScrollPane scrollPane_1 = new JScrollPane();
+	private JLabel label_2 = new JLabel("Total Sales:");
 
 	// for Date
 	private JButton btnPreview = new JButton("Preview");
@@ -69,8 +69,8 @@ public class BranchReportRename implements ActionListener {
 	private MainGUI mainGUI;
 	private final JLabel lblBranchName = new JLabel("Branch Name");
 	
-	JRadioButton rdbtnDaily = new JRadioButton("Daily");
-	JRadioButton rdbtnMonthly = new JRadioButton("Monthly");
+	private JRadioButton rdbtnDaily = new JRadioButton("Daily");
+	private JRadioButton rdbtnMonthly = new JRadioButton("Monthly");
 	//public static ImageIcon IMAGE = null;
 
 	public BranchReportRename(MainGUI mainGUI) {
