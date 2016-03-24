@@ -9,12 +9,16 @@ public class ManagerBranch {
 	 
 	public void addBranch(Branch branch)
 	{
-		//db.addBranch(branch);
+		db.addBranch(branch);
 	}
 	
-	public void deleteBranch(int branchID)
-	{
-		db.deleteBranch(branchID);
+//	public void deleteBranch(int branchID)
+//	{
+//		db.deleteBranch(branchID);
+//	}
+	
+	public void deleteBranch(String branchName){
+		db.deleteBranch(branchName);
 	}
 	
 	public void modifyBranch()

@@ -540,16 +540,29 @@ public class DBConnect {
 		}
 		return branches;
 	}
-
-	public void deleteBranch(int branchID) {
-		String query = "delete from branches where branchID = ?";
-
-		try {
+// try change
+//	public void deleteBranch(int branchID) {
+//		String query = "delete from branches where branchID = ?";
+//
+//		try {
+//			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+//			preparedStatement.setInt(1, branchID);
+//			preparedStatement.executeUpdate();
+//
+//		} catch (Exception ex) {
+//			System.out.println(ex);
+//		}
+//	}
+	
+	public void deleteBranch(String branchName){
+		String query = "delete from branches where branchName = ?";
+		
+		try{
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
-			preparedStatement.setInt(1, branchID);
+			preparedStatement.setString(1, branchName);
 			preparedStatement.executeUpdate();
-
-		} catch (Exception ex) {
+		}
+		catch(Exception ex){
 			System.out.println(ex);
 		}
 	}

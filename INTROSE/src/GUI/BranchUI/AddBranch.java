@@ -1,23 +1,30 @@
 package GUI.BranchUI;
 
 import javax.swing.JPanel;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import GUI.MainGUI;
+import GUI.ControlPanel.GUIClientUpperControlPanel;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Dimension;
 import javax.swing.JTextField;
+
+import Branch.Branch;
+import Branch.ManagerBranch;
+
 import javax.swing.JButton;
+import javax.swing.JPasswordField;
 
 public class AddBranch {
 	private JPanel jPanel = new JPanel();
-	
+	private MainGUI mainGUI;
 	private JTextField txtBranchName = new JTextField();
 	private JTextField txtUsername = new JTextField();
-	private JTextField txtPassword = new JTextField();
+	private final JPasswordField passwordField = new JPasswordField();
 	
 	private JLabel lblBranchCreation = new JLabel("Branch Creation");
 	private JLabel lblBranchName = new JLabel("Branch Name");
@@ -25,6 +32,7 @@ public class AddBranch {
 	private JLabel lblPassword = new JLabel("Password:");
 	
 	private JButton btnAdd = new JButton("Add");
+	
 	
 	public AddBranch(){
 		ActListener act = new ActListener();
@@ -34,29 +42,18 @@ public class AddBranch {
 		
 		
 		jPanel.add(lblBranchCreation, "cell 1 1 2 1,alignx center,aligny center");
-		
-		
 		jPanel.add(lblBranchName, "cell 1 2,alignx center,aligny center");
-		
+		jPanel.add(lblUsername, "cell 1 4,alignx center,aligny center");
+		jPanel.add(lblPassword, "cell 1 5,alignx center,aligny center");
 		
 		jPanel.add(txtBranchName, "cell 2 2,grow");
 		txtBranchName.setColumns(10);
-		
-		
-		jPanel.add(lblUsername, "cell 1 4,alignx center,aligny center");
-		
-		
 		jPanel.add(txtUsername, "cell 2 4,grow");
 		txtUsername.setColumns(10);
 		
-		
-		jPanel.add(lblPassword, "cell 1 5,alignx center,aligny center");
-		
-		
-		jPanel.add(txtPassword, "cell 2 5,grow");
-		txtPassword.setColumns(10);
-		
 		btnAdd.addActionListener(act);
+		
+		jPanel.add(passwordField, "cell 2 5,grow");
 		jPanel.add(btnAdd, "cell 2 6,grow");
 		
 	}
@@ -68,8 +65,16 @@ public class AddBranch {
 	private class ActListener implements ActionListener {
 		public void actionPerformed(ActionEvent a) {
 				if (a.getSource() == btnAdd) {
-					
-					System.out.println("hi");
+					//bawal ata same branch?
+					ManagerBranch managerBranch = new ManagerBranch();
+					managerBranch.addBranch(new Branch(txtBranchName.getText(), txtUsername.getText(), passwordField.getText()));
+					txtBranchName.setText("");
+					txtUsername.setText("");
+					passwordField.setText("");
+					JOptionPane.showMessageDialog(null, "New branch successfully created!");
+//					mainGUI.removeAllLeftSplit();
+//					mainGUI.setLeftSplit();
+//					refresh branches in left split help @glenn
 				}
 			}
 	}

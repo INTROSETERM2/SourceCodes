@@ -10,6 +10,8 @@ import GUI.ReportUI.BranchReportRename;
 import GUI.ReportUI.FinancialReport;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -112,6 +114,18 @@ public class GUIClientUpperControlPanel implements ActionListener{
     			mainGUI.setRightSplit(addBranch.getJPanel());
     		}
     		if(e.getSource() == btnDeleteBranch){
+    			if(jTable.getSelectedRow()== -1)
+    				JOptionPane.showMessageDialog(null, "Please select a branch to delete!");
+    			else{
+	    			String temp = (String) jTable.getValueAt(jTable.getSelectedRow(), jTable.getSelectedColumn());
+	    			if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + temp + " branch?", "Branch", 
+	    				    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)
+	    				    == JOptionPane.YES_OPTION)
+	    				{
+	    					ManagerBranch managerBranch = new ManagerBranch();
+	    					managerBranch.deleteBranch(temp);
+	    				}
+    			}
     			
     		}
     		if(e.getSource() == btnInventory){

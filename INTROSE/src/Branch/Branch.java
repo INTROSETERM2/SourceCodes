@@ -23,6 +23,16 @@ public class Branch {
 		
 	}
 	
+	public Branch(String branchName, String branchUsername, String branchPassword)
+	{
+		//Branch.BRANCH_ID = db.getNextAvailableBranchID();
+		this.branchName = branchName;
+		this.branchID = branchID;
+		this.branchUsername = branchUsername;
+		this.branchPassword = branchPassword;
+		
+	}
+	
 	public Branch() {
 		// TODO Auto-generated constructor stub
 	}
