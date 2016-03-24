@@ -128,10 +128,9 @@ public class AddProduct implements ActionListener{
 		jPanel.add(lblgeneratedBy, gbc_lblgeneratedBy);
 		
 		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
-		gbc_btnAdd.gridwidth = 6;
 		gbc_btnAdd.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAdd.fill = GridBagConstraints.BOTH;
-		gbc_btnAdd.gridx = 1;
+		gbc_btnAdd.gridx = 6;
 		gbc_btnAdd.gridy = 5;
 		btnAdd.addActionListener(act);
 		
