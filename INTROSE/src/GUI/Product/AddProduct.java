@@ -15,13 +15,16 @@ import java.awt.Font;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
+
+import GUI.MainGUI;
+
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 
 public class AddProduct implements ActionListener{
-	
-	JPanel jPanel = new JPanel();
+//	private MainGUI mainGUI;
+	private JPanel jPanel = new JPanel();
 	
 	// Text Fields
 	private JTextField txtDate = new JTextField();
@@ -44,8 +47,8 @@ public class AddProduct implements ActionListener{
 	private JScrollPane scrollPane = new JScrollPane();
 	private JTable productTable = new JTable();
 	
-	public AddProduct(){
-		
+	public AddProduct(MainGUI mainGUI){
+//		this.mainGUI = mainGUI;
 		ActListener act = new ActListener();
 			
 		jPanel.setSize(940,605);

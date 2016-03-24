@@ -5,16 +5,11 @@ import javax.swing.JPanel;
 import GUI.MainGUI;
 import GUI.BranchUI.AddBranch;
 import GUI.BranchUI.AddBranch;
-import GUI.Product.AddProductRename;
-import GUI.Receipt.POSReceipt;
+import GUI.Product.AddProduct;
 import GUI.ReportUI.BranchReportRename;
 import GUI.ReportUI.FinancialReport;
-import GUI.ReportUI.FinancialReport;
-import GUI.UserAccount.Login;
 
-import javax.swing.JLabel;
 import javax.swing.JButton;
-import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -42,45 +37,31 @@ public class GUIClientUpperControlPanel implements ActionListener{
 	private JButton btnInventory = new JButton("Inventory");
 	private JButton btnLogout = new JButton("Logout");		
 	
-	private ActListener act = new ActListener();
 	
 	private FinancialReport financialReport = new FinancialReport(mainGUI);
-	
+	private AddProduct addProduct = new AddProduct(mainGUI); 
+	private AddBranch addBranch = new AddBranch();
 	private JScrollPane scrollPane = new JScrollPane();
 	private JTable jTable = new JTable();
 	private ManagerBranch manBranch = new ManagerBranch();
 
 	public GUIClientUpperControlPanel(MainGUI mainGUI){
-		
+		ActListener act = new ActListener();
 		this.mainGUI = mainGUI;
 		jPanel.setSize(223,450);
-		jPanel.setLayout(null);
-		
-		// Buttons
-		btnAllBranches.setBounds(7, 11, 190, 23);
+		jPanel.setLayout(new MigLayout("", "[][190px][]", "[23px][146px][23px][23px][23px]"));
 		btnAllBranches.addActionListener(act);
-		jPanel.add(btnAllBranches);
-		
-		btnAddBranch.setBounds(7, 237, 92, 23);
+		jPanel.add(btnAllBranches, "cell 1 0,growx,aligny center");
 		btnAddBranch.addActionListener(act);
-		jPanel.add(btnAddBranch );
-		
-		btnDeleteBranch.setBounds(98, 237, 99, 23);
+		jPanel.add(btnAddBranch, "cell 1 2,growx,aligny center" );
 		btnDeleteBranch.addActionListener(act);
-		jPanel.add(btnDeleteBranch);
-		
-		jPanel.add(btnInventory );
-		btnInventory.setBounds(7, 278, 190, 23);
+		jPanel.add(btnDeleteBranch, "cell 1 2,growx,aligny center");
 		btnInventory.addActionListener(act);
-		
-		jPanel.add(btnLogout );
-		btnLogout.setBounds(7, 326, 190, 23);
+		jPanel.add(btnInventory, "cell 1 3,grow" );
 		btnLogout.addActionListener(act);
-
+		jPanel.add(btnLogout, "cell 1 4,grow" );
 		
-		
-		scrollPane.setBounds(7, 62, 190, 146);
-		jPanel.add(scrollPane);
+		jPanel.add(scrollPane, "cell 1 1,grow");
 		jTable.setBackground(Color.WHITE);
 		
 		DefaultTableModel model = new DefaultTableModel(new Object[]{"Branch Name"}, 0) {
@@ -128,7 +109,6 @@ public class GUIClientUpperControlPanel implements ActionListener{
     		}
     		if(e.getSource() == btnAddBranch){
     			mainGUI.removeAllRightSplit();
-    			AddBranch addBranch = new AddBranch(mainGUI);
     			mainGUI.setRightSplit(addBranch.getJPanel());
     		}
     		if(e.getSource() == btnDeleteBranch){
@@ -136,7 +116,6 @@ public class GUIClientUpperControlPanel implements ActionListener{
     		}
     		if(e.getSource() == btnInventory){
     			mainGUI.removeAllRightSplit();
-    			AddProductRename addProduct = new AddProductRename(mainGUI); 
     			mainGUI.setRightSplit(addProduct.getJPanel());
     		}
     		if(e.getSource() == btnLogout){

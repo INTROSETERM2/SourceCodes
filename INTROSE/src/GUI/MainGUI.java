@@ -20,7 +20,7 @@ public class MainGUI {
 	private JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftScrollPane, rightScrollPane);
 	private JFrame frame = new JFrame("GIOVANA");
 	private Login login = new Login(this);
-	private AddProduct addProduct = new AddProduct();
+//	private AddProduct addProduct = new AddProduct(); TRY REMOVE
 	private GUIClientLandingPanel guiClientLandingPanel= new GUIClientLandingPanel();
 	private GUIMainControlPanel guiControlPanel;
 
