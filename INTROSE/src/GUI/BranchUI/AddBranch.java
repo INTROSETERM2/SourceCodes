@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
 
 import java.awt.Dimension;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import Branch.Branch;
 import Branch.ManagerBranch;
@@ -26,8 +28,8 @@ public class AddBranch {
 	// Text Fields
 	private JTextField txtBranchName = new JTextField();
 	private JTextField txtUsername = new JTextField();
-	private final JPasswordField password = new JPasswordField();
-	private final JPasswordField confirmPass = new JPasswordField();
+	private JPasswordField password = new JPasswordField();
+	private JPasswordField confirmPass = new JPasswordField();
 	
 	// Labels
 	private JLabel lblBranchCreation = new JLabel("Branch Creation");
@@ -38,9 +40,6 @@ public class AddBranch {
 	
 	// Buttons
 	private JButton btnAdd = new JButton("Add");
-	
-
-	
 	
 	public AddBranch(MainGUI mainGUI){
 		ActListener act = new ActListener();
@@ -64,8 +63,103 @@ public class AddBranch {
 		jPanel.add(password, "cell 2 5,grow");
 		jPanel.add(confirmPass, "cell 2 6,grow");
 		jPanel.add(btnAdd, "cell 2 7,grow");
-		
 		btnAdd.addActionListener(act);
+		btnAdd.setEnabled(false);
+		
+		txtBranchName.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				changed();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				changed();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				changed();
+			}
+			
+			@SuppressWarnings("deprecation")
+			public void changed() {
+				if (txtBranchName.getText().equals("") || txtUsername.getText().equals("") || password.getText().equals("") || confirmPass.getText().equals("")) {
+					btnAdd.setEnabled(false);
+				} else {
+					btnAdd.setEnabled(true);
+				}
+			}
+		});
+		
+		txtUsername.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				changed();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				changed();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				changed();
+			}
+			
+			@SuppressWarnings("deprecation")
+			public void changed() {
+				if (txtBranchName.getText().equals("") || txtUsername.getText().equals("") || password.getText().equals("") || confirmPass.getText().equals("")) {
+					btnAdd.setEnabled(false);
+				} else {
+					btnAdd.setEnabled(true);
+				}
+			}
+			
+		});
+		
+		password.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				changed();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				changed();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				changed();
+			}
+			
+			@SuppressWarnings("deprecation")
+			public void changed() {
+				if (txtBranchName.getText().equals("") || txtUsername.getText().equals("") || password.getText().equals("") || confirmPass.getText().equals("")) {
+					btnAdd.setEnabled(false);
+				} else {
+					btnAdd.setEnabled(true);
+				}
+			}
+			
+		});
+		
+		confirmPass.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				changed();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				changed();
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				changed();
+			}
+			
+			@SuppressWarnings("deprecation")
+			public void changed() {
+				if (txtBranchName.getText().equals("") || txtUsername.getText().equals("") || password.getText().equals("") || confirmPass.getText().equals("")) {
+					btnAdd.setEnabled(false);
+				} else {
+					btnAdd.setEnabled(true);
+				}
+			}
+			
+		});
 	}
 	
 	public JPanel getJPanel() {
@@ -80,7 +174,8 @@ public class AddBranch {
 						JOptionPane.showMessageDialog(null, "Password and Confirm Password did not macth!");
 						password.setText("");
 						confirmPass.setText("");
-					}else{
+					}
+					else{
 						ManagerBranch managerBranch = new ManagerBranch();
 						managerBranch.addBranch(new Branch(txtBranchName.getText(), txtUsername.getText(), password.getText()));
 						txtBranchName.setText("");

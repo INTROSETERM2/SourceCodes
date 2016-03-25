@@ -26,7 +26,7 @@ public class ManagerBranch {
 
 	}
 	
-	public ArrayList<String> getBranches(){
+	public ArrayList<Branch> getBranches(){
 		return db.getBranches();
 	}
 }

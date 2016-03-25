@@ -11,7 +11,7 @@ public class Branch {
 	private Date branchCreationDate;
 	
 	private DBConnect db = new DBConnect();
-	
+	// for branches coming from database
 	public Branch(int branchID, String branchName, String branchUsername, String branchPassword, Date branchCreationDate)
 	{
 		//Branch.BRANCH_ID = db.getNextAvailableBranchID();
@@ -22,15 +22,25 @@ public class Branch {
 		this.branchCreationDate = branchCreationDate;
 		
 	}
-	
+	// for add branch
 	public Branch(String branchName, String branchUsername, String branchPassword)
 	{
 		//Branch.BRANCH_ID = db.getNextAvailableBranchID();
 		this.branchName = branchName;
-		this.branchID = branchID;
+		this.branchID = db.getNextAvailableBranchID();
 		this.branchUsername = branchUsername;
 		this.branchPassword = branchPassword;
-		
+		this.branchCreationDate = db.getCurrentDate();
+	}
+	
+	public Branch(String branchName, String branchUsername, String branchPassword, Date branchCreationDate)
+	{
+		//Branch.BRANCH_ID = db.getNextAvailableBranchID();
+		this.branchName = branchName;
+		this.branchID = db.getNextAvailableBranchID();
+		this.branchUsername = branchUsername;
+		this.branchPassword = branchPassword;
+		this.branchCreationDate = branchCreationDate;
 	}
 	
 	public Branch() {

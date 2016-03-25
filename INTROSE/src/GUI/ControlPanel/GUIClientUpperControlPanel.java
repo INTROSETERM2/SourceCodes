@@ -24,6 +24,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import Branch.Branch;
 import Branch.ManagerBranch;
 
 import java.awt.Color;
@@ -74,11 +75,11 @@ public class GUIClientUpperControlPanel implements ActionListener{
  		   }
 		};
 		
-		ArrayList<String> branches = new ArrayList<String>();
+		ArrayList<Branch> branches = new ArrayList<Branch>();
 		branches = manBranch.getBranches();
 		
 		for(int i = 0; i < branches.size();i++){
-			model.addRow(new Object[]{branches.get(i)});
+			model.addRow(new Object[]{branches.get(i).getBranchName()});
 		}
 		
 		jTable.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -119,7 +120,7 @@ public class GUIClientUpperControlPanel implements ActionListener{
     				JOptionPane.showMessageDialog(null, "Please select a branch to delete!");
     			else{
 	    			String temp = (String) jTable.getValueAt(jTable.getSelectedRow(), jTable.getSelectedColumn());
-	    			if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + temp + " branch?", "Branch", 
+	    			if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + temp + " ?", "Branch", 
 	    				    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)
 	    				    == JOptionPane.YES_OPTION)
 	    				{

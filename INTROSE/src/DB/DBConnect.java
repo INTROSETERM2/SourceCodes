@@ -27,8 +27,9 @@ public class DBConnect {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			// always changed this for DB access
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","");
-//			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp", "root", "");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
+//			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","");
+//			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root", "");
 
 			con.createStatement();
 
@@ -135,7 +136,7 @@ public class DBConnect {
 		return resultMax;
 	}
 
-	public ArrayList<String> getProducts() {
+	public ArrayList<String> getProductNames() {
 		String query = "SELECT product_name FROM products";
 		ArrayList<String> products = new ArrayList<String>();
 		products.add("Select");
@@ -152,6 +153,39 @@ public class DBConnect {
 		}
 
 		return products;
+	}
+	
+	public ArrayList<Product> getProducts(){
+		String query = "SELECT * FROM products p, product_types pt, branches b WHERE (p.branch = b.branchID) & (p.product_typeID = pt.product_typeID) ;";
+		ArrayList<Product> products = new ArrayList<Product>();
+		try{
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			rs = preparedStatement.executeQuery();
+			while(rs.next()){
+				products.add(new Product(rs.getInt("quantity"), rs.getDate("buy_date"), rs.getString("product_name"), rs.getDouble("buy_price"), rs.getInt("productID"), new ProductType(rs.getInt("product_typeID"), rs.getString("product_type_name")), rs.getString("picture"), new Branch(rs.getInt("branchID"), rs.getString("branchName"), rs.getString("branchUsername"), rs.getString("branchPassword"), rs.getDate("branchCreationDate")), rs.getString("buy_origin")));
+			}
+		}catch(Exception ex){
+			System.out.println(ex + "getProducts");
+		}
+		return products;
+	}
+	
+	public ArrayList<ProductType> getProductTypes(){
+		String query = "SELECT * FROM product_types";
+		ArrayList<ProductType> productType = new ArrayList<ProductType>();
+		
+		try{
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			rs = preparedStatement.executeQuery();
+			
+			while (rs.next()){
+				productType.add(new ProductType(rs.getInt("product_typeID"), rs.getString("product_type_name")));
+			}
+		}catch(Exception ex){
+			System.out.println(ex + "getProductTypes");
+		}
+		return productType;
+				
 	}
 
 	public void decrementProduct(String productName, int decQuantity) {
@@ -279,7 +313,7 @@ public class DBConnect {
 	}
 
 	// gets current time and translates it into java.sql.Date
-	private static java.sql.Date getCurrentDate() {
+	public static java.sql.Date getCurrentDate() {
 		java.util.Date today = new java.util.Date();
 		return new java.sql.Date(today.getTime());
 	}
@@ -526,17 +560,17 @@ public class DBConnect {
 		}
 	}
 
-	public ArrayList<String> getBranches() {
-		String query = "SELECT branchName FROM branches";
-		ArrayList<String> branches = new ArrayList<String>();
+	public ArrayList<Branch> getBranches() {
+		String query = "SELECT * FROM branches";
+		ArrayList<Branch> branches = new ArrayList<Branch>();
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			rs = preparedStatement.executeQuery(query);
 
 			while (rs.next())
-				branches.add(rs.getString("branchName"));
+				branches.add(new Branch(rs.getInt("branchID"), rs.getString("branchName"), rs.getString("branchUsername"), rs.getString("branchPassword"), rs.getDate("branchCreationDate")));
 		} catch (Exception e) {
-			System.out.println(e);
+			System.out.println(e + "getBranches");
 		}
 		return branches;
 	}
