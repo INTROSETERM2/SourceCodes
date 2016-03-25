@@ -52,8 +52,8 @@ public class GUIClientUpperControlPanel implements ActionListener{
 		ActListener act = new ActListener();
 		this.mainGUI = mainGUI;
 		addBranch = new AddBranch(mainGUI);
-		jPanel.setSize(223,450);
-		jPanel.setLayout(new MigLayout("", "[][190px][]", "[23px][146px][23px][23px][23px]"));
+		jPanel.setSize(240,450);
+		jPanel.setLayout(new MigLayout("", "[28.00][190px][28.00]", "[23px][146px][23px][23px][23px]"));
 		btnAllBranches.addActionListener(act);
 		jPanel.add(btnAllBranches, "cell 1 0,growx,aligny center");
 		btnAddBranch.addActionListener(act);
