@@ -42,7 +42,7 @@ public class GUIClientUpperControlPanel implements ActionListener{
 	
 	private FinancialReport financialReport = new FinancialReport(mainGUI);
 	private AddProduct addProduct = new AddProduct(mainGUI); 
-	private AddBranch addBranch = new AddBranch();
+	private AddBranch addBranch;
 	private JScrollPane scrollPane = new JScrollPane();
 	private JTable jTable = new JTable();
 	private ManagerBranch manBranch = new ManagerBranch();
@@ -50,6 +50,7 @@ public class GUIClientUpperControlPanel implements ActionListener{
 	public GUIClientUpperControlPanel(MainGUI mainGUI){
 		ActListener act = new ActListener();
 		this.mainGUI = mainGUI;
+		addBranch = new AddBranch(mainGUI);
 		jPanel.setSize(223,450);
 		jPanel.setLayout(new MigLayout("", "[][190px][]", "[23px][146px][23px][23px][23px]"));
 		btnAllBranches.addActionListener(act);
@@ -125,6 +126,8 @@ public class GUIClientUpperControlPanel implements ActionListener{
 	    					ManagerBranch managerBranch = new ManagerBranch();
 	    					managerBranch.deleteBranch(temp);
 	    				}
+	    			mainGUI.removeAllLeftSplit();
+	    			mainGUI.setLeftSplit();
     			}
     			
     		}

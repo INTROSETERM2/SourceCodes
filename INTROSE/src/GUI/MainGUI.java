@@ -66,7 +66,7 @@ public class MainGUI {
 		frame.revalidate(); // For Java 1.7 or above
 		frame.repaint();
 	}
-	
+	   
 	public void setRightSplit(JPanel guiClass) {
 		rightJPanel.add(guiClass, BorderLayout.LINE_START);
 	}

@@ -39,11 +39,13 @@ public class AddBranch {
 	// Buttons
 	private JButton btnAdd = new JButton("Add");
 	
+
 	
 	
-	
-	public AddBranch(){
+	public AddBranch(MainGUI mainGUI){
 		ActListener act = new ActListener();
+
+		this.mainGUI = mainGUI;
 		
 		jPanel.setPreferredSize(new Dimension(1037, 628));
 		jPanel.setLayout(new MigLayout("", "[20.00][130.00][130.00][20.00]", "[20.00][40.00][25.00][25][25][25][25][25][20]"));
@@ -84,9 +86,12 @@ public class AddBranch {
 						txtBranchName.setText("");
 						txtUsername.setText("");
 						password.setText("");
+						confirmPass.setText("");
 						JOptionPane.showMessageDialog(null, "New branch successfully created!");
-//						mainGUI.removeAllLeftSplit();
-//						mainGUI.setLeftSplit();
+
+						mainGUI.removeAllLeftSplit();
+						mainGUI.setLeftSplit();
+
 //						refresh branches in left split help @glenn
 					}
 				}
