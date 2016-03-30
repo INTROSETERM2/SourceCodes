@@ -28,8 +28,8 @@ public class DBConnect {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			// always changed this for DB access
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
-//			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","");
+//			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","");
 //			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root", "");
 
 			con.createStatement();
@@ -162,13 +162,51 @@ public class DBConnect {
 		try{
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			rs = preparedStatement.executeQuery();
-			while(rs.next())
+			while(rs.next()){
 				products.add(new Product(rs.getInt("quantity"), rs.getDate("buy_date"), rs.getString("product_name"), rs.getDouble("buy_price"), rs.getInt("productID"), rs.getInt("product_typeID"), rs.getString("picture"), new Branch(rs.getInt("branchID"), rs.getString("branchName"), rs.getString("branchUsername"), rs.getString("branchPassword"), rs.getDate("branchCreationDate")), rs.getString("buy_origin")));
-		
+			}
 		}catch(Exception ex){
 			System.out.println(ex + "getProducts");
 		}
 		return products;
+	}
+	
+	public ArrayList<String> getNameProducts() {
+		String query = "SELECT product_name FROM introse_mp.products";
+		ArrayList<String> products = new ArrayList<String>();
+		products.add("Select");
+
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				products.add(rs.getString("product_name"));
+			}
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+
+		return products;
+	}
+	
+	public ArrayList<String> getProductTypeNames() {
+		String query = "SELECT product_type_name FROM introse_mp.product_types";
+		ArrayList<String> productTypes = new ArrayList<String>();
+		productTypes.add("Select");
+
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				productTypes.add(rs.getString("product_type_name"));
+			}
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+
+		return productTypes;
 	}
 	
 	public int getProductTypeID(String productTypeName){
@@ -238,6 +276,8 @@ public class DBConnect {
 		}
 		return quantity;
 	}
+	
+	
 
 	// get next available productTypeID
 	public int getNextAvailableProductTypeID() {
@@ -430,7 +470,7 @@ public class DBConnect {
 			preparedStatement.setDouble(4, product.getBuyPrice());
 			preparedStatement.setDate(5, getCurrentDate());
 			preparedStatement.setInt(6, product.getProductTypeID());
-			preparedStatement.setInt(7, product.getBranch().getBranchID());
+			preparedStatement.setInt(7, 11);
 			preparedStatement.setString(8, product.getBuyOrigin());
 			preparedStatement.setString(9, product.getPicture());
 			preparedStatement.executeUpdate();

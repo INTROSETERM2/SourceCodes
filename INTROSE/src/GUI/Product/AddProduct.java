@@ -1,14 +1,18 @@
 package GUI.Product;
 
 import java.awt.Font;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,12 +26,15 @@ import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.JXDatePicker;
 
+import Branch.Branch;
+
 //import org.jdesktop.swingx.JXDatePicker;
 
 import DB.DBConnect;
 import GUI.MainGUI;
 import Product.ManagerProduct;
 import Product.Product;
+
 
 public class AddProduct implements ActionListener{
 	private JPanel jPanel = new JPanel();
@@ -52,11 +59,13 @@ public class AddProduct implements ActionListener{
 	private JLabel lblOrigin = new JLabel("Origin");
 	
 	// Combo Boxes
-	private JComboBox cmbProductType = new JComboBox();
+	private JComboBox cmbProductType;
 	
 	// Buttons
 	private JButton btnAddPicture = new JButton("Add Picture");
 	private JButton btnAdd = new JButton("ADD");
+    private JButton btnSet = new JButton("Set");
+
 	
 	// Table
 	private JScrollPane scrollPane = new JScrollPane();
@@ -68,10 +77,17 @@ public class AddProduct implements ActionListener{
 	private ManagerProduct managerProduct;
 	private final JButton btnSelectDate = new JButton("Select date");
 	
+	private ActListener act = new ActListener();
+	
+	private String resultDateFrom;
+	
+	JFrame calenderFrame;
+	JXDatePicker picker;
+
+	
 	public AddProduct(MainGUI mainGUI){
 		txtProductName.setColumns(10);
 		txtOrigin.setColumns(10);
-		ActListener act = new ActListener();
 			
 		jPanel.setSize(1067,605);
 		GridBagLayout gbl_jPanel = new GridBagLayout();
@@ -178,6 +194,9 @@ public class AddProduct implements ActionListener{
 		gbc_txtProductName.gridy = 4;
 		jPanel.add(txtProductName, gbc_txtProductName);
 		
+		
+		cmbProductType = new JComboBox(db.getProductTypeNames().toArray());
+
 		GridBagConstraints gbc_cmbProductType = new GridBagConstraints();
 		gbc_cmbProductType.fill = GridBagConstraints.BOTH;
 		gbc_cmbProductType.insets = new Insets(0, 0, 5, 5);
@@ -231,6 +250,7 @@ public class AddProduct implements ActionListener{
 		jPanel.add(btnAdd, gbc_btnAdd);
 		btnSelectDate.addActionListener(act);
 		
+		lblNextAvailableID.setText(Integer.toString(db.getNextAvailableProductID()));
 		
 		
 		DefaultTableModel model = new DefaultTableModel(new Object[]{"Product ID", "Date Bought", "Product Name", "Product Type", "Quantity", "Total Cost", "Place Bought"}, 0) {
@@ -247,6 +267,9 @@ public class AddProduct implements ActionListener{
 			System.out.println(products.get(i).getProductID());
 		}
 		productTable.setModel(model);
+        btnSet.addActionListener(act);
+        
+
 	}
 	
 	
@@ -261,27 +284,82 @@ public class AddProduct implements ActionListener{
     			System.out.println("t(O_O)t");
     		}
     		
+    	
+    		
     		if(e.getSource() == btnSelectDate){
     			//for calendar
-    			JFrame frame = new JFrame("JXPicker Example");
+    			calenderFrame = new JFrame("Calendar");
     	        JPanel panel = new JPanel();
+    	        calenderFrame.setBounds(400, 400, 250, 100);
 
-    	        frame.setBounds(400, 400, 250, 100);
-
-    	        JXDatePicker picker = new JXDatePicker();
+    	        picker = new JXDatePicker();
     	        picker.setDate(Calendar.getInstance().getTime());
     	        picker.setFormats(new SimpleDateFormat("dd/MM/yyyy"));
 
     	        panel.add(picker);
-    	        frame.getContentPane().add(panel);
+    	        panel.add(btnSet);
+    	        calenderFrame.getContentPane().add(panel);
 
-    	        frame.setVisible(true);
+    	        calenderFrame.setVisible(true);
     	        
-    	        txtDate.setText(picker.toString());
-    	        //end of calendar
+    	        
+    	     
+    	     
+    	    	
+      	        //end of calendar
     		}
+    		
+    		if(e.getSource() == btnSet)
+	     	{
+    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+    	     	Date dateFrom = picker.getDate();
+    	     	resultDateFrom = formatter.format(dateFrom);
+    	     	System.out.println(resultDateFrom);
+    	     	
+    			txtDate.setText("");
+    			
+    	        txtDate.setText(resultDateFrom);
+    	        
+    	        
+    	   
+    	        calenderFrame.dispose();
+    	        
+	     	}
     		if(e.getSource() == btnAdd){
-//    			product = new Product(Integer.parseInt(txtQuantity.getText()), datehere, txtProductName.getText(), Double.parseDouble(txtBuyingPrice.getText())/Integer.parseInt(txtQuantity.getText()), lblNextAvailableID.getText().toString(), db.getProductTypeID(cmbProductType.getSelectedItem().toString()), "Path", txtOrigin.getText() ));
+    			SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+    			String dateInString = "7-Jun-2013";
+
+    			try {
+
+    				Date date = formatter.parse(dateInString);
+    				System.out.println(date);
+    				System.out.println(formatter.format(date));
+    				
+    	   			product = new Product(Integer.parseInt(txtQuantity.getText()), date, txtProductName.getText(), Double.parseDouble(txtBuyingPrice.getText())/Integer.parseInt(txtQuantity.getText()), Integer.parseInt(lblNextAvailableID.getText()), db.getProductTypeID(cmbProductType.getSelectedItem().toString()), "Path", new Branch("POgi", "glenn", "matias"), txtOrigin.getText());
+
+
+    	   			
+    	   			
+    	   			System.out.println("id " + product.getProductID());
+    	   			System.out.println("quantity: "+ product.getQuantity());
+    	   			System.out.println("name: "+ product.getProductName());
+    	   			System.out.println("buyprice : "+ product.getBuyPrice());
+    	   			System.out.println("date : "+ product.getBuyDate());
+    	   			System.out.println("producttypeid: "+ product.getProductTypeID());
+    	   			System.out.println("picture: "+ product.getPicture());
+    	   			System.out.println("branchid: "+ product.getBranch().getBranchID());
+    	   			System.out.println("origin: "+ product.getBuyOrigin());
+
+
+    	   			
+
+    				managerProduct.addProduct(product);
+
+    			} catch (ParseException pe) {
+    				pe.printStackTrace();
+    			}
+    	
+
     		}
     	}
     }

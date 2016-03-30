@@ -90,7 +90,7 @@ public class POSReceipt implements ActionListener {
 		jPanel.setLayout(new MigLayout("", "[33px][12px][140.00px][grow][16px][71px][17px][74px][42px][64px][12px][89px][12px][85px]", "[20px][20px][218px][14px][23px][23px][][][][][][][][][][][][][][]"));
 		
 		// Combo Boxes
-		cmbItemName = new JComboBox(db.getProducts().toArray());
+		cmbItemName = new JComboBox(db.getNameProducts().toArray());
 		cmbItemName.addActionListener(act);
 		jPanel.add(cmbItemName, "cell 0 18 3 1,growx,aligny center");
 		AutoCompleteDecorator.decorate(this.cmbItemName);
