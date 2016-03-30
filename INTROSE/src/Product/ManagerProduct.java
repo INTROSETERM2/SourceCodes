@@ -3,6 +3,10 @@ import DB.DBConnect;
 
 public class ManagerProduct {
 	private DBConnect db = new DBConnect();
+	
+	public void managerProduct(){
+		
+	}
  
 	public void addProduct(Product product)
 	{

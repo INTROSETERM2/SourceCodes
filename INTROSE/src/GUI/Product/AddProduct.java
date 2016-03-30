@@ -74,7 +74,7 @@ public class AddProduct implements ActionListener{
 	
 	private DBConnect db = new DBConnect();
 	private Product product;
-	private ManagerProduct managerProduct;
+	private ManagerProduct managerProduct = new ManagerProduct();
 	private final JButton btnSelectDate = new JButton("Select date");
 	
 	private ActListener act = new ActListener();
@@ -83,6 +83,8 @@ public class AddProduct implements ActionListener{
 	
 	JFrame calenderFrame;
 	JXDatePicker picker;
+	
+	Date dateFrom;
 
 	
 	public AddProduct(MainGUI mainGUI){
@@ -281,7 +283,7 @@ public class AddProduct implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		if(e.getSource() == btnAddPicture){
     			//Kung ano mangyayari kapag pinindot button
-    			System.out.println("t(O_O)t");
+    			System.out.println("Addpic");
     		}
     		
     	
@@ -312,7 +314,7 @@ public class AddProduct implements ActionListener{
     		if(e.getSource() == btnSet)
 	     	{
     			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-    	     	Date dateFrom = picker.getDate();
+    	     	dateFrom = picker.getDate();
     	     	resultDateFrom = formatter.format(dateFrom);
     	     	System.out.println(resultDateFrom);
     	     	
@@ -326,38 +328,13 @@ public class AddProduct implements ActionListener{
     	        
 	     	}
     		if(e.getSource() == btnAdd){
-    			SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-    			String dateInString = "7-Jun-2013";
+    			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+    			String dateInString = resultDateFrom;
 
-    			try {
+    			product = new Product(Integer.parseInt(txtQuantity.getText()), dateFrom, txtProductName.getText(), Double.parseDouble(txtBuyingPrice.getText())/Integer.parseInt(txtQuantity.getText()), Integer.parseInt(lblNextAvailableID.getText()), db.getProductTypeID(cmbProductType.getSelectedItem().toString()), "Path", new Branch("POgi", "glenn", "matias"), txtOrigin.getText());
 
-    				Date date = formatter.parse(dateInString);
-    				System.out.println(date);
-    				System.out.println(formatter.format(date));
-    				
-    	   			product = new Product(Integer.parseInt(txtQuantity.getText()), date, txtProductName.getText(), Double.parseDouble(txtBuyingPrice.getText())/Integer.parseInt(txtQuantity.getText()), Integer.parseInt(lblNextAvailableID.getText()), db.getProductTypeID(cmbProductType.getSelectedItem().toString()), "Path", new Branch("POgi", "glenn", "matias"), txtOrigin.getText());
-
-
-    	   			
-    	   			
-    	   			System.out.println("id " + product.getProductID());
-    	   			System.out.println("quantity: "+ product.getQuantity());
-    	   			System.out.println("name: "+ product.getProductName());
-    	   			System.out.println("buyprice : "+ product.getBuyPrice());
-    	   			System.out.println("date : "+ product.getBuyDate());
-    	   			System.out.println("producttypeid: "+ product.getProductTypeID());
-    	   			System.out.println("picture: "+ product.getPicture());
-    	   			System.out.println("branchid: "+ product.getBranch().getBranchID());
-    	   			System.out.println("origin: "+ product.getBuyOrigin());
-
-
-    	   			
-
-    				managerProduct.addProduct(product);
-
-    			} catch (ParseException pe) {
-    				pe.printStackTrace();
-    			}
+				System.out.println(cmbProductType.getSelectedItem().toString());
+				managerProduct.addProduct(product);
     	
 
     		}

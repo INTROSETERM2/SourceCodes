@@ -210,11 +210,10 @@ public class DBConnect {
 	}
 	
 	public int getProductTypeID(String productTypeName){
-		String query = "SELECT product_typeID from product_types where product_type_name = ?";
+		String query = "SELECT product_typeID from product_types where product_type_name = '" + productTypeName + "'";
 		int productTypeID = 0;
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
-			preparedStatement.setString(1, productTypeName);
 			rs = preparedStatement.executeQuery(query);
 
 			while (rs.next()) {
@@ -226,6 +225,8 @@ public class DBConnect {
 		}
 		return productTypeID;
 	}
+	
+	
 	public ArrayList<ProductType> getProductTypes(){
 		String query = "SELECT * FROM product_types";
 		ArrayList<ProductType> productType = new ArrayList<ProductType>();
@@ -468,7 +469,8 @@ public class DBConnect {
 			preparedStatement.setInt(2, product.getQuantity());
 			preparedStatement.setString(3, product.getProductName());
 			preparedStatement.setDouble(4, product.getBuyPrice());
-			preparedStatement.setDate(5, getCurrentDate());
+			
+			preparedStatement.setDate(5, convertJavaDateToSqlDate(product.getBuyDate()));
 			preparedStatement.setInt(6, product.getProductTypeID());
 			preparedStatement.setInt(7, 11);
 			preparedStatement.setString(8, product.getBuyOrigin());
@@ -479,6 +481,12 @@ public class DBConnect {
 			System.out.println(ex);
 		}
 	}
+	public java.sql.Date convertJavaDateToSqlDate(java.util.Date date) {
+	    return new java.sql.Date(date.getTime());
+	}
+
+	
+	
 
 	public void deleteProduct(int productID) {
 		String query = "delete from products where productID = ?";
