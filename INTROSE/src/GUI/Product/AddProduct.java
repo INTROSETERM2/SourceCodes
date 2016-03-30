@@ -1,31 +1,33 @@
 package GUI.Product;
 
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import net.miginfocom.swing.MigLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.awt.Font;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
+import org.jdesktop.swingx.JXDatePicker;
+
+//import org.jdesktop.swingx.JXDatePicker;
 
 import DB.DBConnect;
 import GUI.MainGUI;
+import Product.ManagerProduct;
 import Product.Product;
-
-import com.jgoodies.forms.layout.FormSpecs;
-import javax.swing.JComboBox;
-import javax.swing.JScrollPane;
 
 public class AddProduct implements ActionListener{
 	private JPanel jPanel = new JPanel();
@@ -40,7 +42,7 @@ public class AddProduct implements ActionListener{
 	// Labels
 	private JLabel lblInventory = new JLabel("Inventory");
 	private JLabel lblProductId = new JLabel("Product ID");
-	private JLabel lblgeneratedBy = new JLabel("#####");
+	private JLabel lblNextAvailableID = new JLabel("#####");
 	private JLabel lblDate = new JLabel("Date");
 	private JLabel lblProductName = new JLabel("Product Name");
 	private JLabel lblPicture = new JLabel("Picture");
@@ -62,6 +64,9 @@ public class AddProduct implements ActionListener{
 	
 	
 	private DBConnect db = new DBConnect();
+	private Product product;
+	private ManagerProduct managerProduct;
+	private final JButton btnSelectDate = new JButton("Select date");
 	
 	public AddProduct(MainGUI mainGUI){
 		txtProductName.setColumns(10);
@@ -151,12 +156,12 @@ public class AddProduct implements ActionListener{
 		gbc_lblPicture.gridy = 3;
 		jPanel.add(lblPicture, gbc_lblPicture);
 		
-		GridBagConstraints gbc_lblgeneratedBy = new GridBagConstraints();
-		gbc_lblgeneratedBy.fill = GridBagConstraints.BOTH;
-		gbc_lblgeneratedBy.insets = new Insets(0, 0, 5, 5);
-		gbc_lblgeneratedBy.gridx = 1;
-		gbc_lblgeneratedBy.gridy = 4;
-		jPanel.add(lblgeneratedBy, gbc_lblgeneratedBy);
+		GridBagConstraints gbc_lblNextAvailableID = new GridBagConstraints();
+		gbc_lblNextAvailableID.fill = GridBagConstraints.BOTH;
+		gbc_lblNextAvailableID.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNextAvailableID.gridx = 1;
+		gbc_lblNextAvailableID.gridy = 4;
+		jPanel.add(lblNextAvailableID, gbc_lblNextAvailableID);
 		
 		GridBagConstraints gbc_txtDate = new GridBagConstraints();
 		gbc_txtDate.fill = GridBagConstraints.BOTH;
@@ -217,9 +222,18 @@ public class AddProduct implements ActionListener{
 		gbc_btnAddPicture.gridy = 4;
 		btnAddPicture.addActionListener(act);
 		jPanel.add(btnAddPicture, gbc_btnAddPicture);
-		jPanel.add(btnAdd, gbc_btnAdd);
 		
-		DefaultTableModel model = new DefaultTableModel(new Object[]{"Date Bought", "Product Name", "Product Type", "Quantity", "Total Cost", "Place Bought"}, 0) {
+		GridBagConstraints gbc_btnSelectDate = new GridBagConstraints();
+		gbc_btnSelectDate.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSelectDate.gridx = 2;
+		gbc_btnSelectDate.gridy = 5;
+		jPanel.add(btnSelectDate, gbc_btnSelectDate);
+		jPanel.add(btnAdd, gbc_btnAdd);
+		btnSelectDate.addActionListener(act);
+		
+		
+		
+		DefaultTableModel model = new DefaultTableModel(new Object[]{"Product ID", "Date Bought", "Product Name", "Product Type", "Quantity", "Total Cost", "Place Bought"}, 0) {
  		   @Override
  		   public boolean isCellEditable(int row, int column) {
  		       return false;
@@ -228,9 +242,10 @@ public class AddProduct implements ActionListener{
 		
 		ArrayList<Product> products = db.getProducts();
 		
-		for(int i = 0; i < products.size(); i++)
-			model.addRow(new Object[]{products.get(i).getBuyDate(), products.get(i).getProductName(), products.get(i).getProductTypeID().getProductTypeId(), products.get(i).getQuantity(), products.get(i).getBuyPrice(), products.get(i).getBuyOrigin()});
-		
+		for(int i = 0; i < products.size(); i++){
+			model.addRow(new Object[]{products.get(i).getProductID(), products.get(i).getBuyDate(), products.get(i).getProductName(), products.get(i).getProductTypeID(), products.get(i).getQuantity(), products.get(i).getBuyPrice(), products.get(i).getBuyOrigin()});
+			System.out.println(products.get(i).getProductID());
+		}
 		productTable.setModel(model);
 	}
 	
@@ -246,9 +261,27 @@ public class AddProduct implements ActionListener{
     			System.out.println("t(O_O)t");
     		}
     		
+    		if(e.getSource() == btnSelectDate){
+    			//for calendar
+    			JFrame frame = new JFrame("JXPicker Example");
+    	        JPanel panel = new JPanel();
+
+    	        frame.setBounds(400, 400, 250, 100);
+
+    	        JXDatePicker picker = new JXDatePicker();
+    	        picker.setDate(Calendar.getInstance().getTime());
+    	        picker.setFormats(new SimpleDateFormat("dd/MM/yyyy"));
+
+    	        panel.add(picker);
+    	        frame.getContentPane().add(panel);
+
+    	        frame.setVisible(true);
+    	        
+    	        txtDate.setText(picker.toString());
+    	        //end of calendar
+    		}
     		if(e.getSource() == btnAdd){
-    			//Kung ano mangyayari kapag pinindot button
-    			System.out.println("t(O_O)t");	
+//    			product = new Product(Integer.parseInt(txtQuantity.getText()), datehere, txtProductName.getText(), Double.parseDouble(txtBuyingPrice.getText())/Integer.parseInt(txtQuantity.getText()), lblNextAvailableID.getText().toString(), db.getProductTypeID(cmbProductType.getSelectedItem().toString()), "Path", txtOrigin.getText() ));
     		}
     	}
     }

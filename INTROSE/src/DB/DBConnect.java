@@ -1,6 +1,7 @@
 package DB;
 
 import java.sql.Date;
+
 import java.sql.DriverManager;
 
 import java.sql.ResultSet;
@@ -156,20 +157,37 @@ public class DBConnect {
 	}
 	
 	public ArrayList<Product> getProducts(){
-		String query = "SELECT * FROM products p, product_types pt, branches b WHERE (p.branch = b.branchID) & (p.product_typeID = pt.product_typeID) ;";
+		String query = "SELECT * FROM products p, product_types pt, branches b WHERE (p.branch = b.branchID) & (p.product_typeID = pt.product_typeID);";
 		ArrayList<Product> products = new ArrayList<Product>();
 		try{
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			rs = preparedStatement.executeQuery();
-			while(rs.next()){
-				products.add(new Product(rs.getInt("quantity"), rs.getDate("buy_date"), rs.getString("product_name"), rs.getDouble("buy_price"), rs.getInt("productID"), new ProductType(rs.getInt("product_typeID"), rs.getString("product_type_name")), rs.getString("picture"), new Branch(rs.getInt("branchID"), rs.getString("branchName"), rs.getString("branchUsername"), rs.getString("branchPassword"), rs.getDate("branchCreationDate")), rs.getString("buy_origin")));
-			}
+			while(rs.next())
+				products.add(new Product(rs.getInt("quantity"), rs.getDate("buy_date"), rs.getString("product_name"), rs.getDouble("buy_price"), rs.getInt("productID"), rs.getInt("product_typeID"), rs.getString("picture"), new Branch(rs.getInt("branchID"), rs.getString("branchName"), rs.getString("branchUsername"), rs.getString("branchPassword"), rs.getDate("branchCreationDate")), rs.getString("buy_origin")));
+		
 		}catch(Exception ex){
 			System.out.println(ex + "getProducts");
 		}
 		return products;
 	}
 	
+	public int getProductTypeID(String productTypeName){
+		String query = "SELECT product_typeID from product_types where product_type_name = ?";
+		int productTypeID = 0;
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			preparedStatement.setString(1, productTypeName);
+			rs = preparedStatement.executeQuery(query);
+
+			while (rs.next()) {
+				productTypeID = rs.getInt("product_typeID");
+			}
+
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+		return productTypeID;
+	}
 	public ArrayList<ProductType> getProductTypes(){
 		String query = "SELECT * FROM product_types";
 		ArrayList<ProductType> productType = new ArrayList<ProductType>();
@@ -411,7 +429,7 @@ public class DBConnect {
 			preparedStatement.setString(3, product.getProductName());
 			preparedStatement.setDouble(4, product.getBuyPrice());
 			preparedStatement.setDate(5, getCurrentDate());
-			preparedStatement.setInt(6, product.getProductTypeID().getProductTypeId());
+			preparedStatement.setInt(6, product.getProductTypeID());
 			preparedStatement.setInt(7, product.getBranch().getBranchID());
 			preparedStatement.setString(8, product.getBuyOrigin());
 			preparedStatement.setString(9, product.getPicture());
@@ -469,7 +487,6 @@ public class DBConnect {
 	/* End of ManagerProductType */
 
 	public int getProductID(String soldProductName) {
-		System.out.println("hi");
 		String query = "SELECT p.productID FROM receipts r, products p WHERE p.product_name = '" + soldProductName
 				+ "'";
 		int productID = 0;

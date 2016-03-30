@@ -1,6 +1,8 @@
 package Product;
 
 import java.sql.Date;
+
+
 import java.text.SimpleDateFormat;
 
 import Branch.Branch;
@@ -13,15 +15,14 @@ public class Product {
 	private String productName;
 	private double buyPrice;
 	private Date buyDate;
-	private ProductType productTypeID;
+	private int productTypeID;
 	private Branch branch;
 	private String buyOrigin;
 	private String picture;
-	private DBConnect db = new DBConnect();
 	
-	public Product(int quantity, Date buyDate, String productName, double buyPrice, int productId, ProductType productTypeID, String picture, Branch branch, String buyOrigin)
+	public Product(int quantity, Date buyDate, String productName, double buyPrice, int productID, int productTypeID, String picture, Branch branch, String buyOrigin)
 	{
-		this.productID = db.getNextAvailableProductID();
+		this.productID = productID;
 		this.quantity = quantity;
 		this.productName = productName;
 		this.buyPrice = buyPrice;
@@ -57,7 +58,7 @@ public class Product {
 		return buyDate;
 	}
 	
-	public ProductType getProductTypeID()
+	public int getProductTypeID()
 	{
 		return productTypeID;
 	}
