@@ -17,22 +17,21 @@ public class Product {
 	private double buyPrice;
 	private Date buyDate;
 	private int productTypeID;
-	private Branch branch;
 	private String buyOrigin;
 	private String picture;
 	
-	public Product(int quantity, Date buyDate, String productName, double buyPrice, int productID, int productTypeID, String picture, Branch branch, String buyOrigin)
-	{
-		this.productID = productID;
-		this.quantity = quantity;
-		this.productName = productName;
-		this.buyPrice = buyPrice;
-		this.buyDate = buyDate;
-		this.productTypeID = productTypeID;
-		this.picture = picture;
-		this.branch = branch;
-		this.buyOrigin = buyOrigin;
-	}
+//	public Product(int quantity, Date buyDate, String productName, double buyPrice, int productID, int productTypeID, String picture, Branch branch, String buyOrigin)
+//	{
+//		this.productID = productID;
+//		this.quantity = quantity;
+//		this.productName = productName;
+//		this.buyPrice = buyPrice;
+//		this.buyDate = buyDate;
+//		this.productTypeID = productTypeID;
+//		this.picture = picture;
+//		this.branch = branch;
+//		this.buyOrigin = buyOrigin;
+//	}
 	
 	public Product(int quantity, Date buyDate, String productName, double buyPrice, int productID, int productTypeID, String picture, String buyOrigin)
 	{
@@ -76,10 +75,10 @@ public class Product {
 		return productTypeID;
 	}
 	
-	public Branch getBranch()
-	{
-		return branch;
-	}
+//	public Branch getBranch()
+//	{
+//		return branch;
+//	}
 	
 	public String getBuyOrigin()
 	{

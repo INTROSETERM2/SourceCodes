@@ -81,18 +81,18 @@ public class EditProduct extends JFrame implements ActionListener {
 	private int oldQuantity;
 	private boolean priceField;
 	private boolean staffField;
-	private final JLabel lblNewProductName = new JLabel("Product Name");
-	private final JTextField txtNewProductName = new JTextField();
-	private final JLabel lblOldProductName = new JLabel("Old Product Name");
-	private final JLabel lbloldProductName = new JLabel("New label");
-	private final JLabel lblDate = new JLabel("Date:");
-	private final JTextField txtDate = new JTextField();
-	private final JButton btnChange = new JButton("Set");
-	private final JTextField txtOrigin = new JTextField();
-	private final JButton btnChangePicture = new JButton("Change Picture");
-	private final JLabel lblQuantity = new JLabel("Quantity:");
-	private final JTextField txtQuantity = new JTextField();
-	private final JTextField txtPicture = new JTextField();
+	private JLabel lblNewProductName = new JLabel("Product Name");
+	private JTextField txtNewProductName = new JTextField();
+	private JLabel lblOldProductName = new JLabel("Old Product Name");
+	private JLabel lbloldProductName = new JLabel("New label");
+	private JLabel lblDate = new JLabel("Date:");
+	private JTextField txtDate = new JTextField();
+	private JButton btnChange = new JButton("Set");
+	private JTextField txtOrigin = new JTextField();
+	private JButton btnChangePicture = new JButton("Change Picture");
+	private JLabel lblQuantity = new JLabel("Quantity:");
+	private JTextField txtQuantity = new JTextField();
+	private JTextField txtPicture = new JTextField();
 
 	private JFrame calenderFrame;
 	private JXDatePicker picker;
@@ -244,16 +244,15 @@ public class EditProduct extends JFrame implements ActionListener {
 					} catch (Exception q) {
 						q.printStackTrace();
 					}
+					JLabel image = new JLabel(IMAGE);
+					JDialog dialog = new JDialog();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setTitle("Image Preview");
+					dialog.getContentPane().add(image);
+					dialog.pack();
+					dialog.setLocationRelativeTo(null);
+					dialog.setVisible(true);
 				}
-
-				JLabel image = new JLabel(IMAGE);
-				JDialog dialog = new JDialog();
-				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-				dialog.setTitle("Image Preview");
-				dialog.getContentPane().add(image);
-				dialog.pack();
-				dialog.setLocationRelativeTo(null);
-				dialog.setVisible(true);
 			}
 			if (a.getSource() == btnEdit) {
 				Product product = new Product(Integer.parseInt(txtQuantity.getText()), dateFrom,

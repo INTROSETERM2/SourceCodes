@@ -66,7 +66,7 @@ public class POSReceipt implements ActionListener {
 	private JLabel lblItemName = new JLabel("Item name");
 	private JLabel lblQuantity = new JLabel("Quantity");
 	private JLabel lblCustomer = new JLabel("Customer");
-	private JLabel lblPrice = new JLabel("Price");
+	private JLabel lblPrice = new JLabel("Total Price of Transaction");
 	private JLabel lblStaff = new JLabel("Staff");
 
 	// Buttons
@@ -324,18 +324,15 @@ public class POSReceipt implements ActionListener {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
+					JLabel image = new JLabel(IMAGE);
+					JDialog dialog = new JDialog();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setTitle("Image Preview");
+					dialog.getContentPane().add(image);
+					dialog.pack();
+					dialog.setLocationRelativeTo(null);
+					dialog.setVisible(true);
 				}
-				
-				JLabel image = new JLabel(IMAGE);
-				JDialog dialog = new JDialog();
-				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-				dialog.setTitle("Image Preview");
-				dialog.getContentPane().add(image);
-				dialog.pack();
-				dialog.setLocationRelativeTo(null);
-				dialog.setVisible(true);
-//				mainGUI.removeAllLeftSplit(); 
-//				mainGUI.setLeftSplit(); 
 			}
 
 			//Adds products if all criterion are met

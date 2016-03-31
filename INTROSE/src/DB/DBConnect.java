@@ -28,8 +28,8 @@ public class DBConnect {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			// always changed this for DB access
-//			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
+//			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","");
 //			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root", "");
 
 			con.createStatement();
@@ -157,13 +157,13 @@ public class DBConnect {
 	}
 	
 	public ArrayList<Product> getProducts(){
-		String query = "SELECT * FROM products p, product_types pt, branches b WHERE (p.branch = b.branchID) & (p.product_typeID = pt.product_typeID);";
+		String query = "SELECT * FROM products p, product_types pt WHERE (p.product_typeID = pt.product_typeID);";
 		ArrayList<Product> products = new ArrayList<Product>();
 		try{
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			rs = preparedStatement.executeQuery();
 			while(rs.next()){
-				products.add(new Product(rs.getInt("quantity"), rs.getDate("buy_date"), rs.getString("product_name"), rs.getDouble("buy_price") * rs.getInt("quantity"), rs.getInt("productID"), rs.getInt("product_typeID"), rs.getString("picture"), new Branch(rs.getInt("branchID"), rs.getString("branchName"), rs.getString("branchUsername"), rs.getString("branchPassword"), rs.getDate("branchCreationDate")), rs.getString("buy_origin")));
+				products.add(new Product(rs.getInt("quantity"), rs.getDate("buy_date"), rs.getString("product_name"), rs.getDouble("buy_price") * rs.getInt("quantity"), rs.getInt("productID"), rs.getInt("product_typeID"), rs.getString("picture"), rs.getString("buy_origin")));
 			}
 		}catch(Exception ex){
 			System.out.println(ex + "getProducts");
