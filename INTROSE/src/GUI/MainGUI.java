@@ -55,6 +55,7 @@ public class MainGUI {
 		frame.setLocationRelativeTo(null);
 	}
 	
+	
 	public void removeLeftSplit(){
 		leftJPanel.removeAll();
 		frame.revalidate(); // For Java 1.7 or above

@@ -163,7 +163,7 @@ public class DBConnect {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			rs = preparedStatement.executeQuery();
 			while(rs.next()){
-				products.add(new Product(rs.getInt("quantity"), rs.getDate("buy_date"), rs.getString("product_name"), rs.getDouble("buy_price"), rs.getInt("productID"), rs.getInt("product_typeID"), rs.getString("picture"), new Branch(rs.getInt("branchID"), rs.getString("branchName"), rs.getString("branchUsername"), rs.getString("branchPassword"), rs.getDate("branchCreationDate")), rs.getString("buy_origin")));
+				products.add(new Product(rs.getInt("quantity"), rs.getDate("buy_date"), rs.getString("product_name"), rs.getDouble("buy_price") * rs.getInt("quantity"), rs.getInt("productID"), rs.getInt("product_typeID"), rs.getString("picture"), new Branch(rs.getInt("branchID"), rs.getString("branchName"), rs.getString("branchUsername"), rs.getString("branchPassword"), rs.getDate("branchCreationDate")), rs.getString("buy_origin")));
 			}
 		}catch(Exception ex){
 			System.out.println(ex + "getProducts");
@@ -226,6 +226,22 @@ public class DBConnect {
 		return productTypeID;
 	}
 	
+	public String getProductTypeName(int id){
+		String query = "SELECT product_type_name from product_types where product_typeID = " + id;
+		String productName = "";
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			rs = preparedStatement.executeQuery(query);
+
+			while (rs.next()) {
+				productName = rs.getString("product_type_name");
+			}
+
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+		return productName;
+	}
 	
 	public ArrayList<ProductType> getProductTypes(){
 		String query = "SELECT * FROM product_types";

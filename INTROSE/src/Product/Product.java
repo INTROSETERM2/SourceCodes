@@ -34,6 +34,18 @@ public class Product {
 		this.buyOrigin = buyOrigin;
 	}
 	
+	public Product(int quantity, Date buyDate, String productName, double buyPrice, int productID, int productTypeID, String picture, String buyOrigin)
+	{
+		this.productID = productID;
+		this.quantity = quantity;
+		this.productName = productName;
+		this.buyPrice = buyPrice;
+		this.buyDate = buyDate;
+		this.productTypeID = productTypeID;
+		this.picture = picture;
+		this.buyOrigin = buyOrigin;
+	}
+	
 	public int getProductID()
 	{
 		return productID;
