@@ -60,7 +60,8 @@ public class MainGUI {
 		leftJPanel.removeAll();
 		frame.revalidate(); // For Java 1.7 or above
 		frame.repaint();
-	}
+	}	
+	
 	
 	public void removeAllRightSplit(){
 		rightJPanel.removeAll();

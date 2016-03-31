@@ -95,7 +95,7 @@ public class EditReceipt extends JFrame implements ActionListener {
 		ActListener act = new ActListener();
 		
 		// Combo Boxes
-		cmbProductName = new JComboBox(db.getProducts().toArray());
+		cmbProductName = new JComboBox(db.getNameProducts().toArray());
 		cmbProductName.addActionListener(act);
 		jPanel.add(cmbProductName, "cell 1 3 7 1,growx");
 		

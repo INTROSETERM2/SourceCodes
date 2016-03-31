@@ -16,8 +16,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -42,6 +44,7 @@ import GUI.MainGUI;
 import GUI.Receipt.EditReceipt;
 import GUI.Receipt.POSReceipt;
 import Product.ManagerProduct;
+import Product.PictureFinder;
 import Product.Product;
 
 public class AddProduct implements ActionListener {
@@ -81,7 +84,7 @@ public class AddProduct implements ActionListener {
 	private DBConnect db = new DBConnect();
 	private Product product;
 	private ManagerProduct managerProduct = new ManagerProduct();
-	private final JButton btnSelectDate = new JButton("Select date");
+	private JButton btnSelectDate = new JButton("Select date");
 
 	private ActListener act = new ActListener();
 
@@ -93,31 +96,39 @@ public class AddProduct implements ActionListener {
 	private Date dateFrom;
 
 	private MainGUI mainGUI;
+	
+	private PictureFinder pictureFinder;
+	private JTextField txtPicturePath = new JTextField();
+	private final JButton btnPreview = new JButton("Preview");
+	
+	public static ImageIcon IMAGE = null;
+
 
 	public AddProduct(MainGUI mainGUI) {
+		txtPicturePath.setColumns(10);
 		this.mainGUI = mainGUI;
 		txtProductName.setColumns(10);
 		txtOrigin.setColumns(10);
 
 		jPanel.setSize(1067, 605);
 		GridBagLayout gbl_jPanel = new GridBagLayout();
-		gbl_jPanel.columnWidths = new int[] { 50, 110, 110, 110, 110, 110, 110, 110, 110, 0, 0 };
+		gbl_jPanel.columnWidths = new int[] { 50, 110, 110, 110, 110, 110, 110, 110, 0, 110, 0, 0 };
 		gbl_jPanel.rowHeights = new int[] { 20, 24, 340, 30, 30, 30, 20, 0 };
-		gbl_jPanel.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_jPanel.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE };
 		gbl_jPanel.rowWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		jPanel.setLayout(gbl_jPanel);
 
 		lblInventory.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblAddProduct = new GridBagConstraints();
 		gbc_lblAddProduct.fill = GridBagConstraints.VERTICAL;
-		gbc_lblAddProduct.gridwidth = 8;
+		gbc_lblAddProduct.gridwidth = 9;
 		gbc_lblAddProduct.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAddProduct.gridx = 1;
 		gbc_lblAddProduct.gridy = 1;
 		jPanel.add(lblInventory, gbc_lblAddProduct);
 
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.gridwidth = 8;
+		gbc_scrollPane.gridwidth = 9;
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 1;
@@ -174,13 +185,13 @@ public class AddProduct implements ActionListener {
 		gbc_lblOrigin.gridx = 7;
 		gbc_lblOrigin.gridy = 3;
 		jPanel.add(lblOrigin, gbc_lblOrigin);
-
-		GridBagConstraints gbc_lblPicture = new GridBagConstraints();
-		gbc_lblPicture.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblPicture.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPicture.gridx = 8;
-		gbc_lblPicture.gridy = 3;
-		jPanel.add(lblPicture, gbc_lblPicture);
+		
+				GridBagConstraints gbc_lblPicture = new GridBagConstraints();
+				gbc_lblPicture.fill = GridBagConstraints.HORIZONTAL;
+				gbc_lblPicture.insets = new Insets(0, 0, 5, 5);
+				gbc_lblPicture.gridx = 8;
+				gbc_lblPicture.gridy = 3;
+				jPanel.add(lblPicture, gbc_lblPicture);
 
 		GridBagConstraints gbc_lblNextAvailableID = new GridBagConstraints();
 		gbc_lblNextAvailableID.fill = GridBagConstraints.BOTH;
@@ -235,28 +246,21 @@ public class AddProduct implements ActionListener {
 		gbc_txtOrigin.gridx = 7;
 		gbc_txtOrigin.gridy = 4;
 		jPanel.add(txtOrigin, gbc_txtOrigin);
-
-		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
-		gbc_btnAdd.insets = new Insets(0, 0, 5, 5);
-		gbc_btnAdd.fill = GridBagConstraints.BOTH;
-		gbc_btnAdd.gridx = 8;
-		gbc_btnAdd.gridy = 5;
-		btnAdd.addActionListener(act);
-
-		GridBagConstraints gbc_btnAddPicture = new GridBagConstraints();
-		gbc_btnAddPicture.fill = GridBagConstraints.BOTH;
-		gbc_btnAddPicture.insets = new Insets(0, 0, 5, 5);
-		gbc_btnAddPicture.gridx = 8;
-		gbc_btnAddPicture.gridy = 4;
-		btnAddPicture.addActionListener(act);
-		jPanel.add(btnAddPicture, gbc_btnAddPicture);
+		
+		GridBagConstraints gbc_txtPicturePath = new GridBagConstraints();
+		gbc_txtPicturePath.gridwidth = 2;
+		gbc_txtPicturePath.insets = new Insets(0, 0, 5, 5);
+		gbc_txtPicturePath.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPicturePath.gridx = 8;
+		gbc_txtPicturePath.gridy = 4;
+		jPanel.add(txtPicturePath, gbc_txtPicturePath);
 
 		GridBagConstraints gbc_btnSelectDate = new GridBagConstraints();
+		gbc_btnSelectDate.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnSelectDate.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSelectDate.gridx = 2;
 		gbc_btnSelectDate.gridy = 5;
 		jPanel.add(btnSelectDate, gbc_btnSelectDate);
-		jPanel.add(btnAdd, gbc_btnAdd);
 		btnSelectDate.addActionListener(act);
 
 		lblNextAvailableID.setText(Integer.toString(db.getNextAvailableProductID()));
@@ -285,13 +289,14 @@ public class AddProduct implements ActionListener {
 					products.get(i).getProductName(), db.getProductTypeName(products.get(i).getProductTypeID()),
 					products.get(i).getQuantity(), products.get(i).getBuyPrice(), products.get(i).getBuyOrigin(),
 					products.get(i).getPicture() });
-			System.out.println(products.get(i).getProductID());
 		}
 		productTable.setModel(model);
 		btnSet.addActionListener(act);
+		btnPreview.addActionListener(act);
 
 		productTable.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
+
 				if (e.getClickCount() == 2) {
 
 					int row = productTable.getSelectedRow();
@@ -326,6 +331,30 @@ public class AddProduct implements ActionListener {
 		
 		AutoCompleteDecorator.decorate(this.cmbProductType);
 
+		txtDate.setEnabled(false);
+		
+				GridBagConstraints gbc_btnAdd = new GridBagConstraints();
+				gbc_btnAdd.gridwidth = 2;
+				gbc_btnAdd.insets = new Insets(0, 0, 0, 5);
+				gbc_btnAdd.fill = GridBagConstraints.BOTH;
+				gbc_btnAdd.gridx = 8;
+				gbc_btnAdd.gridy = 6;
+				btnAdd.addActionListener(act);
+				
+						GridBagConstraints gbc_btnAddPicture = new GridBagConstraints();
+						gbc_btnAddPicture.fill = GridBagConstraints.BOTH;
+						gbc_btnAddPicture.insets = new Insets(0, 0, 5, 5);
+						gbc_btnAddPicture.gridx = 8;
+						gbc_btnAddPicture.gridy = 5;
+						btnAddPicture.addActionListener(act);
+						jPanel.add(btnAddPicture, gbc_btnAddPicture);
+				
+				GridBagConstraints gbc_btnPreview = new GridBagConstraints();
+				gbc_btnPreview.insets = new Insets(0, 0, 5, 5);
+				gbc_btnPreview.gridx = 9;
+				gbc_btnPreview.gridy = 5;
+				jPanel.add(btnPreview, gbc_btnPreview);
+				jPanel.add(btnAdd, gbc_btnAdd);
 	}
 
 	public JPanel getJPanel() {
@@ -334,9 +363,36 @@ public class AddProduct implements ActionListener {
 
 	private class ActListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == btnPreview){
+					
+					System.out.println("preview");
+					String filePath = txtPicturePath.getText();
+					
+					if (filePath.equals("")) {
+						JOptionPane.showMessageDialog(null, "No picture for selected product or no product selected!");
+					} else {
+						try {
+							IMAGE = new ImageIcon(filePath);
+						} catch (Exception q) {
+							q.printStackTrace();
+						}
+					}
+					
+					JLabel image = new JLabel(IMAGE);
+					JDialog dialog = new JDialog();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setTitle("Image Preview");
+					dialog.getContentPane().add(image);
+					dialog.pack();
+					dialog.setLocationRelativeTo(null);
+					dialog.setVisible(true);
+				}
 			if (e.getSource() == btnAddPicture) {
 				// Kung ano mangyayari kapag pinindot button
-				System.out.println("Addpic");
+				
+				pictureFinder = new PictureFinder();
+				
+				txtPicturePath.setText(pictureFinder.getPicturePath());
 			}
 
 			if (e.getSource() == btnSelectDate) {
@@ -362,7 +418,6 @@ public class AddProduct implements ActionListener {
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 				dateFrom = picker.getDate();
 				resultDateFrom = formatter.format(dateFrom);
-				System.out.println(resultDateFrom);
 
 				txtDate.setText("");
 
@@ -378,10 +433,9 @@ public class AddProduct implements ActionListener {
 				product = new Product(Integer.parseInt(txtQuantity.getText()), dateFrom, txtProductName.getText(),
 						Double.parseDouble(txtBuyingPrice.getText()) / Integer.parseInt(txtQuantity.getText()),
 						Integer.parseInt(lblNextAvailableID.getText()),
-						db.getProductTypeID(cmbProductType.getSelectedItem().toString()), "Path",
+						db.getProductTypeID(cmbProductType.getSelectedItem().toString()), txtPicturePath.getText(),
 						new Branch("POgi", "glenn", "matias"), txtOrigin.getText());
 
-				System.out.println(cmbProductType.getSelectedItem().toString());
 				managerProduct.addProduct(product);
 
 			}

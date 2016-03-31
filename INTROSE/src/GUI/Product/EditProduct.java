@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -30,10 +31,12 @@ import GUI.MainGUI;
 import GUI.ControlPanel.GUIClientLandingPanel;
 import GUI.Receipt.POSReceipt;
 import Product.ManagerProduct;
+import Product.PictureFinder;
 import Product.Product;
 import Receipt.Receipt;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import java.awt.Font;
 import javax.swing.JCheckBox;
@@ -42,7 +45,6 @@ import javax.swing.SwingConstants;
 public class EditProduct extends JFrame implements ActionListener {
 	private DBConnect db = new DBConnect();
 
-	
 	ActionListener act = new ActListener();
 	JPanel jPanel = new JPanel();
 	private JComboBox cmbProductType;
@@ -85,28 +87,32 @@ public class EditProduct extends JFrame implements ActionListener {
 	private final JLabel lbloldProductName = new JLabel("New label");
 	private final JLabel lblDate = new JLabel("Date:");
 	private final JTextField txtDate = new JTextField();
-	private final JButton btnSet = new JButton("Set");
+	private final JButton btnChange = new JButton("Set");
 	private final JTextField txtOrigin = new JTextField();
 	private final JButton btnChangePicture = new JButton("Change Picture");
 	private final JLabel lblQuantity = new JLabel("Quantity:");
 	private final JTextField txtQuantity = new JTextField();
 	private final JTextField txtPicture = new JTextField();
-	
+
 	private JFrame calenderFrame;
 	private JXDatePicker picker;
 	private Date dateFrom;
 	private String resultDateFrom;
+	private JButton btnSet = new JButton("Set");
 
+	private PictureFinder pictureFinder;
+	private JButton btnPreview = new JButton("Preview");
+	public static ImageIcon IMAGE = null;
 
 	public EditProduct(MainGUI mainGUI, int productID, Date dateBought, String productName, String productType,
 			int quantity, double totalCost, String origin, String picture) {
-		
+
 		ActListener act = new ActListener();
-		
+
 		txtPicture.setColumns(10);
 		txtQuantity.setColumns(10);
 		jPanel.setLayout(
-				new MigLayout("", "[52px][57px,grow][][][][][][][][][]", "[20px][20px][23px][][][][][][][][][][]"));
+				new MigLayout("", "[52px][57px,grow][][][][][][][][][][][]", "[20px][20px][23px][][][][][][][][][][]"));
 		jPanel.setSize(300, 250);
 		jPanel.setOpaque(true);
 
@@ -126,20 +132,19 @@ public class EditProduct extends JFrame implements ActionListener {
 
 		jPanel.add(lblOldProductName, "cell 0 2");
 
-		jPanel.add(lbloldProductName, "cell 1 2 8 1");
+		jPanel.add(lbloldProductName, "cell 1 2 10 1");
 
 		jPanel.add(lblNewProductName, "cell 0 3,alignx trailing");
 		txtNewProductName.setColumns(10);
 
-		jPanel.add(txtNewProductName, "cell 1 3 8 1,growx,aligny top");
-		
+		jPanel.add(txtNewProductName, "cell 1 3 10 1,growx,aligny top");
+
 		cmbProductType = new JComboBox(db.getProductTypeNames().toArray());
 
-		
-		jPanel.add(cmbProductType, "cell 1 5 8 1,growx");
+		jPanel.add(cmbProductType, "cell 1 5 10 1,growx");
 
 		// Text Fields
-		jPanel.add(txtTotalPrice, "cell 1 4 8 1,growx");
+		jPanel.add(txtTotalPrice, "cell 1 4 10 1,growx");
 		txtTotalPrice.setColumns(10);
 
 		// Labels
@@ -150,11 +155,9 @@ public class EditProduct extends JFrame implements ActionListener {
 
 		lblProductNumber = new JLabel(Integer.toString(productID));
 		lblProductNumber.setFont(new Font("Tahoma", Font.BOLD, 11));
-		jPanel.add(lblProductNumber, "cell 1 1 8 1");
+		jPanel.add(lblProductNumber, "cell 1 1 10 1");
 		jPanel.add(lblTotalPrice, "cell 0 4,alignx trailing");
 		jPanel.add(lblProductType, "cell 0 5,alignx trailing");
-
-		
 
 		AutoCompleteDecorator.decorate(this.cmbProductType);
 
@@ -162,23 +165,23 @@ public class EditProduct extends JFrame implements ActionListener {
 
 		jPanel.add(lblQuantity, "cell 0 6,alignx trailing");
 
-		jPanel.add(txtQuantity, "cell 1 6 8 1,growx,aligny top");
+		jPanel.add(txtQuantity, "cell 1 6 10 1,growx,aligny top");
 
 		jPanel.add(lblDate, "cell 0 7,alignx trailing");
 		txtDate.setColumns(10);
 
-		jPanel.add(txtDate, "cell 1 7 6 1,growx");
+		jPanel.add(txtDate, "cell 1 7 7 1,growx");
 
-		jPanel.add(btnSet, "cell 7 7 2 1");
+		jPanel.add(btnChange, "cell 8 7 3 1");
 
 		JLabel lblOrigin = new JLabel("Origin:");
 		jPanel.add(lblOrigin, "cell 0 8,alignx trailing");
 		txtOrigin.setColumns(10);
 
-		jPanel.add(txtOrigin, "cell 1 8 8 1,growx");
+		jPanel.add(txtOrigin, "cell 1 8 10 1,growx");
 
 		jPanel.add(lblPicture, "cell 0 9,alignx trailing");
-		
+
 		lbloldProductName.setText(productName);
 		txtNewProductName.setText(productName);
 		txtTotalPrice.setText(Double.toString(totalCost));
@@ -187,28 +190,35 @@ public class EditProduct extends JFrame implements ActionListener {
 		txtDate.setText(dateBought.toString());
 		txtOrigin.setText(origin);
 		txtPicture.setText(picture);
-		
-		jPanel.add(txtPicture, "cell 1 9 8 1,growx");
+
+		jPanel.add(txtPicture, "cell 1 9 10 1,growx");
 		btnChangePicture.setHorizontalAlignment(SwingConstants.LEADING);
-		
-				jPanel.add(btnChangePicture, "cell 1 10 8 1");
-		
-		
-		
-//
-//		// Check Boxes
-//		chckbxCheckInput = new JCheckBox("Check Input");
-//		jPanel.add(chckbxCheckInput, "cell 1 10");
-//		chckbxCheckInput.addActionListener(act);
+
+		jPanel.add(btnChangePicture, "flowx,cell 1 10 3 1,growx");
+
+		jPanel.add(btnPreview, "cell 4 10,growx");
+
+		//
+		// // Check Boxes
+		// chckbxCheckInput = new JCheckBox("Check Input");
+		// jPanel.add(chckbxCheckInput, "cell 1 10");
+		// chckbxCheckInput.addActionListener(act);
 
 		// Buttons
 		btnEdit = new JButton("Edit");
-		jPanel.add(btnEdit, "cell 1 12 8 1,growx");
+		jPanel.add(btnEdit, "cell 1 12 10 1,growx");
 		btnChangePicture.addActionListener(act);
 		btnEdit.addActionListener(act);
 		btnEdit.setEnabled(true);
+		btnChange.addActionListener(act);
+		btnSet.addActionListener(act);
+
 		this.setSize(400, 388);
 
+		dateFrom = dateBought;
+		txtDate.setEnabled(false);
+	
+		btnPreview.addActionListener(act);
 	}
 
 	public JPanel getJPanel() {
@@ -217,75 +227,87 @@ public class EditProduct extends JFrame implements ActionListener {
 
 	private class ActListener implements ActionListener {
 		public void actionPerformed(ActionEvent a) {
-			if (a.getSource() == btnEdit){
-				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-    			String dateInString = resultDateFrom;
-			
+			if (a.getSource() == btnChangePicture) {
+				pictureFinder = new PictureFinder();
 
-				Product product = new Product(Integer.parseInt(txtQuantity.getText()), dateFrom, txtNewProductName.getText(), 
-						Double.parseDouble(txtTotalPrice.getText()), Integer.parseInt(lblProductNumber.getText()), db.getProductTypeID(cmbProductType.getSelectedItem().toString()),
-						txtPicture.getText(), txtOrigin.getText());
-						//db.editReceipt(receipt);
-						JOptionPane.showMessageDialog(null, "Transaction was successfully edited");
-	
-						mainGUI.removeAllRightSplit();
-						POSReceipt posReceipt = new POSReceipt(mainGUI);
-						mainGUI.setRightSplit(posReceipt.getJPanel());
-						dispose();
+				txtPicture.setText(pictureFinder.getPicturePath());
 			}
-			
-			if(a.getSource() == btnSet){
-    			//for calendar
-    			calenderFrame = new JFrame("Calendar");
-    	        JPanel panel = new JPanel();
-    	        calenderFrame.setBounds(400, 400, 250, 100);
- 
-    	        picker = new JXDatePicker();
-    	        
-    	        picker.setFormats(new SimpleDateFormat("dd/MM/yyyy"));
-    	        
-//    	        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-//    	        Date dateInDate = null;
-//				try {
-//					dateInDate = df.parse(dateBought);
-//				} catch (ParseException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-    	        
-    	        picker.setDate(dateBought);
- 
-    	        panel.add(picker);
-    	        panel.add(btnSet);
-    	        calenderFrame.getContentPane().add(panel);
+			if (a.getSource() == btnPreview) {
 
-    	        calenderFrame.setVisible(true);
-    		}
-    		
-    		if(a.getSource() == btnSet)
-	     	{
-    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-    	     	dateFrom = picker.getDate();
-    	     	resultDateFrom = formatter.format(dateFrom);
-    	     	System.out.println(resultDateFrom);
-    	     	
-    			txtDate.setText("");
-    			
-    	        txtDate.setText(resultDateFrom);
-    	        
-    	        
-    	   
-    	        calenderFrame.dispose();
-    	        
-	     	}
-    		
-	}
-	
+				String filePath = txtPicture.getText();
+
+				if (filePath.equals("")) {
+					JOptionPane.showMessageDialog(null, "No picture for selected product or no product selected!");
+				} else {
+					try {
+						IMAGE = new ImageIcon(filePath);
+					} catch (Exception q) {
+						q.printStackTrace();
+					}
+				}
+
+				JLabel image = new JLabel(IMAGE);
+				JDialog dialog = new JDialog();
+				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				dialog.setTitle("Image Preview");
+				dialog.getContentPane().add(image);
+				dialog.pack();
+				dialog.setLocationRelativeTo(null);
+				dialog.setVisible(true);
+			}
+			if (a.getSource() == btnEdit) {
+				Product product = new Product(Integer.parseInt(txtQuantity.getText()), dateFrom,
+						txtNewProductName.getText(), Double.parseDouble(txtTotalPrice.getText()),
+						Integer.parseInt(lblProductNumber.getText()),
+						db.getProductTypeID(cmbProductType.getSelectedItem().toString()), txtPicture.getText(),
+						txtOrigin.getText());
+
+				db.editProduct(product);
+				JOptionPane.showMessageDialog(null, "Transaction was successfully edited");
+
+				dispose();
+			}
+
+			if (a.getSource() == btnChange) {
+				// for calendar
+				calenderFrame = new JFrame("Calendar");
+				JPanel panel = new JPanel();
+				calenderFrame.setBounds(400, 400, 250, 100);
+
+				picker = new JXDatePicker();
+
+				picker.setFormats(new SimpleDateFormat("dd/MM/yyyy"));
+
+				picker.setDate(dateBought);
+
+				panel.add(picker);
+				panel.add(btnSet);
+				calenderFrame.getContentPane().add(panel);
+
+				calenderFrame.setVisible(true);
+
+			}
+
+			if (a.getSource() == btnSet) {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+				dateFrom = picker.getDate();
+				resultDateFrom = formatter.format(dateFrom);
+
+				txtDate.setText("");
+
+				txtDate.setText(resultDateFrom);
+
+				calenderFrame.dispose();
+
+			}
+
+		}
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

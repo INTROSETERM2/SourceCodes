@@ -699,6 +699,43 @@ public class DBConnect {
 			System.out.println(ex);
 		}
 	}
+	
+	
+	public void editProduct(Product product) {
+		String query = "UPDATE products SET quantity = ?, product_name = ?, buy_price = ?, buy_date = ?,  product_typeid = ?, buy_origin = ?, picture = ? where productID = ?";
+
+		System.out.println(product.getBuyDate());
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+//			preparedStatement.setInt(1, product.getQuantity());
+//
+//			preparedStatement.setString(2, product.getProductName());
+//			preparedStatement.setDouble(3, product.getBuyPrice());
+//
+//			preparedStatement.setInt(4, product.getProductTypeID());
+//
+//			preparedStatement.setString(5, product.getBuyOrigin());
+//			preparedStatement.setString(6, product.getPicture() );
+//			preparedStatement.setInt(7, product.getProductID());
+			
+			preparedStatement.setInt(1, product.getQuantity());
+
+			preparedStatement.setString(2, product.getProductName());
+			preparedStatement.setDouble(3, product.getBuyPrice());
+			preparedStatement.setDate(4, convertJavaDateToSqlDate(product.getBuyDate()));
+
+			preparedStatement.setInt(5, product.getProductTypeID());
+
+			preparedStatement.setString(6, product.getBuyOrigin());
+			preparedStatement.setString(7, product.getPicture() );
+			preparedStatement.setInt(8, product.getProductID());
+
+			preparedStatement.executeUpdate();
+
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+	}
 
 	public void changedQuantity(int productID, int oldQuantity) {
 		String query = "UPDATE products SET quantity = ? where productID = ?";
