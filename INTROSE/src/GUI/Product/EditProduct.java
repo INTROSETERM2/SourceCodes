@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -50,7 +51,12 @@ public class EditProduct extends JFrame implements ActionListener {
 	private JComboBox cmbProductType;
 
 	// Text Fields
+	private JTextField txtNewProductName = new JTextField();
 	private JTextField txtTotalPrice = new JTextField();
+	private JTextField txtQuantity = new JTextField();
+	private JTextField txtDate = new JTextField();
+	private JTextField txtOrigin = new JTextField();
+	private JTextField txtPicture = new JTextField();
 
 	// Labels
 	private JLabel lblEditProduct = new JLabel("EDIT PRODUCT");
@@ -60,8 +66,15 @@ public class EditProduct extends JFrame implements ActionListener {
 	private JLabel lblProductType = new JLabel("Product Type:");
 	private JLabel lblCustomer;
 	private JLabel lblPicture = new JLabel("Picture");
+	private JLabel lblNewProductName = new JLabel("Product Name");
+	private JLabel lblOldProductName = new JLabel("Old Product Name");
+	private JLabel lbloldProductName = new JLabel("New label");
+	private JLabel lblDate = new JLabel("Date:");
+	private JLabel lblQuantity = new JLabel("Quantity:");
 
-	// Button
+	private JButton btnChange = new JButton("Set");
+	private JButton btnSet = new JButton("Set");
+	private JButton btnChangePicture = new JButton("Change Picture");
 	private JButton btnEdit;
 
 	// Check Box
@@ -81,24 +94,12 @@ public class EditProduct extends JFrame implements ActionListener {
 	private int oldQuantity;
 	private boolean priceField;
 	private boolean staffField;
-	private JLabel lblNewProductName = new JLabel("Product Name");
-	private JTextField txtNewProductName = new JTextField();
-	private JLabel lblOldProductName = new JLabel("Old Product Name");
-	private JLabel lbloldProductName = new JLabel("New label");
-	private JLabel lblDate = new JLabel("Date:");
-	private JTextField txtDate = new JTextField();
-	private JButton btnChange = new JButton("Set");
-	private JTextField txtOrigin = new JTextField();
-	private JButton btnChangePicture = new JButton("Change Picture");
-	private JLabel lblQuantity = new JLabel("Quantity:");
-	private JTextField txtQuantity = new JTextField();
-	private JTextField txtPicture = new JTextField();
-
+	
 	private JFrame calenderFrame;
 	private JXDatePicker picker;
 	private Date dateFrom;
 	private String resultDateFrom;
-	private JButton btnSet = new JButton("Set");
+	
 
 	private PictureFinder pictureFinder;
 	private JButton btnPreview = new JButton("Preview");
@@ -209,7 +210,6 @@ public class EditProduct extends JFrame implements ActionListener {
 		jPanel.add(btnEdit, "cell 1 12 10 1,growx");
 		btnChangePicture.addActionListener(act);
 		btnEdit.addActionListener(act);
-		btnEdit.setEnabled(true);
 		btnChange.addActionListener(act);
 		btnSet.addActionListener(act);
 
@@ -219,6 +219,126 @@ public class EditProduct extends JFrame implements ActionListener {
 		txtDate.setEnabled(false);
 	
 		btnPreview.addActionListener(act);
+		
+		txtNewProductName.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e){
+				changed();
+			}
+			public void removeUpdate(DocumentEvent e){
+				changed();
+			}
+			public void insertUpdate(DocumentEvent e){
+				changed();
+			}
+			@SuppressWarnings("deprecation")
+			public void changed() {
+				if (txtNewProductName.getText().equals("") ||txtTotalPrice.getText().equals("") || txtQuantity.getText().equals("") 
+						|| txtDate.getText().equals("") || txtOrigin.getText().equals("") || txtPicture.getText().equals(""))
+					btnEdit.setEnabled(false);
+				else 
+					btnEdit.setEnabled(true);
+			}
+		});
+		
+		txtTotalPrice.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e){
+				changed();
+			}
+			public void removeUpdate(DocumentEvent e){
+				changed();
+			}
+			public void insertUpdate(DocumentEvent e){
+				changed();
+			}
+			@SuppressWarnings("deprecation")
+			public void changed() {
+				if (txtNewProductName.getText().equals("") ||txtTotalPrice.getText().equals("") || txtQuantity.getText().equals("") 
+						|| txtDate.getText().equals("") || txtOrigin.getText().equals("") || txtPicture.getText().equals(""))
+					btnEdit.setEnabled(false);
+				else 
+					btnEdit.setEnabled(true);
+			}
+		});
+		
+		txtQuantity.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e){
+				changed();
+			}
+			public void removeUpdate(DocumentEvent e){
+				changed();
+			}
+			public void insertUpdate(DocumentEvent e){
+				changed();
+			}
+			@SuppressWarnings("deprecation")
+			public void changed() {
+				if (txtNewProductName.getText().equals("") ||txtTotalPrice.getText().equals("") || txtQuantity.getText().equals("") 
+						|| txtDate.getText().equals("") || txtOrigin.getText().equals("") || txtPicture.getText().equals(""))
+					btnEdit.setEnabled(false);
+				else 
+					btnEdit.setEnabled(true);
+			}
+		});
+		
+		txtDate.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e){
+				changed();
+			}
+			public void removeUpdate(DocumentEvent e){
+				changed();
+			}
+			public void insertUpdate(DocumentEvent e){
+				changed();
+			}
+			@SuppressWarnings("deprecation")
+			public void changed() {
+				if (txtNewProductName.getText().equals("") ||txtTotalPrice.getText().equals("") || txtQuantity.getText().equals("") 
+						|| txtDate.getText().equals("") || txtOrigin.getText().equals("") || txtPicture.getText().equals(""))
+					btnEdit.setEnabled(false);
+				else 
+					btnEdit.setEnabled(true);
+			}
+		});
+		
+		txtOrigin.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e){
+				changed();
+			}
+			public void removeUpdate(DocumentEvent e){
+				changed();
+			}
+			public void insertUpdate(DocumentEvent e){
+				changed();
+			}
+			@SuppressWarnings("deprecation")
+			public void changed() {
+				if (txtNewProductName.getText().equals("") ||txtTotalPrice.getText().equals("") || txtQuantity.getText().equals("") 
+						|| txtDate.getText().equals("") || txtOrigin.getText().equals("") || txtPicture.getText().equals(""))
+					btnEdit.setEnabled(false);
+				else 
+					btnEdit.setEnabled(true);
+			}
+		});
+		
+		txtPicture.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e){
+				changed();
+			}
+			public void removeUpdate(DocumentEvent e){
+				changed();
+			}
+			public void insertUpdate(DocumentEvent e){
+				changed();
+			}
+			@SuppressWarnings("deprecation")
+			public void changed() {
+				if (txtNewProductName.getText().equals("") ||txtTotalPrice.getText().equals("") || txtQuantity.getText().equals("") 
+						|| txtDate.getText().equals("") || txtOrigin.getText().equals("") || txtPicture.getText().equals(""))
+					btnEdit.setEnabled(false);
+				else 
+					btnEdit.setEnabled(true);
+			}
+		});
 	}
 
 	public JPanel getJPanel() {
@@ -229,9 +349,9 @@ public class EditProduct extends JFrame implements ActionListener {
 		public void actionPerformed(ActionEvent a) {
 			if (a.getSource() == btnChangePicture) {
 				pictureFinder = new PictureFinder();
-
 				txtPicture.setText(pictureFinder.getPicturePath());
 			}
+			
 			if (a.getSource() == btnPreview) {
 
 				String filePath = txtPicture.getText();
@@ -254,7 +374,40 @@ public class EditProduct extends JFrame implements ActionListener {
 					dialog.setVisible(true);
 				}
 			}
+			
 			if (a.getSource() == btnEdit) {
+				boolean isNumQuantity;  	   // number input checker for quantity
+				boolean isNumTotalCost = true; // number input checker for total cost
+				boolean dec = true;			   // 2 decimal places checker
+				
+				try {
+					Double d = Double.parseDouble(txtTotalPrice.getText());
+					String[] split = d.toString().split("\\.");
+
+					if (split[1].length() > 2) 
+						dec = false;
+					
+				} catch (NumberFormatException n) {
+					isNumTotalCost = false;
+				}
+				
+				isNumQuantity = Pattern.matches("^\\d*$", txtQuantity.getText());
+				
+				if (isNumQuantity == false) {//check if txtQuantity input is numeric
+					JOptionPane.showMessageDialog(null, "Please input numerical quantity!");
+					txtQuantity.setText("");
+				}else if (isNumTotalCost == false) { // check if txtTotalCost is numeric
+					JOptionPane.showMessageDialog(null, "Please input numbers only on the price!");
+					txtTotalPrice.setText("");
+				}else if (dec == false) { //2 decimal places checker
+					JOptionPane.showMessageDialog(null, "Decimal places are limited to 2!");
+					txtTotalPrice.setText("");
+				}else if (Double.parseDouble(txtTotalPrice.getText()) < 0) {//positive number checker
+					JOptionPane.showMessageDialog(null, "Please input numbers not less than 0!");
+					txtTotalPrice.setText("");
+				}else if(cmbProductType.getSelectedItem().toString().equals("Select")){//Check if there is a selected product type
+					JOptionPane.showMessageDialog(null, "Please select Product Type!");
+				}else{
 				Product product = new Product(Integer.parseInt(txtQuantity.getText()), dateFrom,
 						txtNewProductName.getText(), Double.parseDouble(txtTotalPrice.getText()),
 						Integer.parseInt(lblProductNumber.getText()),
@@ -263,8 +416,9 @@ public class EditProduct extends JFrame implements ActionListener {
 
 				db.editProduct(product);
 				JOptionPane.showMessageDialog(null, "Transaction was successfully edited");
-
+				
 				dispose();
+				}
 			}
 
 			if (a.getSource() == btnChange) {

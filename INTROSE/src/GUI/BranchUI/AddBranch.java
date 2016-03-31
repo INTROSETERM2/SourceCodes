@@ -186,8 +186,6 @@ public class AddBranch {
 
 						mainGUI.removeAllLeftSplit();
 						mainGUI.setLeftSplit();
-
-//						refresh branches in left split help @glenn
 					}
 				}
 			}
