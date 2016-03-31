@@ -350,6 +350,7 @@ public class AddProduct implements ActionListener {
 						jPanel.add(btnAddPicture, gbc_btnAddPicture);
 				
 				GridBagConstraints gbc_btnPreview = new GridBagConstraints();
+				gbc_btnPreview.fill = GridBagConstraints.HORIZONTAL;
 				gbc_btnPreview.insets = new Insets(0, 0, 5, 5);
 				gbc_btnPreview.gridx = 9;
 				gbc_btnPreview.gridy = 5;
