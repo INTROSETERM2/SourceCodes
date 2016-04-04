@@ -6,7 +6,7 @@ import GUI.MainGUI;
 import GUI.BranchUI.AddBranch;
 import GUI.BranchUI.AddBranch;
 import GUI.Product.AddProduct;
-import GUI.ReportUI.BranchReportRename;
+import GUI.ReportUI.BranchReport;
 import GUI.ReportUI.FinancialReport;
 
 import javax.swing.JButton;
@@ -94,7 +94,7 @@ public class GUIClientUpperControlPanel implements ActionListener{
             public void mousePressed(MouseEvent m) {
             	if (m.getClickCount() == 2) {
         			mainGUI.removeAllRightSplit();
-        			BranchReportRename viewBranchReport = new BranchReportRename(mainGUI); 
+        			BranchReport viewBranchReport = new BranchReport(mainGUI); 
         			mainGUI.setRightSplit(viewBranchReport.getJPanel());
             	}
             }
