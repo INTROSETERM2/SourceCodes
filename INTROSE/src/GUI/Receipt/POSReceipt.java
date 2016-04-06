@@ -280,7 +280,7 @@ public class POSReceipt implements ActionListener {
 	}
 
 	public void setTable() {
-		table = new JTable(db.retrieveDailySales());
+		table = new JTable(db.retrieveDailySales(MainGUI.BRANCH.getBranchID()));
 		table.getTableHeader().setReorderingAllowed(false);
 	}
 
@@ -293,7 +293,7 @@ public class POSReceipt implements ActionListener {
 			if (a.getSource() == cmbItemName) {
 
 				cmbQuantity.removeAllItems();
-				db.retrieveDailySales();
+				db.retrieveDailySales(MainGUI.BRANCH.getBranchID());
 
 				ArrayList<String> quantityContent = new ArrayList<String>();
 
@@ -376,7 +376,7 @@ public class POSReceipt implements ActionListener {
 
 				} else { 
 					table = new JTable();
-					db.retrieveDailySales();
+					db.retrieveDailySales(MainGUI.BRANCH.getBranchID());
 
 					jPanel.revalidate();
 					jPanel.repaint();

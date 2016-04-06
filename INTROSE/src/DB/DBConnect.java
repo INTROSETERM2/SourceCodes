@@ -59,7 +59,7 @@ public class DBConnect {
 		return Math.round(total * 100.0) / 100.0;
 	}
 
-	public DefaultTableModel retrieveDailySales() {
+	public DefaultTableModel retrieveDailySales(int branchNumber) {
 		String productName = "";
 		String staffName = "";
 		String sold_customer = "";
@@ -88,10 +88,11 @@ public class DBConnect {
 			}
 		};
 
-		String query = "select receiptID, sold_ProductName, sold_price, sold_quantity, customer_name, staffName from receipts where sold_date = ?";
+		String query = "select receiptID, sold_ProductName, sold_price, sold_quantity, customer_name, staffName from receipts where sold_date = ? && sold_branch = ?";
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			preparedStatement.setDate(1, getCurrentDate());
+			preparedStatement.setInt(2, branchNumber);
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
