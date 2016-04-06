@@ -4,9 +4,8 @@ import javax.swing.JPanel;
 
 import GUI.MainGUI;
 import GUI.BranchUI.AddBranch;
-import GUI.BranchUI.AddBranch;
 import GUI.Product.AddProduct;
-import GUI.ReportUI.BranchReportRename;
+import GUI.ReportUI.BranchReport;
 import GUI.ReportUI.FinancialReport;
 
 import javax.swing.JButton;
@@ -47,7 +46,8 @@ public class GUIClientUpperControlPanel implements ActionListener{
 	private JScrollPane scrollPane = new JScrollPane();
 	private JTable jTable = new JTable();
 	private ManagerBranch manBranch = new ManagerBranch();
-
+	private ArrayList<Branch> branches = new ArrayList<Branch>();
+	
 	public GUIClientUpperControlPanel(MainGUI mainGUI){
 		ActListener act = new ActListener();
 		this.mainGUI = mainGUI;
@@ -75,7 +75,6 @@ public class GUIClientUpperControlPanel implements ActionListener{
  		   }
 		};
 		
-		ArrayList<Branch> branches = new ArrayList<Branch>();
 		branches = manBranch.getBranches();
 		
 		for(int i = 0; i < branches.size();i++){
@@ -93,8 +92,16 @@ public class GUIClientUpperControlPanel implements ActionListener{
         jTable.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent m) {
             	if (m.getClickCount() == 2) {
+            		int branchNumber = 0;
+            		String branchName = (String) jTable.getValueAt(jTable.getSelectedRow(), 0);
+            		
+            		for(int i = 0; i < branches.size(); i++)
+            			if(branchName.equals(branches.get(i).getBranchName()))
+            				branchNumber = branches.get(i).getBranchID();
+            		
+            		
         			mainGUI.removeAllRightSplit();
-        			BranchReportRename viewBranchReport = new BranchReportRename(mainGUI); 
+        			BranchReport viewBranchReport = new BranchReport(mainGUI, branchNumber); 
         			mainGUI.setRightSplit(viewBranchReport.getJPanel());
             	}
             }

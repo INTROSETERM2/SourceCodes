@@ -1,189 +1,80 @@
 package GUI.ReportUI;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-
-import DB.DBConnect;
-import GUI.MainGUI;
-import GUI.ControlPanel.GUIPictureControlPanel;
-import Product.ManagerProduct;
-import Receipt.ManagerReceipt;
-import Receipt.Receipt;
 import net.miginfocom.swing.MigLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.Font;
-import javax.swing.JPasswordField;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+
+import GUI.MainGUI;
+
+import com.jgoodies.forms.layout.FormSpecs;
+import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
 import javax.swing.JRadioButton;
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.ButtonGroup;
 
-public class BranchReportRename implements ActionListener {
-	JPanel jPanel = new JPanel();
-	DBConnect db = new DBConnect();
-
-	// private JTable table = new JTable();
-	private JTable table = new JTable();
-
-	private JComboBox cmbItemName;
-	private JComboBox cmbQuantity;
-	private JComboBox comboBox = new JComboBox();
-	private JComboBox comboBox_1 = new JComboBox();
-	private JLabel lblMonth = new JLabel("Month");
-	private JLabel lblYear = new JLabel("Year");
-	private JPanel panel = new JPanel();
-	private JScrollPane scrollPane_1 = new JScrollPane();
-	private JLabel label_2 = new JLabel("Total Sales:");
-
-	// for Date
-	private JButton btnPreview = new JButton("Preview");
-	private JLabel lblTotalAmountComputed = new JLabel(String.valueOf(db.getTotalSalesToday()) + " php");
+public class BranchReportRename {
 	
-	private MainGUI mainGUI;
-	private final JLabel lblBranchName = new JLabel("Branch Name");
+	private JPanel jPanel = new JPanel();
+	private JLabel lblBranchReport = new JLabel("Branch Report");
+	private final JScrollPane scrollPane = new JScrollPane();
+	private final JRadioButton rdbtnDaily = new JRadioButton("Daily");
+	private final JRadioButton rdbtnMonthly = new JRadioButton("Monthly");
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 	
-	private JRadioButton rdbtnDaily = new JRadioButton("Daily");
-	private JRadioButton rdbtnMonthly = new JRadioButton("Monthly");
-	//public static ImageIcon IMAGE = null;
-
-	public BranchReportRename(MainGUI mainGUI) {
-		this.mainGUI = mainGUI;
-		ActListener act = new ActListener();
-		lblTotalAmountComputed.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblTotalAmountComputed.setForeground(Color.red);
-		lblTotalAmountComputed.setBackground(Color.white);
-		lblTotalAmountComputed.setOpaque(true);
-		setTable();
-
-		JScrollPane scrollPane = new JScrollPane();
-
-		scrollPane.setViewportView(table);
-		jPanel.setPreferredSize(new Dimension(1000, 575));
+	public BranchReportRename(MainGUI mainGUI){
 		
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-		table.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-				
-				}
-			}
-		});
-
-
-		cmbQuantity = new JComboBox();
-		//cmbQuantity.addActionListener(act);
-		cmbItemName = new JComboBox(db.getProducts().toArray());
-		cmbItemName.setBounds(7, 488, -87, -22);
-		//cmbItemName.addActionListener(act);
-		jPanel.setLayout(null);
-		lblBranchName.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblBranchName.setBounds(57, 11, 217, 53);
+		jPanel.setSize(853,568);
+		GridBagLayout gbl_jPanel = new GridBagLayout();
+		gbl_jPanel.columnWidths = new int[]{50, 100, 100, 419, 50, 0};
+		gbl_jPanel.rowHeights = new int[]{25, 41, 44, 375, 25, 0};
+		gbl_jPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_jPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		jPanel.setLayout(gbl_jPanel);
 		
-		jPanel.add(lblBranchName);
-		jPanel.add(cmbItemName);
+		lblBranchReport.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		GridBagConstraints gbc_lblBranchReport = new GridBagConstraints();
+		gbc_lblBranchReport.gridwidth = 3;
+		gbc_lblBranchReport.insets = new Insets(0, 0, 5, 5);
+		gbc_lblBranchReport.gridx = 1;
+		gbc_lblBranchReport.gridy = 1;
+		jPanel.add(lblBranchReport, gbc_lblBranchReport);
 		
+		GridBagConstraints gbc_rdbtnDaily = new GridBagConstraints();
+		gbc_rdbtnDaily.insets = new Insets(0, 0, 5, 5);
+		gbc_rdbtnDaily.gridx = 1;
+		gbc_rdbtnDaily.gridy = 2;
+		buttonGroup.add(rdbtnDaily);
+		jPanel.add(rdbtnDaily, gbc_rdbtnDaily);
 		
-		rdbtnDaily.setBounds(56, 66, 63, 23);
-		rdbtnDaily.addActionListener(act);
-		jPanel.add(rdbtnDaily);
+		GridBagConstraints gbc_rdbtnMonthly = new GridBagConstraints();
+		gbc_rdbtnMonthly.insets = new Insets(0, 0, 5, 5);
+		gbc_rdbtnMonthly.gridx = 2;
+		gbc_rdbtnMonthly.gridy = 2;
+		buttonGroup.add(rdbtnMonthly);
+		jPanel.add(rdbtnMonthly, gbc_rdbtnMonthly);
 		
-		rdbtnMonthly.setBounds(117, 66, 73, 23);
-		rdbtnMonthly.addActionListener(act);
-		jPanel.add(rdbtnMonthly);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane.gridwidth = 3;
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 1;
+		gbc_scrollPane.gridy = 3;
+		jPanel.add(scrollPane, gbc_scrollPane);
 		
-		
-		panel.setBounds(57, 96, 873, 468);
-		jPanel.add(panel);
-		panel.setLayout(null);
-
-
-		//btnAdd.setEnabled(false);
-		
-			
 	}
-
+	
+	
 	public JPanel getJPanel() {
 		return jPanel;
-	}
-
-	public void setTable() {
-		table = new JTable(db.retrieveDailySales());
-		table.getTableHeader().setReorderingAllowed(false);
-
-	}
-	
-	private class ActListener implements ActionListener {
-		public void actionPerformed(ActionEvent a) {
-			if(a.getSource() == rdbtnDaily){
-				panel.removeAll();
-				scrollPane_1.setBounds(32, 56, 807, 368);
-				panel.add(scrollPane_1);
-			
-				label_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-				label_2.setBounds(32, 435, 122, 23);
-				panel.add(label_2);
-				System.out.println("daily");
-				jPanel.repaint();
-			}
-			
-			if(a.getSource() == rdbtnMonthly){
-				//asd
-				panel.removeAll();
-				comboBox.setBounds(71, 11, 85, 20);
-				panel.add(comboBox);
-				
-				comboBox_1.setBounds(195, 11, 73, 20);
-				panel.add(comboBox_1);
-
-				lblMonth.setBounds(32, 11, 63, 20);
-				panel.add(lblMonth);
-				
-				
-				lblYear.setBounds(166, 14, 63, 17);
-				panel.add(lblYear);
-				
-				scrollPane_1.setBounds(32, 56, 807, 368);
-				panel.add(scrollPane_1);
-			
-				label_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-				label_2.setBounds(32, 435, 122, 23);
-				panel.add(label_2);
-				System.out.println("monthly");
-				jPanel.repaint();
-			}
-		}
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 	}
 }

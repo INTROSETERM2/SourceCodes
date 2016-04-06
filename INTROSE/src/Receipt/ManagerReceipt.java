@@ -1,4 +1,6 @@
 package Receipt;
+import java.util.ArrayList;
+
 import DB.DBConnect;
 
 public class ManagerReceipt {
@@ -16,6 +18,10 @@ public class ManagerReceipt {
 	public void modifyProduct(int receiptID)
 	{
 
+	}
+	
+	public ArrayList<Receipt> getTodayReceipt(int branchNumber){
+		return db.getTodayReceipts(branchNumber);
 	}
 	
 
