@@ -133,6 +133,7 @@ public class BranchReport {
 		gbc_dailyScroll.gridy = 2;
 		dailyPanel.add(dailyScroll, gbc_dailyScroll);
 		
+		// Branch Report (Daily) start
 		dailyTable = new JTable();
 		
 		DefaultTableModel dailyModel = new DefaultTableModel(new Object[] {"Receipt Number", "Product", "Price",
@@ -151,10 +152,12 @@ public class BranchReport {
 					receipt.get(i).getStaffName()});
 			total += receipt.get(i).getSoldPrice();
 		}
+		
 		DecimalFormat df = new DecimalFormat("#.00");
 		lblTotalSalesD.setText(df.format(total));
 		dailyTable.setModel(dailyModel);
 		dailyScroll.setViewportView(dailyTable);
+		// Branch Report (Daily) ends
 		
 		tabbedPane.add(monthlyPanel);
 		tabbedPane.add("<html><body><table width='50' height='5'><tr><td><center>Monthly</center></td></tr></table></body></html>", monthlyPanel);
