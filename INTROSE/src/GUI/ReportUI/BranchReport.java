@@ -4,6 +4,10 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -12,10 +16,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
+import Branch.Branch;
+import Branch.ManagerBranch;
+import DB.DBConnect;
 import GUI.MainGUI;
+import Receipt.ManagerReceipt;
+import Receipt.Receipt;
 
 public class BranchReport {
 	// Panels
@@ -50,10 +63,15 @@ public class BranchReport {
 	private JComboBox cmbYear = new JComboBox();
 	
 	// Tables
-	private JTable montlyTable;
-	private JTable table;
+	private JTable monthlyTable;
+	private JTable dailyTable;
 	
-	public BranchReport(MainGUI mainGUI){
+	private ActListener act = new ActListener();
+	private ManagerReceipt manRec = new ManagerReceipt();
+	private ArrayList<Receipt> receipt = new ArrayList<Receipt>();
+	private double total = 0;
+	
+	public BranchReport(MainGUI mainGUI, int branchNumber){
 	
 		
 		mainPanel.setSize(1040,609);
@@ -115,9 +133,28 @@ public class BranchReport {
 		gbc_dailyScroll.gridy = 2;
 		dailyPanel.add(dailyScroll, gbc_dailyScroll);
 		
-		table = new JTable();
-		dailyScroll.setViewportView(table);
+		dailyTable = new JTable();
 		
+		DefaultTableModel dailyModel = new DefaultTableModel(new Object[] {"Receipt Number", "Product", "Price",
+				"Quantity", "Customer", "Staff" }, 0) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		
+		receipt = manRec.getTodayReceipt(branchNumber);
+		
+		for(int i = 0; i < receipt.size(); i++){
+			dailyModel.addRow(new Object[]{receipt.get(i).getReceiptID(), receipt.get(i).getSoldProductName(),
+					receipt.get(i).getSoldPrice() ,receipt.get(i).getSoldQuantity(), receipt.get(i).getCustomerName(), 
+					receipt.get(i).getStaffName()});
+			total += receipt.get(i).getSoldPrice();
+		}
+		DecimalFormat df = new DecimalFormat("#.00");
+		lblTotalSalesD.setText(df.format(total));
+		dailyTable.setModel(dailyModel);
+		dailyScroll.setViewportView(dailyTable);
 		
 		tabbedPane.add(monthlyPanel);
 		tabbedPane.add("<html><body><table width='50' height='5'><tr><td><center>Monthly</center></td></tr></table></body></html>", monthlyPanel);
@@ -217,11 +254,28 @@ public class BranchReport {
 		gbc_scrollPane_1.gridy = 4;
 		monthlyPanel.add(monthlyScroll, gbc_scrollPane_1);
 		
-		montlyTable = new JTable();
-		monthlyScroll.setViewportView(montlyTable);
+		monthlyTable = new JTable();
+		
+		DefaultTableModel monthlyModel = new DefaultTableModel(new Object[] { "Receipt Number", "Product", "Price",
+				"Quantity", "Customer", "Staff" }, 0) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		monthlyTable.setModel(monthlyModel);
+		
+		monthlyScroll.setViewportView(monthlyTable);
 		
 		AutoCompleteDecorator.decorate(cmbMonth);
 		AutoCompleteDecorator.decorate(cmbYear);
+		
+		btnNextMonth.addActionListener(act);
+		btnPrevMonth.addActionListener(act);
+		btnNextYear.addActionListener(act);
+		btnPrevYear.addActionListener(act);
+		cmbMonth.addActionListener(act);
+		cmbYear.addActionListener(act);
 		
 		for (int i = 0; i < 12; i++) 
 			cmbMonth.insertItemAt(i + 1, i);
@@ -234,6 +288,30 @@ public class BranchReport {
 		
 	}
 	
+	private class ActListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == btnNextMonth) {
+				
+			}
+			if (e.getSource() == btnPrevMonth) {
+				
+			}
+			if (e.getSource() == btnNextYear) {
+				
+			}
+			if (e.getSource() == btnPrevYear) {
+				
+			}
+			
+			if (e.getSource() == cmbMonth) {
+				
+			}
+			
+			if (e.getSource() == cmbYear) {
+				
+			}
+		}
+	}
 	
 	public JPanel getJPanel() {
 		return mainPanel;

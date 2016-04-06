@@ -593,6 +593,50 @@ public class DBConnect {
 			System.out.println(ex);
 		}
 	}
+	
+	public ArrayList<Receipt> getTodayReceipts(int branchNum){
+		String query = "SELECT * FROM receipts WHERE sold_branch = " + branchNum + " && sold_date = curdate()";
+		ArrayList<Receipt> receipts = new ArrayList<Receipt>();
+		ArrayList<Branch> branches = getBranches();
+		int receiptID;
+		String staffName;
+		double soldPrice;
+		int soldQuantity;
+		Date soldDate;
+		String customerName;
+		Branch branch = new Branch();
+		int soldProductID;
+		String soldProductName;
+		
+		for(int i = 0; i < branches.size(); i++)
+			if(branchNum == branches.get(i).getBranchID()){
+				branch = branches.get(i);
+				break;
+			}
+		
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			rs = preparedStatement.executeQuery(query);
+			
+			while(rs.next()){
+				receiptID = rs.getInt("receiptID");
+				staffName = rs.getString("staffName");
+				soldPrice = rs.getDouble("sold_price");
+				soldQuantity = rs.getInt("sold_Quantity");
+				soldDate = rs.getDate("sold_date");
+				customerName = rs.getString("customer_name");
+				soldProductID = rs.getInt("productID");
+				soldProductName = rs.getString("sold_ProductName");
+				
+				receipts.add(new Receipt(receiptID, staffName, soldPrice, soldQuantity, soldDate, customerName, branch,
+						soldProductID, soldProductName));
+			}
+		} catch (Exception ex) {
+			System.out.println("Error: getTodayReceipts " + ex);
+		}
+		
+		return receipts;
+	}
 
 	public void deleteReceipt(int receiptID) {
 		String query = "delete from receipts where receiptID = ?";

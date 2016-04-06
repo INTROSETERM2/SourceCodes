@@ -290,6 +290,7 @@ public class AddProduct implements ActionListener {
 					products.get(i).getPicture() });
 		}
 		productTable.setModel(model);
+		
 		btnSet.addActionListener(act);
 		btnPreview.addActionListener(act);
 		
