@@ -417,6 +417,10 @@ public class EditProduct extends JFrame implements ActionListener {
 				db.editProduct(product);
 				JOptionPane.showMessageDialog(null, "Transaction was successfully edited");
 				
+				mainGUI.removeAllRightSplit();
+				AddProduct addProduct = new AddProduct(mainGUI);
+				mainGUI.setRightSplit(addProduct.getJPanel());
+				
 				dispose();
 				}
 			}

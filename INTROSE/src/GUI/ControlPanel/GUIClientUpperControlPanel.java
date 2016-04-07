@@ -41,7 +41,7 @@ public class GUIClientUpperControlPanel implements ActionListener{
 	
 	
 	private FinancialReport financialReport = new FinancialReport(mainGUI);
-	private AddProduct addProduct = new AddProduct(mainGUI); 
+	private AddProduct addProduct;
 	private AddBranch addBranch;
 	private JScrollPane scrollPane = new JScrollPane();
 	private JTable jTable = new JTable();
@@ -140,6 +140,8 @@ public class GUIClientUpperControlPanel implements ActionListener{
     			
     		}
     		if(e.getSource() == btnInventory){
+
+    			addProduct = new AddProduct (mainGUI);
     			mainGUI.removeAllRightSplit();
     			mainGUI.setRightSplit(addProduct.getJPanel());
     		}

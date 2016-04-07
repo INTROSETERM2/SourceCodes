@@ -3,6 +3,7 @@ package GUI.BranchUI;
 import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import GUI.MainGUI;
 import GUI.ControlPanel.GUIClientUpperControlPanel;
@@ -40,6 +41,8 @@ public class AddBranch {
 	
 	// Buttons
 	private JButton btnAdd = new JButton("Add");
+	
+	private ManagerBranch manBranch = new ManagerBranch();
 	
 	public AddBranch(MainGUI mainGUI){
 		ActListener act = new ActListener();
@@ -170,8 +173,16 @@ public class AddBranch {
 		public void actionPerformed(ActionEvent a) {
 				if (a.getSource() == btnAdd) {
 					//bawal ata same branch?
+					//continue working here
+					ArrayList<Branch> branch = new ArrayList<Branch>();
+					branch = manBranch.getBranches();
+					for (int i = 0; i < branch.size(); i++) {
+						
+					}
+					
+					
 					if(!(password.getText().equals(confirmPass.getText()))){
-						JOptionPane.showMessageDialog(null, "Password and Confirm Password did not macth!");
+						JOptionPane.showMessageDialog(null, "Password and Confirm Password did not match!");
 						password.setText("");
 						confirmPass.setText("");
 					}

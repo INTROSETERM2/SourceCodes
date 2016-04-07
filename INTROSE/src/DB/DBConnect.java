@@ -478,7 +478,7 @@ public class DBConnect {
 	}
 
 	public void addProduct(Product product) {
-		String query = "insert into products(productID, quantity, product_name, buy_price, buy_date, product_typeID, branch, buy_origin, picture) VALUES (?,?,?,?,?,?,?,?,?)";
+		String query = "insert into products(productID, quantity, product_name, buy_price, buy_date, product_typeID, buy_origin, picture) VALUES (?,?,?,?,?,?,?,?)";
 
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
@@ -489,9 +489,8 @@ public class DBConnect {
 			
 			preparedStatement.setDate(5, convertJavaDateToSqlDate(product.getBuyDate()));
 			preparedStatement.setInt(6, product.getProductTypeID());
-			preparedStatement.setInt(7, 11);
-			preparedStatement.setString(8, product.getBuyOrigin());
-			preparedStatement.setString(9, product.getPicture());
+			preparedStatement.setString(7, product.getBuyOrigin());
+			preparedStatement.setString(8, product.getPicture());
 			preparedStatement.executeUpdate();
 
 		} catch (Exception ex) {
@@ -595,8 +594,80 @@ public class DBConnect {
 		}
 	}
 	
-	public ArrayList<Receipt> getTodayReceipts(int branchNum){
-		String query = "SELECT * FROM receipts WHERE sold_branch = " + branchNum + " && sold_date = curdate()";
+	public int getEarliestYear(int branchNum){
+		String query = "SELECT year(min(sold_date)) as EarlyDate FROM receipts WHERE sold_branch = " + branchNum;
+		int earlyDate = 0;
+		try{
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			rs = preparedStatement.executeQuery(query);
+			
+			while(rs.next()){
+				earlyDate = rs.getInt("EarlyDate");
+			}
+		}catch(Exception ex){
+			System.out.println("Error: getEarliestDate " + ex);
+		}
+		
+		return earlyDate;
+	}
+	
+	public int getLatestYear(int branchNum){
+		String query = "SELECT year(max(sold_date)) as LateDate FROM receipts WHERE sold_branch = " + branchNum;
+		int earlyDate = 0;
+		try{
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			rs = preparedStatement.executeQuery(query);
+			
+			while(rs.next()){
+				earlyDate = rs.getInt("LateDate");
+			}
+		}catch(Exception ex){
+			System.out.println("Error: getEarliestDate " + ex);
+		}
+		
+		return earlyDate;
+	}
+	
+	public ArrayList<Receipt> getMonthReceipts(int branchNum, int month, int year){
+		String query = "SELECT * fROM receipts WHERE year(sold_date) = ? && month(sold_date) = ?";
+		ArrayList<Receipt> receipts = new ArrayList<Receipt>();
+		ArrayList<Branch> branches = new ArrayList<Branch>();
+		Branch branch = new Branch();
+		branches = getBranches();
+		
+		for(int i = 0; i < branches.size(); i++)
+			if(branchNum == branches.get(i).getBranchID()){
+				branch = branches.get(i);
+				break;
+			}
+		
+		try{
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			preparedStatement.setInt(1, year);
+			preparedStatement.setInt(2, month);
+			rs = preparedStatement.executeQuery();
+			while(rs.next()){
+				int receiptID = rs.getInt("receiptID");
+				String staffName = rs.getString("staffName");
+				double soldPrice = rs.getDouble("sold_price");
+				int soldQuantity = rs.getInt("sold_Quantity");
+				Date soldDate = rs.getDate("sold_date");
+				String customerName = rs.getString("customer_name");
+				int soldProductID = rs.getInt("productID");
+				String soldProductName = rs.getString("sold_ProductName");
+				
+				receipts.add(new Receipt(receiptID, staffName, soldPrice, soldQuantity, soldDate, customerName, branch,
+						soldProductID, soldProductName));
+			}
+		}catch(Exception e){
+			System.out.println("Error: getReceipts " + e);
+		}
+		return receipts;
+		
+	}
+	
+	public ArrayList<Receipt> getDayReceipts(int branchNum, String date){
+		String query = "SELECT * FROM receipts WHERE sold_branch = " + branchNum + " && sold_date = '" + date + "'";
 		ArrayList<Receipt> receipts = new ArrayList<Receipt>();
 		ArrayList<Branch> branches = getBranches();
 		int receiptID;
