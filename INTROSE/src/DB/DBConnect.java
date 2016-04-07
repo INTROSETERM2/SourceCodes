@@ -629,7 +629,7 @@ public class DBConnect {
 	}
 	
 	public ArrayList<Receipt> getMonthReceipts(int branchNum, int month, int year){
-		String query = "SELECT * fROM receipts WHERE year(sold_date) = ? && month(sold_date) = ?";
+		String query = "SELECT * fROM receipts WHERE year(sold_date) = ? && month(sold_date) = ? && sold_branch = ?";
 		ArrayList<Receipt> receipts = new ArrayList<Receipt>();
 		ArrayList<Branch> branches = new ArrayList<Branch>();
 		Branch branch = new Branch();
@@ -645,6 +645,7 @@ public class DBConnect {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			preparedStatement.setInt(1, year);
 			preparedStatement.setInt(2, month);
+			preparedStatement.setInt(3, branchNum);
 			rs = preparedStatement.executeQuery();
 			while(rs.next()){
 				int receiptID = rs.getInt("receiptID");
@@ -655,7 +656,7 @@ public class DBConnect {
 				String customerName = rs.getString("customer_name");
 				int soldProductID = rs.getInt("productID");
 				String soldProductName = rs.getString("sold_ProductName");
-				
+				System.out.println(branch.getBranchCreationDate());
 				receipts.add(new Receipt(receiptID, staffName, soldPrice, soldQuantity, soldDate, customerName, branch,
 						soldProductID, soldProductName));
 			}

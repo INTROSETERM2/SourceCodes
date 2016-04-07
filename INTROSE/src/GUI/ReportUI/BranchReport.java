@@ -96,11 +96,6 @@ public class BranchReport {
 	private String resultDateFrom;
 	
 	
-	
-	
-	
-	
-	
 	public BranchReport(MainGUI mainGUI, int branchNumber){
 		txtDay.setColumns(10);
 		this.branchNumber = branchNumber;
@@ -476,6 +471,7 @@ public class BranchReport {
 	
 	// updates the monthly table
 	public void setMonthlyTable(){
+		System.out.println(branchNumber);
 		receiptMonthly = manRec.getMonthReceipts(branchNumber, Integer.parseInt(cmbMonth.getSelectedItem().toString()), 
 				Integer.parseInt(cmbYear.getSelectedItem().toString()));
 		DefaultTableModel monthlyModel = new DefaultTableModel(new Object[] {"Date", "Receipt Number", 
