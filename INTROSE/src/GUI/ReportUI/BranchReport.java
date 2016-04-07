@@ -463,7 +463,9 @@ public class BranchReport {
 				txtDay.setText("");
 				
 				txtDay.setText(resultDateFrom);
-	
+				
+				// ayaw mag dispose nung combo box and buttons na pang pili ng date sa loob ng frame
+				// idk why @glenn
 				calendarFrame.dispose();
 				setDailyTable();
 			}
