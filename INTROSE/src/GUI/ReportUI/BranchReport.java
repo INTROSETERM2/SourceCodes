@@ -412,6 +412,8 @@ public class BranchReport {
 			}
 			
 			if (e.getSource() == cmbMonth) {
+				//uncommenting code below this will produce a null pointer exception help @glenn
+				//setMonthlyTable();
 				if(cmbMonth.getSelectedIndex() == 0){
 					btnPrevMonth.setEnabled(false);
 					btnNextMonth.setEnabled(true);
@@ -419,6 +421,19 @@ public class BranchReport {
 				if(cmbMonth.getSelectedIndex() == 11){
 					btnNextMonth.setEnabled(false);
 					btnPrevMonth.setEnabled(true);
+				}
+			}
+			
+			if (e.getSource() == cmbYear) {
+				//uncommenting code below this will produce a null pointer exception help @glenn
+				//setMonthlyTable();
+				if(cmbYear.getSelectedIndex() == 0){
+					btnPrevYear.setEnabled(false);
+					btnNextYear.setEnabled(true);
+				}
+				if(cmbYear.getSelectedIndex() == max){
+					btnNextYear.setEnabled(false);
+					btnPrevYear.setEnabled(true);
 				}
 			}
 			
@@ -453,19 +468,11 @@ public class BranchReport {
 				setDailyTable();
 			}
 			
-			if (e.getSource() == cmbYear) {
-				if(cmbYear.getSelectedIndex() == 0){
-					btnPrevYear.setEnabled(false);
-					btnNextYear.setEnabled(true);
-				}
-				if(cmbYear.getSelectedIndex() == max){
-					btnNextYear.setEnabled(false);
-					btnPrevYear.setEnabled(true);
-				}
-			}
+			
 		}
 	}
 	
+	// updates the monthly table
 	public void setMonthlyTable(){
 		receiptMonthly = manRec.getMonthReceipts(branchNumber, Integer.parseInt(cmbMonth.getSelectedItem().toString()), 
 				Integer.parseInt(cmbYear.getSelectedItem().toString()));
@@ -488,6 +495,7 @@ public class BranchReport {
 		monthlyScroll.setViewportView(monthlyTable);
 	}
 	
+	// updates the daily table
 	public void setDailyTable(){
 		DefaultTableModel dailyModel = new DefaultTableModel(new Object[] {"Date", "Receipt Number", "Product", 
 				"Price", "Quantity", "Customer", "Staff" }, 0) {
