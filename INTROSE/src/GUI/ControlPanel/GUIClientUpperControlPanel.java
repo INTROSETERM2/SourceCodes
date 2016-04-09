@@ -40,7 +40,7 @@ public class GUIClientUpperControlPanel implements ActionListener{
 	private JButton btnLogout = new JButton("Logout");		
 	
 	
-	private FinancialReport financialReport = new FinancialReport(mainGUI);
+	private FinancialReport financialReport;
 	private AddProduct addProduct;
 	private AddBranch addBranch;
 	private JScrollPane scrollPane = new JScrollPane();
@@ -51,6 +51,7 @@ public class GUIClientUpperControlPanel implements ActionListener{
 	public GUIClientUpperControlPanel(MainGUI mainGUI){
 		ActListener act = new ActListener();
 		this.mainGUI = mainGUI;
+		financialReport = new FinancialReport(mainGUI);
 		addBranch = new AddBranch(mainGUI);
 		jPanel.setSize(240,450);
 		jPanel.setLayout(new MigLayout("", "[28.00][190px][28.00]", "[23px][146px][23px][23px][23px]"));

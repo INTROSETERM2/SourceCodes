@@ -28,9 +28,12 @@ public class DBConnect {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			// always changed this for DB access
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
-//			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","");
-//			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root", "");
+			// con =
+			// DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp", "root", "");
+			// con =
+			// DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root",
+			// "");
 
 			con.createStatement();
 
@@ -156,22 +159,43 @@ public class DBConnect {
 
 		return products;
 	}
-	
-	public ArrayList<Product> getProducts(){
-		String query = "SELECT * FROM products p, product_types pt WHERE (p.product_typeID = pt.product_typeID);";
-		ArrayList<Product> products = new ArrayList<Product>();
-		try{
+
+	public ArrayList<String> getBranchNames() {
+		String query = "SELECT branchName FROM branches";
+		ArrayList<String> products = new ArrayList<String>();
+		products.add("None");
+
+		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			rs = preparedStatement.executeQuery();
-			while(rs.next()){
-				products.add(new Product(rs.getInt("quantity"), rs.getDate("buy_date"), rs.getString("product_name"), rs.getDouble("buy_price") * rs.getInt("quantity"), rs.getInt("productID"), rs.getInt("product_typeID"), rs.getString("picture"), rs.getString("buy_origin")));
+
+			while (rs.next()) {
+				products.add(rs.getString("branchName"));
 			}
-		}catch(Exception ex){
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+
+		return products;
+	}
+
+	public ArrayList<Product> getProducts() {
+		String query = "SELECT * FROM products p, product_types pt WHERE (p.product_typeID = pt.product_typeID);";
+		ArrayList<Product> products = new ArrayList<Product>();
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				products.add(new Product(rs.getInt("quantity"), rs.getDate("buy_date"), rs.getString("product_name"),
+						rs.getDouble("buy_price") * rs.getInt("quantity"), rs.getInt("productID"),
+						rs.getInt("product_typeID"), rs.getString("picture"), rs.getString("buy_origin")));
+			}
+		} catch (Exception ex) {
 			System.out.println(ex + "getProducts");
 		}
 		return products;
 	}
-	
+
 	public ArrayList<String> getNameProducts() {
 		String query = "SELECT product_name FROM introse_mp.products";
 		ArrayList<String> products = new ArrayList<String>();
@@ -190,7 +214,7 @@ public class DBConnect {
 
 		return products;
 	}
-	
+
 	public ArrayList<String> getProductTypeNames() {
 		String query = "SELECT product_type_name FROM introse_mp.product_types";
 		ArrayList<String> productTypes = new ArrayList<String>();
@@ -209,8 +233,8 @@ public class DBConnect {
 
 		return productTypes;
 	}
-	
-	public int getProductTypeID(String productTypeName){
+
+	public int getProductTypeID(String productTypeName) {
 		String query = "SELECT product_typeID from product_types where product_type_name = '" + productTypeName + "'";
 		int productTypeID = 0;
 		try {
@@ -226,8 +250,8 @@ public class DBConnect {
 		}
 		return productTypeID;
 	}
-	
-	public String getProductTypeName(int id){
+
+	public String getProductTypeName(int id) {
 		String query = "SELECT product_type_name from product_types where product_typeID = " + id;
 		String productName = "";
 		try {
@@ -243,23 +267,23 @@ public class DBConnect {
 		}
 		return productName;
 	}
-	
-	public ArrayList<ProductType> getProductTypes(){
+
+	public ArrayList<ProductType> getProductTypes() {
 		String query = "SELECT * FROM product_types";
 		ArrayList<ProductType> productType = new ArrayList<ProductType>();
-		
-		try{
+
+		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			rs = preparedStatement.executeQuery();
-			
-			while (rs.next()){
+
+			while (rs.next()) {
 				productType.add(new ProductType(rs.getInt("product_typeID"), rs.getString("product_type_name")));
 			}
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			System.out.println(ex + "getProductTypes");
 		}
 		return productType;
-				
+
 	}
 
 	public void decrementProduct(String productName, int decQuantity) {
@@ -294,8 +318,6 @@ public class DBConnect {
 		}
 		return quantity;
 	}
-	
-	
 
 	// get next available productTypeID
 	public int getNextAvailableProductTypeID() {
@@ -486,7 +508,7 @@ public class DBConnect {
 			preparedStatement.setInt(2, product.getQuantity());
 			preparedStatement.setString(3, product.getProductName());
 			preparedStatement.setDouble(4, product.getBuyPrice());
-			
+
 			preparedStatement.setDate(5, convertJavaDateToSqlDate(product.getBuyDate()));
 			preparedStatement.setInt(6, product.getProductTypeID());
 			preparedStatement.setString(7, product.getBuyOrigin());
@@ -497,12 +519,10 @@ public class DBConnect {
 			System.out.println(ex);
 		}
 	}
-	public java.sql.Date convertJavaDateToSqlDate(java.util.Date date) {
-	    return new java.sql.Date(date.getTime());
-	}
 
-	
-	
+	public java.sql.Date convertJavaDateToSqlDate(java.util.Date date) {
+		return new java.sql.Date(date.getTime());
+	}
 
 	public void deleteProduct(int productID) {
 		String query = "delete from products where productID = ?";
@@ -593,61 +613,61 @@ public class DBConnect {
 			System.out.println(ex);
 		}
 	}
-	
-	public int getEarliestYear(int branchNum){
+
+	public int getEarliestYear(int branchNum) {
 		String query = "SELECT year(min(sold_date)) as EarlyDate FROM receipts WHERE sold_branch = " + branchNum;
 		int earlyDate = 0;
-		try{
+		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			rs = preparedStatement.executeQuery(query);
-			
-			while(rs.next()){
+
+			while (rs.next()) {
 				earlyDate = rs.getInt("EarlyDate");
 			}
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			System.out.println("Error: getEarliestDate " + ex);
 		}
-		
+
 		return earlyDate;
 	}
-	
-	public int getLatestYear(int branchNum){
+
+	public int getLatestYear(int branchNum) {
 		String query = "SELECT year(max(sold_date)) as LateDate FROM receipts WHERE sold_branch = " + branchNum;
 		int earlyDate = 0;
-		try{
+		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			rs = preparedStatement.executeQuery(query);
-			
-			while(rs.next()){
+
+			while (rs.next()) {
 				earlyDate = rs.getInt("LateDate");
 			}
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			System.out.println("Error: getEarliestDate " + ex);
 		}
-		
+
 		return earlyDate;
 	}
-	
-	public ArrayList<Receipt> getMonthReceipts(int branchNum, int month, int year){
+
+	public ArrayList<Receipt> getMonthReceipts(int branchNum, int month, int year) {
 		String query = "SELECT * fROM receipts WHERE year(sold_date) = ? && month(sold_date) = ? && sold_branch = ?";
 		ArrayList<Receipt> receipts = new ArrayList<Receipt>();
 		ArrayList<Branch> branches = new ArrayList<Branch>();
 		Branch branch = new Branch();
 		branches = getBranches();
-		
-		for(int i = 0; i < branches.size(); i++)
-			if(branchNum == branches.get(i).getBranchID()){
+
+		for (int i = 0; i < branches.size(); i++)
+			if (branchNum == branches.get(i).getBranchID()) {
 				branch = branches.get(i);
 				break;
 			}
-		
-		try{
+
+		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			preparedStatement.setInt(1, year);
 			preparedStatement.setInt(2, month);
 			preparedStatement.setInt(3, branchNum);
 			rs = preparedStatement.executeQuery();
-			while(rs.next()){
+			while (rs.next()) {
 				int receiptID = rs.getInt("receiptID");
 				String staffName = rs.getString("staffName");
 				double soldPrice = rs.getDouble("sold_price");
@@ -660,14 +680,14 @@ public class DBConnect {
 				receipts.add(new Receipt(receiptID, staffName, soldPrice, soldQuantity, soldDate, customerName, branch,
 						soldProductID, soldProductName));
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			System.out.println("Error: getReceipts " + e);
 		}
 		return receipts;
-		
+
 	}
-	
-	public ArrayList<Receipt> getDayReceipts(int branchNum, String date){
+
+	public ArrayList<Receipt> getDayReceipts(int branchNum, String date) {
 		String query = "SELECT * FROM receipts WHERE sold_branch = " + branchNum + " && sold_date = '" + date + "'";
 		ArrayList<Receipt> receipts = new ArrayList<Receipt>();
 		ArrayList<Branch> branches = getBranches();
@@ -680,18 +700,18 @@ public class DBConnect {
 		Branch branch = new Branch();
 		int soldProductID;
 		String soldProductName;
-		
-		for(int i = 0; i < branches.size(); i++)
-			if(branchNum == branches.get(i).getBranchID()){
+
+		for (int i = 0; i < branches.size(); i++)
+			if (branchNum == branches.get(i).getBranchID()) {
 				branch = branches.get(i);
 				break;
 			}
-		
+
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			rs = preparedStatement.executeQuery(query);
-			
-			while(rs.next()){
+
+			while (rs.next()) {
 				receiptID = rs.getInt("receiptID");
 				staffName = rs.getString("staffName");
 				soldPrice = rs.getDouble("sold_price");
@@ -700,14 +720,14 @@ public class DBConnect {
 				customerName = rs.getString("customer_name");
 				soldProductID = rs.getInt("productID");
 				soldProductName = rs.getString("sold_ProductName");
-				
+
 				receipts.add(new Receipt(receiptID, staffName, soldPrice, soldQuantity, soldDate, customerName, branch,
 						soldProductID, soldProductName));
 			}
 		} catch (Exception ex) {
 			System.out.println("Error: getTodayReceipts " + ex);
 		}
-		
+
 		return receipts;
 	}
 
@@ -750,7 +770,7 @@ public class DBConnect {
 			preparedStatement.setString(2, branch.getBranchUsername());
 			preparedStatement.setString(3, branch.getBranchPassword());
 			preparedStatement.setDate(4, getCurrentDate());
-			
+
 			preparedStatement.executeUpdate();
 
 		} catch (Exception ex) {
@@ -766,35 +786,37 @@ public class DBConnect {
 			rs = preparedStatement.executeQuery(query);
 
 			while (rs.next())
-				branches.add(new Branch(rs.getInt("branchID"), rs.getString("branchName"), rs.getString("branchUsername"), rs.getString("branchPassword"), rs.getDate("branchCreationDate")));
+				branches.add(
+						new Branch(rs.getInt("branchID"), rs.getString("branchName"), rs.getString("branchUsername"),
+								rs.getString("branchPassword"), rs.getDate("branchCreationDate")));
 		} catch (Exception e) {
 			System.out.println(e + "getBranches");
 		}
 		return branches;
 	}
-// try change
-//	public void deleteBranch(int branchID) {
-//		String query = "delete from branches where branchID = ?";
-//
-//		try {
-//			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
-//			preparedStatement.setInt(1, branchID);
-//			preparedStatement.executeUpdate();
-//
-//		} catch (Exception ex) {
-//			System.out.println(ex);
-//		}
-//	}
-	
-	public void deleteBranch(String branchName){
+	// try change
+	// public void deleteBranch(int branchID) {
+	// String query = "delete from branches where branchID = ?";
+	//
+	// try {
+	// PreparedStatement preparedStatement = (PreparedStatement)
+	// con.prepareStatement(query);
+	// preparedStatement.setInt(1, branchID);
+	// preparedStatement.executeUpdate();
+	//
+	// } catch (Exception ex) {
+	// System.out.println(ex);
+	// }
+	// }
+
+	public void deleteBranch(String branchName) {
 		String query = "delete from branches where branchName = ?";
-		
-		try{
+
+		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			preparedStatement.setString(1, branchName);
 			preparedStatement.executeUpdate();
-		}
-		catch(Exception ex){
+		} catch (Exception ex) {
 			System.out.println(ex);
 		}
 	}
@@ -816,25 +838,24 @@ public class DBConnect {
 			System.out.println(ex);
 		}
 	}
-	
-	
+
 	public void editProduct(Product product) {
 		String query = "UPDATE products SET quantity = ?, product_name = ?, buy_price = ?, buy_date = ?,  product_typeid = ?, buy_origin = ?, picture = ? where productID = ?";
 
 		System.out.println(product.getBuyDate());
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
-//			preparedStatement.setInt(1, product.getQuantity());
-//
-//			preparedStatement.setString(2, product.getProductName());
-//			preparedStatement.setDouble(3, product.getBuyPrice());
-//
-//			preparedStatement.setInt(4, product.getProductTypeID());
-//
-//			preparedStatement.setString(5, product.getBuyOrigin());
-//			preparedStatement.setString(6, product.getPicture() );
-//			preparedStatement.setInt(7, product.getProductID());
-			
+			// preparedStatement.setInt(1, product.getQuantity());
+			//
+			// preparedStatement.setString(2, product.getProductName());
+			// preparedStatement.setDouble(3, product.getBuyPrice());
+			//
+			// preparedStatement.setInt(4, product.getProductTypeID());
+			//
+			// preparedStatement.setString(5, product.getBuyOrigin());
+			// preparedStatement.setString(6, product.getPicture() );
+			// preparedStatement.setInt(7, product.getProductID());
+
 			preparedStatement.setInt(1, product.getQuantity());
 
 			preparedStatement.setString(2, product.getProductName());
@@ -844,7 +865,7 @@ public class DBConnect {
 			preparedStatement.setInt(5, product.getProductTypeID());
 
 			preparedStatement.setString(6, product.getBuyOrigin());
-			preparedStatement.setString(7, product.getPicture() );
+			preparedStatement.setString(7, product.getPicture());
 			preparedStatement.setInt(8, product.getProductID());
 
 			preparedStatement.executeUpdate();
@@ -869,4 +890,76 @@ public class DBConnect {
 
 	}
 
+	public DefaultTableModel retrieveYearlyReport(Date from, Date to, String branch) {
+		Double total_sales;
+		int quantity;
+		Double capital;
+		String branchName;
+		int month;
+		int year;
+
+		DefaultTableModel model;
+		model = new DefaultTableModel() {
+			String[] colname = { "Total Sales", "Quantity", "Capital", "Branch", "Month", "Year" };
+
+			@Override
+			public int getColumnCount() {
+				return colname.length;
+			}
+
+			@Override
+			public String getColumnName(int index) {
+				return colname[index];
+			}
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// all cells false
+				return false;
+			}
+		};
+
+		String query = "";
+		if (branch.equals("None")) {
+			query = "select sum(r.sold_price/2) as total_sales, sum(r.sold_quantity), p.buy_price*r.sold_quantity as capital, b.branchName, month(r.sold_date), year(r.sold_date) from receipts r, products p, branches b where R.sold_date >= ? and R.sold_date <=? and b.branchName = r.sold_branch group by r.sold_branch, r.sold_date order by r.sold_branch asc";
+		} else {
+			query = "select sum(r.sold_price/2) as total_sales, sum(r.sold_quantity), p.buy_price*r.sold_quantity as capital, b.branchName, month(r.sold_date), year(r.sold_date) from receipts r, products p, branches b where R.sold_date >= ? and R.sold_date <=? and b.branchName = r.sold_branch and b.branchid = ? group by r.sold_branch, r.sold_date order by r.sold_branch asc";
+		}
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			preparedStatement.setDate(1, convertJavaDateToSqlDate(from));
+			preparedStatement.setDate(2, convertJavaDateToSqlDate(to));
+
+			if (branch.equals("None")) {
+
+			} else {
+				preparedStatement.setString(3, branch);
+			}
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+//				total_sales = rs.getDouble("total_sales");
+//				quantity = rs.getInt("sum(r.sold_quantity)");
+//				capital = rs.getDouble("capital");
+//				branchName = rs.getString("branch_name");
+//				month = rs.getInt("month(r.sold_date)");
+//				year = rs.getInt("year(r.sold_da");
+//				
+				total_sales = rs.getDouble(1);
+				quantity = rs.getInt(1);
+				capital = rs.getDouble(1);
+				branchName = rs.getString("wala");
+				month = rs.getInt(1);
+				year = rs.getInt(1);
+
+				model.addRow(new Object[] { Double.toString(total_sales), Integer.toString(quantity),
+						Double.toString(capital), Integer.toString(month), Integer.toString(year) });
+			}
+
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+		return model;
+
+	}
 }
