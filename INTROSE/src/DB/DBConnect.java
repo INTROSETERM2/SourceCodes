@@ -898,6 +898,8 @@ public class DBConnect {
 		int month;
 		int year;
 
+		System.out.println(from);
+		System.out.println(to);
 		DefaultTableModel model;
 		model = new DefaultTableModel() {
 			String[] colname = { "Total Sales", "Quantity", "Capital", "Branch", "Month", "Year" };
@@ -921,10 +923,11 @@ public class DBConnect {
 
 		String query = "";
 		if (branch.equals("None")) {
-			query = "select sum(r.sold_price/2) as total_sales, sum(r.sold_quantity), p.buy_price*r.sold_quantity as capital, b.branchName, month(r.sold_date), year(r.sold_date) from receipts r, products p, branches b where R.sold_date >= ? and R.sold_date <=? and b.branchName = r.sold_branch group by r.sold_branch, r.sold_date order by r.sold_branch asc";
+			query = "select sum(r.sold_price/2) as total_sales, sum(r.sold_quantity), p.buy_price*r.sold_quantity as capital, b.branchName, month(r.sold_date), year(r.sold_date) from receipts r, products p, branches b where R.sold_date >= ? and R.sold_date <=? and b.branchid = r.sold_branch group by r.sold_branch, r.sold_date order by r.sold_branch asc";
 		} else {
-			query = "select sum(r.sold_price/2) as total_sales, sum(r.sold_quantity), p.buy_price*r.sold_quantity as capital, b.branchName, month(r.sold_date), year(r.sold_date) from receipts r, products p, branches b where R.sold_date >= ? and R.sold_date <=? and b.branchName = r.sold_branch and b.branchid = ? group by r.sold_branch, r.sold_date order by r.sold_branch asc";
+			query = "select sum(r.sold_price/2) as total_sales, sum(r.sold_quantity), p.buy_price*r.sold_quantity as capital, b.branchName, month(r.sold_date), year(r.sold_date) from receipts r, products p, branches b where R.sold_date >= ? and R.sold_date <=? and b.branchid = r.sold_branch and b.branchid = ? group by r.sold_branch, r.sold_date order by r.sold_branch asc";
 		}
+
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			preparedStatement.setDate(1, convertJavaDateToSqlDate(from));
@@ -938,19 +941,14 @@ public class DBConnect {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-//				total_sales = rs.getDouble("total_sales");
-//				quantity = rs.getInt("sum(r.sold_quantity)");
-//				capital = rs.getDouble("capital");
-//				branchName = rs.getString("branch_name");
-//				month = rs.getInt("month(r.sold_date)");
-//				year = rs.getInt("year(r.sold_da");
-//				
-				total_sales = rs.getDouble(1);
-				quantity = rs.getInt(1);
-				capital = rs.getDouble(1);
-				branchName = rs.getString("wala");
-				month = rs.getInt(1);
-				year = rs.getInt(1);
+				total_sales = rs.getDouble("total_sales");
+				quantity = rs.getInt("sum(r.sold_quantity)");
+				capital = rs.getDouble("capital");
+				branchName = rs.getString("branchname");
+				month = rs.getInt("month(r.sold_date)");
+				year = rs.getInt("year(r.sold_date)");
+				
+	
 
 				model.addRow(new Object[] { Double.toString(total_sales), Integer.toString(quantity),
 						Double.toString(capital), Integer.toString(month), Integer.toString(year) });
@@ -959,6 +957,7 @@ public class DBConnect {
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
+		System.out.println(model.toString());
 		return model;
 
 	}
