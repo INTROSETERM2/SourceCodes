@@ -6,8 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -358,14 +356,7 @@ public class BranchReport {
 		dailyScroll.setViewportView(dailyTable);
 		// Branch Report (Daily) ends
 		
-		dailyTable.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					System.out.println("shit");
-				}
-			}
-		});
-
+		
 	}
 	
 	private class ActListener implements ActionListener {
@@ -471,7 +462,6 @@ public class BranchReport {
 				// ayaw mag dispose nung combo box and buttons na pang pili ng date sa loob ng frame
 				// idk why @glenn
 				calendarFrame.dispose();
-				calendarFrame = new JFrame("Calendar");
 				setDailyTable();
 			}
 			
