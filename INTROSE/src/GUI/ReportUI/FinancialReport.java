@@ -46,7 +46,7 @@ public class FinancialReport implements ActionListener {
 
 	// Scroll Pane
 	private JScrollPane scrollPane = new JScrollPane();
-	private final JLabel lblTo = new JLabel("To");
+	private final JLabel lblTo = new JLabel("To  ");
 	private final JLabel lblFromDate = new JLabel("None");
 	private final JButton btnToSet = new JButton("Set");
 	private final JLabel lblToDate = new JLabel("None");
@@ -79,8 +79,10 @@ public class FinancialReport implements ActionListener {
 		// Labels
 		lblYearlyReport.setFont(new Font("Tahoma", Font.BOLD, 18));
 		jPanel.add(lblYearlyReport, "cell 5 0,alignx left,growy");
+		lblFromDate.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
 
 		jPanel.add(lblFromDate, "cell 2 1,alignx left");
+		lblToDate.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
 
 		jPanel.add(lblToDate, "cell 4 1");
 
@@ -98,7 +100,7 @@ public class FinancialReport implements ActionListener {
 		tblYearReport = new JTable();
 		scrollPane.setViewportView(tblYearReport);
 
-		tblYearReport.setModel(db.retrieveYearlyReport(db.getCurrentDate(), db.getCurrentDate(), "None"));
+		tblYearReport.setModel(db.retrieveYearlyReport(db.getEarliestDate(), db.getLatestDate(), "None"));
 
 
 		jPanel.add(scrollPane, "cell 0 2 6 1,grow");
@@ -108,7 +110,7 @@ public class FinancialReport implements ActionListener {
 		jPanel.add(lblFrom, "flowx,cell 0 1,alignx left,growy");
 		lblTo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
-		jPanel.add(lblTo, "flowx,cell 3 1,grow");
+		jPanel.add(lblTo, "flowx,cell 3 1,alignx left,growy");
 
 		btnFromSet = new JButton("Set");
 		jPanel.add(btnFromSet, "cell 0 1,growx,aligny bottom");
@@ -207,6 +209,7 @@ public class FinancialReport implements ActionListener {
 				tblYearReport.setModel(db.retrieveYearlyReport(db.convertJavaDateToSqlDate(dateFrom),
 						db.convertJavaDateToSqlDate(dateFrom), cmbBranches.getSelectedItem().toString()));
 				
+				System.out.println(tblYearReport.toString());
 				FinancialReport financialReport = new FinancialReport(mainGUI);
 				mainGUI.setRightSplit(getJPanel());
 

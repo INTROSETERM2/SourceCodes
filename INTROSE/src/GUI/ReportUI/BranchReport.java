@@ -288,7 +288,9 @@ public class BranchReport {
 		AutoCompleteDecorator.decorate(cmbYear);
 		
 	
-		
+		cmbMonth.setEnabled(false);
+		cmbYear.setEnabled(false);
+
 		
 		// Action Listeners
 		btnNextMonth.addActionListener(act);
@@ -302,15 +304,12 @@ public class BranchReport {
 		
 		
 		for (int i = 0; i < 12; i++) 
-			cmbMonth.insertItemAt(i + 1, i);
+			cmbMonth.addItem(i + 1);
 		
 		cmbMonth.setSelectedIndex(0);
 		
-		int j = 0;
-		for (int i = manRec.getEarlyYear(branchNumber); i < manRec.getLatestYear(branchNumber) + 1; i++) {
-			cmbYear.insertItemAt(i, j);
-			j++;
-		}
+		for (int i = manRec.getEarlyYear(branchNumber); i < manRec.getLatestYear(branchNumber) + 1; i++) 
+			cmbYear.addItem(i);
 		
 		cmbYear.setSelectedIndex(0);
 		
@@ -435,6 +434,7 @@ public class BranchReport {
 			if (e.getSource() == btnPickDate){
 				// for calendar
 				calendarFrame = new JFrame("Calendar");
+				datePickPanel = new JPanel();
 				calendarFrame.setBounds(400, 400, 250, 100);
 
 				datePicker = new JXDatePicker();
