@@ -105,8 +105,10 @@ public class BranchReport {
 	private int branchNumber;
 	private Date dateFrom;
 	private String resultDateFrom;
+	private MainGUI mainGUI;
 
 	public BranchReport(MainGUI mainGUI, int branchNumber) {
+		this.mainGUI = mainGUI;
 		txtDay.setColumns(10);
 		this.branchNumber = branchNumber;
 		ArrayList<Branch> branches = new ArrayList<Branch>();
@@ -512,7 +514,16 @@ public class BranchReport {
 
 			if (e.getSource() == btnPickDate) {
 				// for calendar
+				mainGUI.getJFrame().setEnabled(false);
+
 				calendarFrame = new JFrame("Calendar");
+				calendarFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+				    @Override
+				    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+						mainGUI.getJFrame().setEnabled(true);
+
+				    }
+				});
 				datePickPanel = new JPanel();
 				calendarFrame.setAlwaysOnTop(true);
 				calendarFrame.setBounds(400, 400, 250, 100);
@@ -531,6 +542,8 @@ public class BranchReport {
 			}
 
 			if (e.getSource() == btnSet) {
+				mainGUI.getJFrame().setEnabled(true);
+
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 				dateFrom = datePicker.getDate();
 				resultDateFrom = formatter.format(dateFrom);

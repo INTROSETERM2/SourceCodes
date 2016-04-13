@@ -486,6 +486,16 @@ public class AddProduct implements ActionListener {
 			if (e.getSource() == btnSelectDate) {
 				// for calendar
 				calenderFrame = new JFrame("Calendar");
+				mainGUI.getJFrame().setEnabled(false);
+
+				calenderFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+				    @Override
+				    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+						mainGUI.getJFrame().setEnabled(true);
+
+				    }
+				});
+				
 				JPanel panel = new JPanel();
 				calenderFrame.setBounds(400, 400, 250, 100);
 
@@ -533,6 +543,9 @@ public class AddProduct implements ActionListener {
 			}
 	
 			if (e.getSource() == btnSet) {
+				mainGUI.getJFrame().setEnabled(true);
+
+				
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 				dateFrom = picker.getDate();
 				resultDateFrom = formatter.format(dateFrom);

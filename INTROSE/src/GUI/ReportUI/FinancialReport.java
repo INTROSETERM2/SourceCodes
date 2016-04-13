@@ -6,6 +6,7 @@ import GUI.MainGUI;
 import GUI.Product.AddProduct;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -144,6 +145,15 @@ public class FinancialReport implements ActionListener {
 				mainGUI.getJFrame().setEnabled(false);
 
 				calenderFrameFrom = new JFrame("Calendar");
+				
+				calenderFrameFrom.addWindowListener(new java.awt.event.WindowAdapter() {
+				    @Override
+				    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+						mainGUI.getJFrame().setEnabled(true);
+
+				    }
+				});
+				
 				JPanel panel = new JPanel();
 				calenderFrameFrom.setBounds(400, 400, 250, 100);
 
@@ -181,6 +191,15 @@ public class FinancialReport implements ActionListener {
 				mainGUI.getJFrame().setEnabled(false);
 
 				calenderFrameTo = new JFrame("Calendar");
+				
+				calenderFrameTo.addWindowListener(new java.awt.event.WindowAdapter() {
+				    @Override
+				    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+						mainGUI.getJFrame().setEnabled(true);
+
+				    }
+				});
+				
 				JPanel panel = new JPanel();
 				calenderFrameTo.setBounds(400, 400, 250, 100);
 
