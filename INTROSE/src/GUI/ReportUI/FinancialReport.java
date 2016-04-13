@@ -71,6 +71,7 @@ public class FinancialReport implements ActionListener {
 
 	public FinancialReport(MainGUI mainGUI) {
 		this.mainGUI = mainGUI;
+
 		ActListener act = new ActListener();
 		jPanel.setPreferredSize(new Dimension(1000, 778));
 		jPanel.setLayout(
@@ -100,7 +101,7 @@ public class FinancialReport implements ActionListener {
 		tblYearReport = new JTable();
 		scrollPane.setViewportView(tblYearReport);
 
-		tblYearReport.setModel(db.retrieveYearlyReport(db.getEarliestDate(), db.getLatestDate(), "None"));
+		tblYearReport.setModel(db.retrieveYearlyReport(db.getEarliestDate().toString(), db.getLatestDate().toString(), "None"));
 
 
 		jPanel.add(scrollPane, "cell 0 2 6 1,grow");
@@ -140,6 +141,8 @@ public class FinancialReport implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnFromSet) {
 				// for calendar
+				mainGUI.getJFrame().setEnabled(false);
+
 				calenderFrameFrom = new JFrame("Calendar");
 				JPanel panel = new JPanel();
 				calenderFrameFrom.setBounds(400, 400, 250, 100);
@@ -168,11 +171,15 @@ public class FinancialReport implements ActionListener {
 				lblFromDate.setText(formatter.format(dateFrom));
 
 				calenderFrameFrom.dispose();
+				mainGUI.getJFrame().setEnabled(true);
+
 
 			}
 
 			if (e.getSource() == btnToSet) {
 				// for calendar
+				mainGUI.getJFrame().setEnabled(false);
+
 				calenderFrameTo = new JFrame("Calendar");
 				JPanel panel = new JPanel();
 				calenderFrameTo.setBounds(400, 400, 250, 100);
@@ -186,6 +193,8 @@ public class FinancialReport implements ActionListener {
 				calenderFrameTo.getContentPane().add(panel);
 
 				calenderFrameTo.setVisible(true);
+				
+				
 
 				// end of calendar
 			}
@@ -201,15 +210,19 @@ public class FinancialReport implements ActionListener {
 				lblToDate.setText(formatter.format(dateTo));
 
 				calenderFrameTo.dispose();
+				mainGUI.getJFrame().setEnabled(true);
 
 			}
 
 			if (e.getSource() == btnGenerate) {
 				mainGUI.removeAllRightSplit();
-				tblYearReport.setModel(db.retrieveYearlyReport(db.convertJavaDateToSqlDate(dateFrom),
-						db.convertJavaDateToSqlDate(dateFrom), cmbBranches.getSelectedItem().toString()));
+//				tblYearReport.setModel(db.retrieveYearlyReport(db.convertJavaDateToSqlDate(dateFrom),
+//						db.convertJavaDateToSqlDate(dateFrom), cmbBranches.getSelectedItem().toString()));
+//				
 				
-				System.out.println(tblYearReport.toString());
+				tblYearReport.setModel(db.retrieveYearlyReport(lblFromDate.getText(),
+						lblToDate.getText(), cmbBranches.getSelectedItem().toString()));
+				
 				FinancialReport financialReport = new FinancialReport(mainGUI);
 				mainGUI.setRightSplit(getJPanel());
 				

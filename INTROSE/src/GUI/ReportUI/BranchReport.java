@@ -96,6 +96,7 @@ public class BranchReport {
 	
 	private ActListener act = new ActListener();
 	private ManagerReceipt manRec = new ManagerReceipt();
+	private ManagerBranch manBra = new ManagerBranch();
 	private double total = 0;
 	private int branchNumber;
 	private Date dateFrom;
@@ -107,6 +108,16 @@ public class BranchReport {
 	public BranchReport(MainGUI mainGUI, int branchNumber){
 		txtDay.setColumns(10);
 		this.branchNumber = branchNumber;
+		ArrayList<Branch> branches = new ArrayList<Branch>();
+		branches = manBra.getBranches();
+		String branch = "";
+		for(int i = 0; i < branches.size(); i++)
+			if(branches.get(i).getBranchID() == branchNumber){
+				branch = branches.get(i).getBranchName();
+			}
+		
+		lblBranchD.setText(branch);
+		lblBranchM.setText(branch);
 		
 		lblTotalSalesD.setText("");
 		mainPanel.setSize(1040,609);
@@ -451,6 +462,7 @@ public class BranchReport {
 				// for calendar
 				calendarFrame = new JFrame("Calendar");
 				datePickPanel = new JPanel(); 
+				calendarFrame.setAlwaysOnTop (true);
 				calendarFrame.setBounds(400, 400, 250, 100);
 
 				datePicker = new JXDatePicker();
@@ -489,7 +501,6 @@ public class BranchReport {
 	
 	// updates the monthly table
 	public void setMonthlyTable(){ 
-		
 		DefaultTableModel monthlyModel = new DefaultTableModel(new Object[] {"Date", "Receipt Number", 
 				"Product", "Price",
 				"Quantity", "Customer", "Staff" }, 0) {
@@ -507,10 +518,13 @@ public class BranchReport {
 					receiptMonthly.get(i).getSoldProductName(), receiptMonthly.get(i).getSoldPrice(),
 					receiptMonthly.get(i).getSoldQuantity(), receiptMonthly.get(i).getCustomerName(),
 					receiptMonthly.get(i).getStaffName()});
+			total += receiptMonthly.get(i).getSoldPrice();
 		}
+		DecimalFormat df = new DecimalFormat("#.00");
+		lblTotalSalesM.setText(df.format(total));
 		monthlyTable.setModel(monthlyModel);
-		
 		monthlyScroll.setViewportView(monthlyTable);
+		total = 0;
 	}
 	
 	// updates the daily table
@@ -536,6 +550,7 @@ public class BranchReport {
 		lblTotalSalesD.setText(df.format(total));
 		dailyTable.setModel(dailyModel);
 		dailyScroll.setViewportView(dailyTable);
+		total = 0;
 	}
 	
 	public JPanel getJPanel() {

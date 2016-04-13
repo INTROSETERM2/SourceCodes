@@ -928,7 +928,10 @@ public class DBConnect {
 
 	}
 
-	public DefaultTableModel retrieveYearlyReport(Date from, Date to, String branch) {
+	public DefaultTableModel retrieveYearlyReport(String from, String to, String branch) {
+		
+		System.out.println("From db: " + from);
+		System.out.println("To db: " + to);
 		Double total_sales;
 		int quantity;
 		Double capital;
@@ -961,10 +964,10 @@ public class DBConnect {
 		if (branch.equals("None")) {
 			query = "select sum(r.sold_price/2) as total_sales, sum(r.sold_quantity), p.buy_price*r.sold_quantity as capital, b.branchName, month(r.sold_date), year(r.sold_date) from receipts r, products p, branches b where R.sold_date >= ? and R.sold_date <=? and b.branchid = r.sold_branch group by r.sold_branch, r.sold_date order by r.sold_branch asc";
 
-			try {
+			try {	
 				PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
-				preparedStatement.setDate(1, from);
-				preparedStatement.setDate(2, to);
+				preparedStatement.setString(1, from);
+				preparedStatement.setString(2, to);
 				rs = preparedStatement.executeQuery();
 
 			} catch (SQLException e) {
@@ -977,8 +980,8 @@ public class DBConnect {
 
 			try {
 				PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
-				preparedStatement.setDate(1, from);
-				preparedStatement.setDate(2, to);
+				preparedStatement.setString(1, from.toString());
+				preparedStatement.setString(2, to.toString());
 
 				preparedStatement.setInt(3, getBranchID(branch));
 
