@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -22,8 +25,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.JXDatePicker;
@@ -36,6 +42,7 @@ import GUI.MainGUI;
 import Receipt.ManagerReceipt;
 import Receipt.Receipt;
 import javax.swing.JTextField;
+import java.awt.Cursor;
 
 public class BranchReport {
 	// Frames
@@ -74,6 +81,7 @@ public class BranchReport {
 	private JButton btnNextYear = new JButton(">");
 	private JButton btnPickDate = new JButton("Pick Date");
 	private JButton btnSet = new JButton("Set");
+	private JButton btnGenerate = new JButton("Generate Report");
 	
 	// Combo Boxes
 	private JComboBox cmbMonth = new JComboBox();
@@ -88,12 +96,12 @@ public class BranchReport {
 	
 	private ActListener act = new ActListener();
 	private ManagerReceipt manRec = new ManagerReceipt();
-	private ArrayList<Receipt> receiptDaily = new ArrayList<Receipt>();
-	private ArrayList<Receipt> receiptMonthly = new ArrayList<Receipt>();
 	private double total = 0;
 	private int branchNumber;
 	private Date dateFrom;
 	private String resultDateFrom;
+	
+	
 	
 	
 	public BranchReport(MainGUI mainGUI, int branchNumber){
@@ -243,7 +251,7 @@ public class BranchReport {
 		
 		GridBagConstraints gbc_cmbMonth = new GridBagConstraints();
 		gbc_cmbMonth.insets = new Insets(0, 0, 5, 5);
-		gbc_cmbMonth.fill = GridBagConstraints.BOTH;
+		gbc_cmbMonth.fill = GridBagConstraints.VERTICAL;
 		gbc_cmbMonth.gridx = 2;
 		gbc_cmbMonth.gridy = 3;
 		monthlyPanel.add(cmbMonth, gbc_cmbMonth);
@@ -264,9 +272,10 @@ public class BranchReport {
 		
 		GridBagConstraints gbc_cmbYear = new GridBagConstraints();
 		gbc_cmbYear.insets = new Insets(0, 0, 5, 5);
-		gbc_cmbYear.fill = GridBagConstraints.BOTH;
+		gbc_cmbYear.fill = GridBagConstraints.VERTICAL;
 		gbc_cmbYear.gridx = 5;
 		gbc_cmbYear.gridy = 3;
+		cmbYear.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		monthlyPanel.add(cmbYear, gbc_cmbYear);
 		
 		GridBagConstraints gbc_btnNextYear = new GridBagConstraints();
@@ -275,6 +284,13 @@ public class BranchReport {
 		gbc_btnNextYear.gridx = 6;
 		gbc_btnNextYear.gridy = 3;
 		monthlyPanel.add(btnNextYear, gbc_btnNextYear);
+		
+		GridBagConstraints gbc_btnGenerate = new GridBagConstraints();
+		gbc_btnGenerate.anchor = GridBagConstraints.WEST;
+		gbc_btnGenerate.insets = new Insets(0, 0, 5, 5);
+		gbc_btnGenerate.gridx = 7;
+		gbc_btnGenerate.gridy = 3;
+		monthlyPanel.add(btnGenerate, gbc_btnGenerate);
 		
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
 		gbc_scrollPane_1.gridwidth = 9;
@@ -287,11 +303,7 @@ public class BranchReport {
 		AutoCompleteDecorator.decorate(cmbMonth);
 		AutoCompleteDecorator.decorate(cmbYear);
 		
-	
-		cmbMonth.setEnabled(false);
-		cmbYear.setEnabled(false);
 
-		
 		// Action Listeners
 		btnNextMonth.addActionListener(act);
 		btnPrevMonth.addActionListener(act);
@@ -301,6 +313,7 @@ public class BranchReport {
 		btnSet.addActionListener(act);
 		cmbMonth.addActionListener(act);
 		cmbYear.addActionListener(act);
+		btnGenerate.addActionListener(act);
 		
 		
 		for (int i = 0; i < 12; i++) 
@@ -340,7 +353,7 @@ public class BranchReport {
 			}
 		};
 		
-		receiptDaily = manRec.getDayReceipt(branchNumber, dateFormat.format(date));
+		ArrayList<Receipt> receiptDaily = manRec.getDayReceipt(branchNumber, dateFormat.format(date));
 		
 		for(int i = 0; i < receiptDaily.size(); i++){
 			dailyModel.addRow(new Object[]{receiptDaily.get(i).getSoldDate(), receiptDaily.get(i).getReceiptID(), receiptDaily.get(i).getSoldProductName(),
@@ -355,7 +368,14 @@ public class BranchReport {
 		dailyScroll.setViewportView(dailyTable);
 		// Branch Report (Daily) ends
 		
-		
+		dailyTable.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					System.out.println("shit");
+				}
+			}
+		});
+
 	}
 	
 	private class ActListener implements ActionListener {
@@ -406,8 +426,6 @@ public class BranchReport {
 			}
 			
 			if (e.getSource() == cmbMonth) {
-				//uncommenting code below this will produce a null pointer exception help @glenn
-				//setMonthlyTable();
 				if(cmbMonth.getSelectedIndex() == 0){
 					btnPrevMonth.setEnabled(false);
 					btnNextMonth.setEnabled(true);
@@ -419,8 +437,6 @@ public class BranchReport {
 			}
 			
 			if (e.getSource() == cmbYear) {
-				//uncommenting code below this will produce a null pointer exception help @glenn
-				//setMonthlyTable();
 				if(cmbYear.getSelectedIndex() == 0){
 					btnPrevYear.setEnabled(false);
 					btnNextYear.setEnabled(true);
@@ -434,7 +450,7 @@ public class BranchReport {
 			if (e.getSource() == btnPickDate){
 				// for calendar
 				calendarFrame = new JFrame("Calendar");
-				datePickPanel = new JPanel();
+				datePickPanel = new JPanel(); 
 				calendarFrame.setBounds(400, 400, 250, 100);
 
 				datePicker = new JXDatePicker();
@@ -459,21 +475,21 @@ public class BranchReport {
 				
 				txtDay.setText(resultDateFrom);
 				
-				// ayaw mag dispose nung combo box and buttons na pang pili ng date sa loob ng frame
-				// idk why @glenn
 				calendarFrame.dispose();
+				calendarFrame = new JFrame("Calendar");
 				setDailyTable();
 			}
 			
+			if(e.getSource() == btnGenerate){
+				setMonthlyTable();
+			}
 			
 		}
 	}
 	
 	// updates the monthly table
-	public void setMonthlyTable(){
-		System.out.println(branchNumber);
-		receiptMonthly = manRec.getMonthReceipts(branchNumber, Integer.parseInt(cmbMonth.getSelectedItem().toString()), 
-				Integer.parseInt(cmbYear.getSelectedItem().toString()));
+	public void setMonthlyTable(){ 
+		
 		DefaultTableModel monthlyModel = new DefaultTableModel(new Object[] {"Date", "Receipt Number", 
 				"Product", "Price",
 				"Quantity", "Customer", "Staff" }, 0) {
@@ -482,6 +498,10 @@ public class BranchReport {
 				return false;
 			}
 		};
+		
+		ArrayList<Receipt> receiptMonthly = manRec.getMonthReceipts(branchNumber, Integer.parseInt(cmbMonth.getSelectedItem().toString()), 
+				Integer.parseInt(cmbYear.getSelectedItem().toString()));
+		
 		for (int i = 0; i < receiptMonthly.size(); i++) {
 			monthlyModel.addRow(new Object[]{receiptMonthly.get(i).getSoldDate(), receiptMonthly.get(i).getReceiptID(),
 					receiptMonthly.get(i).getSoldProductName(), receiptMonthly.get(i).getSoldPrice(),
@@ -503,7 +523,7 @@ public class BranchReport {
 			}
 		};
 		
-		receiptDaily = manRec.getDayReceipt(branchNumber, resultDateFrom);
+		ArrayList<Receipt> receiptDaily = manRec.getDayReceipt(branchNumber, resultDateFrom);
 		
 		for(int i = 0; i < receiptDaily.size(); i++){
 			dailyModel.addRow(new Object[]{receiptDaily.get(i).getSoldDate(), receiptDaily.get(i).getReceiptID(), receiptDaily.get(i).getSoldProductName(),

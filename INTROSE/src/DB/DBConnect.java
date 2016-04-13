@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.DriverManager;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -630,7 +631,7 @@ public class DBConnect {
 
 		return earlyDate;
 	}
-	
+
 	public Date getEarliestDate() {
 		String query = "select min(sold_Date) from receipts";
 		Date earlyDate = null;
@@ -648,7 +649,6 @@ public class DBConnect {
 
 		return earlyDate;
 	}
-
 
 	public Date getLatestDate() {
 		String query = "select max(sold_Date) from receipts";
@@ -669,13 +669,6 @@ public class DBConnect {
 		return latestDate;
 	}
 
-
-	
-
-
-	
-
-	
 	public int getLatestYear(int branchNum) {
 		String query = "SELECT year(max(sold_date)) as LateDate FROM receipts WHERE sold_branch = " + branchNum;
 		int earlyDate = 0;
@@ -692,7 +685,6 @@ public class DBConnect {
 
 		return earlyDate;
 	}
-	
 
 	public ArrayList<Receipt> getMonthReceipts(int branchNum, int month, int year) {
 		String query = "SELECT * fROM receipts WHERE year(sold_date) = ? && month(sold_date) = ? && sold_branch = ?";
@@ -968,29 +960,43 @@ public class DBConnect {
 		String query = "";
 		if (branch.equals("None")) {
 			query = "select sum(r.sold_price/2) as total_sales, sum(r.sold_quantity), p.buy_price*r.sold_quantity as capital, b.branchName, month(r.sold_date), year(r.sold_date) from receipts r, products p, branches b where R.sold_date >= ? and R.sold_date <=? and b.branchid = r.sold_branch group by r.sold_branch, r.sold_date order by r.sold_branch asc";
-		} else {
-		query = "select sum(r.sold_price/2) as total_sales, sum(r.sold_quantity), p.buy_price*r.sold_quantity as capital, b.branchName, month(r.sold_date), year(r.sold_date) from receipts r, products p, branches b where R.sold_date >= ? and R.sold_date <=? and b.branchid = r.sold_branch and b.branchid = ? group by r.sold_branch, r.sold_date order by r.sold_branch asc";
-		}
-		try {
-			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
-			preparedStatement.setDate(1, convertJavaDateToSqlDate(from));
-			preparedStatement.setDate(2, convertJavaDateToSqlDate(to));
 
-			if (branch.equals("None")) {
+			try {
+				PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+				preparedStatement.setDate(1, from);
+				preparedStatement.setDate(2, to);
+				rs = preparedStatement.executeQuery();
 
-			} else {
-				preparedStatement.setInt(3, getBranchID(branch));
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			rs = preparedStatement.executeQuery();
 
+		} else {
+			query = "select sum(r.sold_price/2) as total_sales, sum(r.sold_quantity), p.buy_price*r.sold_quantity as capital, b.branchName, month(r.sold_date), year(r.sold_date) from receipts r, products p, branches b where R.sold_date >= ? and R.sold_date <=? and b.branchid = r.sold_branch and b.branchid = ? group by r.sold_branch, r.sold_date order by r.sold_branch asc";
+
+			try {
+				PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+				preparedStatement.setDate(1, from);
+				preparedStatement.setDate(2, to);
+
+				preparedStatement.setInt(3, getBranchID(branch));
+
+				rs = preparedStatement.executeQuery();
+			} catch (Exception ex) {
+				System.out.println(ex);
+			}
+		}
+
+		try {
 			while (rs.next()) {
-//				total_sales = rs.getDouble("total_sales");
-//				quantity = rs.getInt("sum(r.sold_quantity)");
-//				capital = rs.getDouble("capital");
-//				branchName = rs.getString("branch_name");
-//				month = rs.getInt("month(r.sold_date)");
-//				year = rs.getInt("year(r.sold_da");
-//				
+				// total_sales = rs.getDouble("total_sales");
+				// quantity = rs.getInt("sum(r.sold_quantity)");
+				// capital = rs.getDouble("capital");
+				// branchName = rs.getString("branch_name");
+				// month = rs.getInt("month(r.sold_date)");
+				// year = rs.getInt("year(r.sold_da");
+				//
 				total_sales = rs.getDouble(1);
 				quantity = rs.getInt(2);
 				capital = rs.getDouble(3);
@@ -1001,29 +1007,30 @@ public class DBConnect {
 				model.addRow(new Object[] { Double.toString(total_sales), Integer.toString(quantity),
 						Double.toString(capital), branchName, Integer.toString(month), Integer.toString(year) });
 			}
-
-		} catch (Exception ex) {
-			System.out.println(ex);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
 		return model;
 
 	}
+
 	public int getBranchID(String branchName) {
-		String query = "SELECT branchID from branches where branchName = " + branchName;
-		int branchID = -1;
+		String query = "SELECT branchID from branches where branchName = '" + branchName + "'";
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 
 			rs = preparedStatement.executeQuery(query);
 
 			while (rs.next()) {
-				branchID = rs.getInt("branchID");
+				return rs.getInt("branchID");
 			}
 
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
-		return branchID;
+		return -1;
 	}
-	
+
 }

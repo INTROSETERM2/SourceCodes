@@ -212,6 +212,7 @@ public class FinancialReport implements ActionListener {
 				System.out.println(tblYearReport.toString());
 				FinancialReport financialReport = new FinancialReport(mainGUI);
 				mainGUI.setRightSplit(getJPanel());
+				
 
 			}
 		}
