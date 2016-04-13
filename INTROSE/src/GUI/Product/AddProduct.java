@@ -109,15 +109,15 @@ public class AddProduct implements ActionListener {
 		txtProductName.setColumns(10);
 		txtOrigin.setColumns(10);
 
-		jPanel.setSize(1067, 605);
+		jPanel.setSize(1030, 609);
 		GridBagLayout gbl_jPanel = new GridBagLayout();
-		gbl_jPanel.columnWidths = new int[] { 50, 110, 110, 110, 110, 110, 110, 110, 0, 110, 0, 0 };
+		gbl_jPanel.columnWidths = new int[] { 5, 110, 110, 110, 110, 110, 110, 110, 0, 110, 0, 0 };
 		gbl_jPanel.rowHeights = new int[] { 20, 24, 340, 30, 30, 30, 20, 0 };
 		gbl_jPanel.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE };
 		gbl_jPanel.rowWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		jPanel.setLayout(gbl_jPanel);
 
-		lblInventory.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblInventory.setFont(new Font("Tahoma", Font.BOLD, 18));
 		GridBagConstraints gbc_lblAddProduct = new GridBagConstraints();
 		gbc_lblAddProduct.fill = GridBagConstraints.VERTICAL;
 		gbc_lblAddProduct.gridwidth = 9;
@@ -141,6 +141,7 @@ public class AddProduct implements ActionListener {
 		gbc_lblProductId.insets = new Insets(0, 0, 5, 5);
 		gbc_lblProductId.gridx = 1;
 		gbc_lblProductId.gridy = 3;
+		lblProductId.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblProductId, gbc_lblProductId);
 
 		GridBagConstraints gbc_lblDate = new GridBagConstraints();
@@ -148,6 +149,7 @@ public class AddProduct implements ActionListener {
 		gbc_lblDate.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDate.gridx = 2;
 		gbc_lblDate.gridy = 3;
+		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblDate, gbc_lblDate);
 
 		GridBagConstraints gbc_lblProductName = new GridBagConstraints();
@@ -155,6 +157,7 @@ public class AddProduct implements ActionListener {
 		gbc_lblProductName.insets = new Insets(0, 0, 5, 5);
 		gbc_lblProductName.gridx = 3;
 		gbc_lblProductName.gridy = 3;
+		lblProductName.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblProductName, gbc_lblProductName);
 
 		GridBagConstraints gbc_lblProductType = new GridBagConstraints();
@@ -162,6 +165,7 @@ public class AddProduct implements ActionListener {
 		gbc_lblProductType.insets = new Insets(0, 0, 5, 5);
 		gbc_lblProductType.gridx = 4;
 		gbc_lblProductType.gridy = 3;
+		lblProductType.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblProductType, gbc_lblProductType);
 
 		GridBagConstraints gbc_lblQuantity = new GridBagConstraints();
@@ -169,6 +173,7 @@ public class AddProduct implements ActionListener {
 		gbc_lblQuantity.insets = new Insets(0, 0, 5, 5);
 		gbc_lblQuantity.gridx = 5;
 		gbc_lblQuantity.gridy = 3;
+		lblQuantity.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblQuantity, gbc_lblQuantity);
 
 		GridBagConstraints gbc_lblBuyingPrice = new GridBagConstraints();
@@ -176,6 +181,7 @@ public class AddProduct implements ActionListener {
 		gbc_lblBuyingPrice.insets = new Insets(0, 0, 5, 5);
 		gbc_lblBuyingPrice.gridx = 6;
 		gbc_lblBuyingPrice.gridy = 3;
+		lblTotalCost.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblTotalCost, gbc_lblBuyingPrice);
 
 		GridBagConstraints gbc_lblOrigin = new GridBagConstraints();
@@ -183,6 +189,7 @@ public class AddProduct implements ActionListener {
 		gbc_lblOrigin.insets = new Insets(0, 0, 5, 5);
 		gbc_lblOrigin.gridx = 7;
 		gbc_lblOrigin.gridy = 3;
+		lblOrigin.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblOrigin, gbc_lblOrigin);
 		
 		GridBagConstraints gbc_lblPicture = new GridBagConstraints();
@@ -190,6 +197,7 @@ public class AddProduct implements ActionListener {
 		gbc_lblPicture.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPicture.gridx = 8;
 		gbc_lblPicture.gridy = 3;
+		lblPicture.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblPicture, gbc_lblPicture);
 
 		GridBagConstraints gbc_lblNextAvailableID = new GridBagConstraints();
@@ -197,6 +205,7 @@ public class AddProduct implements ActionListener {
 		gbc_lblNextAvailableID.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNextAvailableID.gridx = 1;
 		gbc_lblNextAvailableID.gridy = 4;
+		lblNextAvailableID.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblNextAvailableID, gbc_lblNextAvailableID);
 
 		GridBagConstraints gbc_txtDate = new GridBagConstraints();
@@ -215,6 +224,7 @@ public class AddProduct implements ActionListener {
 		jPanel.add(txtProductName, gbc_txtProductName);
 
 		cmbProductType = new JComboBox(db.getProductTypeNames().toArray());
+		cmbProductType.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		GridBagConstraints gbc_cmbProductType = new GridBagConstraints();
 		gbc_cmbProductType.fill = GridBagConstraints.BOTH;
@@ -259,6 +269,7 @@ public class AddProduct implements ActionListener {
 		gbc_btnSelectDate.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSelectDate.gridx = 2;
 		gbc_btnSelectDate.gridy = 5;
+		btnSelectDate.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(btnSelectDate, gbc_btnSelectDate);
 		btnSelectDate.addActionListener(act);
 
@@ -292,6 +303,7 @@ public class AddProduct implements ActionListener {
 		productTable.setModel(model);
 		
 		btnSet.addActionListener(act);
+		btnPreview.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnPreview.addActionListener(act);
 		
 		productTable.addMouseListener(new MouseAdapter() {
@@ -337,6 +349,7 @@ public class AddProduct implements ActionListener {
 		gbc_btnAdd.fill = GridBagConstraints.BOTH;
 		gbc_btnAdd.gridx = 8;
 		gbc_btnAdd.gridy = 6;
+		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAdd.addActionListener(act);
 		btnAdd.setEnabled(false);
 		
@@ -465,6 +478,7 @@ public class AddProduct implements ActionListener {
 		gbc_btnAddPicture.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAddPicture.gridx = 8;
 		gbc_btnAddPicture.gridy = 5;
+		btnAddPicture.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAddPicture.addActionListener(act);
 		jPanel.add(btnAddPicture, gbc_btnAddPicture);
 		
