@@ -876,6 +876,8 @@ public class DBConnect {
 			System.out.println(ex);
 		}
 	}
+	
+	
 
 	public void editProduct(Product product) {
 		String query = "UPDATE products SET quantity = ?, product_name = ?, buy_price = ?, buy_date = ?,  product_typeid = ?, buy_origin = ?, picture = ? where productID = ?";
