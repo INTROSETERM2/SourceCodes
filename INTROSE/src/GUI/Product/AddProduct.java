@@ -95,13 +95,15 @@ public class AddProduct implements ActionListener {
 	private ActListener act = new ActListener();
 	private String resultDateFrom;
 	private JXDatePicker picker;
+
+	private JXDatePicker pickerDefault;
 	private Date dateFrom;
 	private PictureFinder pictureFinder;
-	
-	
-	
-	public static ImageIcon IMAGE = null;
 
+	SimpleDateFormat formatterDefault;
+	Date dateDefault;
+
+	public static ImageIcon IMAGE = null;
 
 	public AddProduct(MainGUI mainGUI) {
 		txtPicturePath.setColumns(10);
@@ -113,7 +115,8 @@ public class AddProduct implements ActionListener {
 		GridBagLayout gbl_jPanel = new GridBagLayout();
 		gbl_jPanel.columnWidths = new int[] { 5, 110, 110, 110, 110, 110, 110, 110, 0, 110, 0, 0 };
 		gbl_jPanel.rowHeights = new int[] { 20, 24, 340, 30, 30, 30, 20, 0 };
-		gbl_jPanel.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE };
+		gbl_jPanel.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0,
+				Double.MIN_VALUE };
 		gbl_jPanel.rowWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		jPanel.setLayout(gbl_jPanel);
 
@@ -191,7 +194,7 @@ public class AddProduct implements ActionListener {
 		gbc_lblOrigin.gridy = 3;
 		lblOrigin.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblOrigin, gbc_lblOrigin);
-		
+
 		GridBagConstraints gbc_lblPicture = new GridBagConstraints();
 		gbc_lblPicture.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblPicture.insets = new Insets(0, 0, 5, 5);
@@ -214,7 +217,26 @@ public class AddProduct implements ActionListener {
 		gbc_txtDate.gridx = 2;
 		gbc_txtDate.gridy = 4;
 		jPanel.add(txtDate, gbc_txtDate);
+
+		// for the defaultDate
+		pickerDefault = new JXDatePicker();
+		pickerDefault.setDate(Calendar.getInstance().getTime());
+		pickerDefault.setFormats(new SimpleDateFormat("dd/MM/yyyy"));
+		formatterDefault = new SimpleDateFormat("yyyy/MM/dd");
+		dateDefault = pickerDefault.getDate();
+
+		txtDate.setText(formatterDefault.format(dateDefault));
 		txtDate.setColumns(10);
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		try {
+			Date date = sdf.parse(txtDate.getText());
+			dateFrom = date;
+
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		GridBagConstraints gbc_txtProductName = new GridBagConstraints();
 		gbc_txtProductName.insets = new Insets(0, 0, 5, 5);
@@ -255,7 +277,7 @@ public class AddProduct implements ActionListener {
 		gbc_txtOrigin.gridx = 7;
 		gbc_txtOrigin.gridy = 4;
 		jPanel.add(txtOrigin, gbc_txtOrigin);
-		
+
 		GridBagConstraints gbc_txtPicturePath = new GridBagConstraints();
 		gbc_txtPicturePath.gridwidth = 2;
 		gbc_txtPicturePath.insets = new Insets(0, 0, 5, 5);
@@ -301,11 +323,11 @@ public class AddProduct implements ActionListener {
 					products.get(i).getPicture() });
 		}
 		productTable.setModel(model);
-		
+
 		btnSet.addActionListener(act);
 		btnPreview.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnPreview.addActionListener(act);
-		
+
 		productTable.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 
@@ -338,11 +360,11 @@ public class AddProduct implements ActionListener {
 
 			}
 		});
-		
+
 		AutoCompleteDecorator.decorate(this.cmbProductType);
 
 		txtDate.setEnabled(false);
-		
+
 		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
 		gbc_btnAdd.gridwidth = 2;
 		gbc_btnAdd.insets = new Insets(0, 0, 0, 5);
@@ -352,127 +374,151 @@ public class AddProduct implements ActionListener {
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAdd.addActionListener(act);
 		btnAdd.setEnabled(false);
-		
+
 		txtDate.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e){
+			public void changedUpdate(DocumentEvent e) {
 				changed();
 			}
-			public void removeUpdate(DocumentEvent e){
+
+			public void removeUpdate(DocumentEvent e) {
 				changed();
 			}
-			public void insertUpdate(DocumentEvent e){
+
+			public void insertUpdate(DocumentEvent e) {
 				changed();
 			}
+
 			@SuppressWarnings("deprecation")
 			public void changed() {
-				if (txtDate.getText().equals("") ||txtProductName.getText().equals("") || txtQuantity.getText().equals("") 
-						|| txtTotalCost.getText().equals("") || txtOrigin.getText().equals("") || txtPicturePath.getText().equals(""))
+				if (txtDate.getText().equals("") || txtProductName.getText().equals("")
+						|| txtQuantity.getText().equals("") || txtTotalCost.getText().equals("")
+						|| txtOrigin.getText().equals("") || txtPicturePath.getText().equals(""))
 					btnAdd.setEnabled(false);
-				else 
+				else
 					btnAdd.setEnabled(true);
 			}
 		});
-		
+
 		txtProductName.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e){
+			public void changedUpdate(DocumentEvent e) {
 				changed();
 			}
-			public void removeUpdate(DocumentEvent e){
+
+			public void removeUpdate(DocumentEvent e) {
 				changed();
 			}
-			public void insertUpdate(DocumentEvent e){
+
+			public void insertUpdate(DocumentEvent e) {
 				changed();
 			}
+
 			@SuppressWarnings("deprecation")
 			public void changed() {
-				if (txtDate.getText().equals("") ||txtProductName.getText().equals("") || txtQuantity.getText().equals("") 
-						|| txtTotalCost.getText().equals("") || txtOrigin.getText().equals("") || txtPicturePath.getText().equals(""))
+				if (txtDate.getText().equals("") || txtProductName.getText().equals("")
+						|| txtQuantity.getText().equals("") || txtTotalCost.getText().equals("")
+						|| txtOrigin.getText().equals("") || txtPicturePath.getText().equals(""))
 					btnAdd.setEnabled(false);
-				else 
+				else
 					btnAdd.setEnabled(true);
 			}
 		});
-		
+
 		txtQuantity.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e){
+			public void changedUpdate(DocumentEvent e) {
 				changed();
 			}
-			public void removeUpdate(DocumentEvent e){
+
+			public void removeUpdate(DocumentEvent e) {
 				changed();
 			}
-			public void insertUpdate(DocumentEvent e){
+
+			public void insertUpdate(DocumentEvent e) {
 				changed();
 			}
+
 			@SuppressWarnings("deprecation")
 			public void changed() {
-				if (txtDate.getText().equals("") ||txtProductName.getText().equals("") || txtQuantity.getText().equals("") 
-						|| txtTotalCost.getText().equals("") || txtOrigin.getText().equals("") || txtPicturePath.getText().equals(""))
+				if (txtDate.getText().equals("") || txtProductName.getText().equals("")
+						|| txtQuantity.getText().equals("") || txtTotalCost.getText().equals("")
+						|| txtOrigin.getText().equals("") || txtPicturePath.getText().equals(""))
 					btnAdd.setEnabled(false);
-				else 
+				else
 					btnAdd.setEnabled(true);
 			}
 		});
-		
+
 		txtTotalCost.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e){
+			public void changedUpdate(DocumentEvent e) {
 				changed();
 			}
-			public void removeUpdate(DocumentEvent e){
+
+			public void removeUpdate(DocumentEvent e) {
 				changed();
 			}
-			public void insertUpdate(DocumentEvent e){
+
+			public void insertUpdate(DocumentEvent e) {
 				changed();
 			}
+
 			@SuppressWarnings("deprecation")
 			public void changed() {
-				if (txtDate.getText().equals("") ||txtProductName.getText().equals("") || txtQuantity.getText().equals("") 
-						|| txtTotalCost.getText().equals("") || txtOrigin.getText().equals("") || txtPicturePath.getText().equals(""))
+				if (txtDate.getText().equals("") || txtProductName.getText().equals("")
+						|| txtQuantity.getText().equals("") || txtTotalCost.getText().equals("")
+						|| txtOrigin.getText().equals("") || txtPicturePath.getText().equals(""))
 					btnAdd.setEnabled(false);
-				else 
+				else
 					btnAdd.setEnabled(true);
 			}
 		});
-		
+
 		txtOrigin.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e){
+			public void changedUpdate(DocumentEvent e) {
 				changed();
 			}
-			public void removeUpdate(DocumentEvent e){
+
+			public void removeUpdate(DocumentEvent e) {
 				changed();
 			}
-			public void insertUpdate(DocumentEvent e){
+
+			public void insertUpdate(DocumentEvent e) {
 				changed();
 			}
+
 			@SuppressWarnings("deprecation")
 			public void changed() {
-				if (txtDate.getText().equals("") ||txtProductName.getText().equals("") || txtQuantity.getText().equals("") 
-						|| txtTotalCost.getText().equals("") || txtOrigin.getText().equals("") || txtPicturePath.getText().equals(""))
+				if (txtDate.getText().equals("") || txtProductName.getText().equals("")
+						|| txtQuantity.getText().equals("") || txtTotalCost.getText().equals("")
+						|| txtOrigin.getText().equals("") || txtPicturePath.getText().equals(""))
 					btnAdd.setEnabled(false);
-				else 
+				else
 					btnAdd.setEnabled(true);
 			}
 		});
-		
+
 		txtPicturePath.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e){
+			public void changedUpdate(DocumentEvent e) {
 				changed();
 			}
-			public void removeUpdate(DocumentEvent e){
+
+			public void removeUpdate(DocumentEvent e) {
 				changed();
 			}
-			public void insertUpdate(DocumentEvent e){
+
+			public void insertUpdate(DocumentEvent e) {
 				changed();
 			}
+
 			@SuppressWarnings("deprecation")
 			public void changed() {
-				if (txtDate.getText().equals("") ||txtProductName.getText().equals("") || txtQuantity.getText().equals("") 
-						|| txtTotalCost.getText().equals("") || txtOrigin.getText().equals("") || txtPicturePath.getText().equals(""))
+				if (txtDate.getText().equals("") || txtProductName.getText().equals("")
+						|| txtQuantity.getText().equals("") || txtTotalCost.getText().equals("")
+						|| txtOrigin.getText().equals("") || txtPicturePath.getText().equals(""))
 					btnAdd.setEnabled(false);
-				else 
+				else
 					btnAdd.setEnabled(true);
 			}
 		});
-		
+
 		GridBagConstraints gbc_btnAddPicture = new GridBagConstraints();
 		gbc_btnAddPicture.fill = GridBagConstraints.BOTH;
 		gbc_btnAddPicture.insets = new Insets(0, 0, 5, 5);
@@ -481,7 +527,7 @@ public class AddProduct implements ActionListener {
 		btnAddPicture.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAddPicture.addActionListener(act);
 		jPanel.add(btnAddPicture, gbc_btnAddPicture);
-		
+
 		GridBagConstraints gbc_btnPreview = new GridBagConstraints();
 		gbc_btnPreview.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnPreview.insets = new Insets(0, 0, 5, 5);
@@ -503,13 +549,13 @@ public class AddProduct implements ActionListener {
 				mainGUI.getJFrame().setEnabled(false);
 
 				calenderFrame.addWindowListener(new java.awt.event.WindowAdapter() {
-				    @Override
-				    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+					@Override
+					public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 						mainGUI.getJFrame().setEnabled(true);
 
-				    }
+					}
 				});
-				
+
 				JPanel panel = new JPanel();
 				calenderFrame.setBounds(400, 400, 250, 100);
 
@@ -525,19 +571,20 @@ public class AddProduct implements ActionListener {
 
 				// end of calendar
 			}
-			
-			if(e.getSource() == btnPreview){
-				
+
+			if (e.getSource() == btnPreview) {
+
 				System.out.println("preview");
 				String filePath = txtPicturePath.getText();
-				
+
 				if (filePath.equals("")) {
 					JOptionPane.showMessageDialog(null, "No picture for selected product or no product selected!");
 				} else {
 					try {
 						IMAGE = new ImageIcon(filePath);
 					} catch (Exception q) {
-						System.out.println("Error: btnPreview");q.printStackTrace();
+						System.out.println("Error: btnPreview");
+						q.printStackTrace();
 					}
 					JLabel image = new JLabel(IMAGE);
 					JDialog dialog = new JDialog();
@@ -549,69 +596,85 @@ public class AddProduct implements ActionListener {
 					dialog.setVisible(true);
 				}
 			}
-				
+
 			if (e.getSource() == btnAddPicture) {
-				//check if file chosen is a photo
+				// check if file chosen is a photo
 				pictureFinder = new PictureFinder();
 				txtPicturePath.setText(pictureFinder.getPicturePath());
 			}
-	
+
 			if (e.getSource() == btnSet) {
 				mainGUI.getJFrame().setEnabled(true);
 
-				
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 				dateFrom = picker.getDate();
 				resultDateFrom = formatter.format(dateFrom);
-	
+
 				txtDate.setText("");
-	
+
 				txtDate.setText(resultDateFrom);
-	
+
 				calenderFrame.dispose();
-	
+
 			}
 			if (e.getSource() == btnAdd) {
-				boolean isNumQuantity;  	   // number input checker for quantity
-				boolean isNumTotalCost = true; // number input checker for total cost
-				boolean dec = true;			   // 2 decimal places checker
-				
+				boolean isNumQuantity; // number input checker for quantity
+				boolean isNumTotalCost = true; // number input checker for total
+												// cost
+				boolean dec = true; // 2 decimal places checker
+
 				try {
 					Double d = Double.parseDouble(txtTotalCost.getText());
 					String[] split = d.toString().split("\\.");
 
-					if (split[1].length() > 2) 
+					if (split[1].length() > 2)
 						dec = false;
-					
+
 				} catch (NumberFormatException n) {
 					isNumTotalCost = false;
 				}
-				
+
 				isNumQuantity = Pattern.matches("^\\d*$", txtQuantity.getText());
-				
-				if (isNumQuantity == false) {//check if txtQuantity input is numeric
+
+				String pathCheck = txtPicturePath.getText();
+				if (isNumQuantity == false) {// check if txtQuantity input is
+												// numeric
 					JOptionPane.showMessageDialog(null, "Please input numerical quantity!");
 					txtQuantity.setText("");
-				}else if (isNumTotalCost == false) { // check if txtTotalCost is numeric
+				} else if (isNumTotalCost == false) { // check if txtTotalCost
+														// is numeric
 					JOptionPane.showMessageDialog(null, "Please input numbers only on the price!");
 					txtTotalCost.setText("");
-				}else if (dec == false) { //2 decimal places checker
+				} else if (dec == false) { // 2 decimal places checker
 					JOptionPane.showMessageDialog(null, "Decimal places are limited to 2!");
 					txtTotalCost.setText("");
-				}else if (Double.parseDouble(txtTotalCost.getText()) < 0) {//positive number checker
+				} else if (Double.parseDouble(txtTotalCost.getText()) < 0) {// positive
+																			// number
+																			// checker
 					JOptionPane.showMessageDialog(null, "Please input numbers not less than 0!");
 					txtTotalCost.setText("");
-				}else if(cmbProductType.getSelectedItem().toString().equals("Select")){//Check if there is a selected product type
+				} else if (cmbProductType.getSelectedItem().toString().equals("Select")) {// Check
+																							// if
+																							// there
+																							// is
+																							// a
+																							// selected
+																							// product
+																							// type
 					JOptionPane.showMessageDialog(null, "Please select Product Type!");
-				}else{
+				} else if (!(pathCheck.endsWith(".png")) && !(pathCheck.endsWith(".jpg")) && !(pathCheck.endsWith(".jpeg"))) {
+					JOptionPane.showMessageDialog(null, "Please select picture with the right format");
+
+				} else {
+
 					product = new Product(Integer.parseInt(txtQuantity.getText()), dateFrom, txtProductName.getText(),
 							Double.parseDouble(txtTotalCost.getText()) / Integer.parseInt(txtQuantity.getText()),
 							Integer.parseInt(lblNextAvailableID.getText()),
 							db.getProductTypeID(cmbProductType.getSelectedItem().toString()), txtPicturePath.getText(),
 							txtOrigin.getText());
-		
+
 					managerProduct.addProduct(product);
-					
+
 					JOptionPane.showMessageDialog(null, "Product Successfully Added.");
 					mainGUI.removeAllRightSplit();
 					AddProduct addProduct = new AddProduct(mainGUI);
@@ -619,6 +682,7 @@ public class AddProduct implements ActionListener {
 				}
 			}
 		}
+
 	}
 
 	@Override

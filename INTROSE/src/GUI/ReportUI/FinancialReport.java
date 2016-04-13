@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import GUI.MainGUI;
 import GUI.Product.AddProduct;
+import Product.PictureFinder;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -12,9 +13,13 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -69,7 +74,11 @@ public class FinancialReport implements ActionListener {
 
 	private DBConnect db = new DBConnect();
 	private final JButton btnGenerate = new JButton("Generate");
-
+	
+	SimpleDateFormat formatterDefault;
+	Date dateDefault;	
+	private JXDatePicker pickerDefault;
+	
 	public FinancialReport(MainGUI mainGUI) {
 		this.mainGUI = mainGUI;
 
@@ -82,6 +91,31 @@ public class FinancialReport implements ActionListener {
 		lblYearlyReport.setFont(new Font("Tahoma", Font.BOLD, 18));
 		jPanel.add(lblYearlyReport, "cell 5 0,alignx left,growy");
 		lblFromDate.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
+		
+		//for the defaultDate
+		pickerDefault = new JXDatePicker();
+		pickerDefault.setDate(Calendar.getInstance().getTime());
+		pickerDefault.setFormats(new SimpleDateFormat("dd/MM/yyyy"));
+		formatterDefault = new SimpleDateFormat("yyyy/MM/dd");
+		dateDefault = pickerDefault.getDate();
+		
+		lblFromDate.setText(formatterDefault.format(dateDefault));
+		lblToDate.setText(formatterDefault.format(dateDefault));
+		
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		try {
+			Date start = sdf.parse(lblFromDate.getText());
+			Date end = sdf.parse(lblToDate.getText());
+			dateFrom = start;
+			dateTo = end;
+
+
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
 		jPanel.add(lblFromDate, "cell 2 1,alignx left");
 		lblToDate.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
@@ -102,8 +136,8 @@ public class FinancialReport implements ActionListener {
 		tblYearReport = new JTable();
 		scrollPane.setViewportView(tblYearReport);
 
-		tblYearReport.setModel(db.retrieveYearlyReport(db.getEarliestDate().toString(), db.getLatestDate().toString(), "None"));
-
+		tblYearReport.setModel(
+				db.retrieveYearlyReport(db.getEarliestDate().toString(), db.getLatestDate().toString(), "None"));
 
 		jPanel.add(scrollPane, "cell 0 2 6 1,grow");
 
@@ -145,15 +179,15 @@ public class FinancialReport implements ActionListener {
 				mainGUI.getJFrame().setEnabled(false);
 
 				calenderFrameFrom = new JFrame("Calendar");
-				
+
 				calenderFrameFrom.addWindowListener(new java.awt.event.WindowAdapter() {
-				    @Override
-				    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+					@Override
+					public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 						mainGUI.getJFrame().setEnabled(true);
 
-				    }
+					}
 				});
-				
+
 				JPanel panel = new JPanel();
 				calenderFrameFrom.setBounds(400, 400, 250, 100);
 
@@ -183,7 +217,6 @@ public class FinancialReport implements ActionListener {
 				calenderFrameFrom.dispose();
 				mainGUI.getJFrame().setEnabled(true);
 
-
 			}
 
 			if (e.getSource() == btnToSet) {
@@ -191,15 +224,15 @@ public class FinancialReport implements ActionListener {
 				mainGUI.getJFrame().setEnabled(false);
 
 				calenderFrameTo = new JFrame("Calendar");
-				
+
 				calenderFrameTo.addWindowListener(new java.awt.event.WindowAdapter() {
-				    @Override
-				    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+					@Override
+					public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 						mainGUI.getJFrame().setEnabled(true);
 
-				    }
+					}
 				});
-				
+
 				JPanel panel = new JPanel();
 				calenderFrameTo.setBounds(400, 400, 250, 100);
 
@@ -212,8 +245,6 @@ public class FinancialReport implements ActionListener {
 				calenderFrameTo.getContentPane().add(panel);
 
 				calenderFrameTo.setVisible(true);
-				
-				
 
 				// end of calendar
 			}
@@ -234,17 +265,23 @@ public class FinancialReport implements ActionListener {
 			}
 
 			if (e.getSource() == btnGenerate) {
-				mainGUI.removeAllRightSplit();
-//				tblYearReport.setModel(db.retrieveYearlyReport(db.convertJavaDateToSqlDate(dateFrom),
-//						db.convertJavaDateToSqlDate(dateFrom), cmbBranches.getSelectedItem().toString()));
-//				
-				
-				tblYearReport.setModel(db.retrieveYearlyReport(lblFromDate.getText(),
-						lblToDate.getText(), cmbBranches.getSelectedItem().toString()));
-				
+
+				if (dateTo.before(dateFrom)) {
+					JOptionPane.showMessageDialog(null, "Date FROM should be before TO");
+				} 
+				else{
+					mainGUI.removeAllRightSplit();
+				// tblYearReport.setModel(db.retrieveYearlyReport(db.convertJavaDateToSqlDate(dateFrom),
+				// db.convertJavaDateToSqlDate(dateFrom),
+				// cmbBranches.getSelectedItem().toString()));
+				//
+
+				tblYearReport.setModel(db.retrieveYearlyReport(lblFromDate.getText(), lblToDate.getText(),
+						cmbBranches.getSelectedItem().toString()));
+
 				FinancialReport financialReport = new FinancialReport(mainGUI);
 				mainGUI.setRightSplit(getJPanel());
-				
+				}
 
 			}
 		}

@@ -377,7 +377,6 @@ public class BranchReport {
 		dailyScroll.setViewportView(dailyTable);
 		// Branch Report (Daily) ends
 
-
 		ListSelectionModel listSelectionModel = dailyTable.getSelectionModel();
 		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
@@ -389,8 +388,6 @@ public class BranchReport {
 		dailyTable.getTableHeader().setReorderingAllowed(false);
 		monthlyTable.getTableHeader().setReorderingAllowed(false);
 
-		
-		
 		// Edit Table (If double clicked)
 		dailyTable.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -412,14 +409,13 @@ public class BranchReport {
 					String customer = "";
 					boolean dec = true;
 
-//					sold_date = (Date) dailyTable.getValueAt(row, 1);
+					// sold_date = (Date) dailyTable.getValueAt(row, 1);
 					receiptNumber = Integer.parseInt(dailyTable.getValueAt(row, 1).toString());
 					productName = dailyTable.getValueAt(row, 2).toString();
 					price = new Double(dailyTable.getValueAt(row, 3).toString());
 					quantity = Integer.parseInt(dailyTable.getValueAt(row, 4).toString());
 					customer = dailyTable.getValueAt(row, 5).toString();
 					staff = dailyTable.getValueAt(row, 6).toString();
-					
 
 					System.out.println(dailyTable.getValueAt(row, 1));
 					System.out.println(dailyTable.getValueAt(row, 2));
@@ -427,15 +423,9 @@ public class BranchReport {
 					System.out.println(dailyTable.getValueAt(row, 4));
 					System.out.println(dailyTable.getValueAt(row, 5));
 					System.out.println(dailyTable.getValueAt(row, 6));
-					
-		
 
-
-
-					
-					
-					EditReceiptDailySales editReceiptDailySales = new EditReceiptDailySales(branchNumber, mainGUI, receiptNumber, productName, price, quantity,
-							customer, staff);
+					EditReceiptDailySales editReceiptDailySales = new EditReceiptDailySales(branchNumber, mainGUI,
+							receiptNumber, productName, price, quantity, customer, staff);
 
 				}
 			}
@@ -518,11 +508,11 @@ public class BranchReport {
 
 				calendarFrame = new JFrame("Calendar");
 				calendarFrame.addWindowListener(new java.awt.event.WindowAdapter() {
-				    @Override
-				    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+					@Override
+					public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 						mainGUI.getJFrame().setEnabled(true);
 
-				    }
+					}
 				});
 				datePickPanel = new JPanel();
 				calendarFrame.setAlwaysOnTop(true);
