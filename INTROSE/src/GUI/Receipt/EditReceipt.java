@@ -59,8 +59,6 @@ public class EditReceipt extends JFrame implements ActionListener {
 	// Button
 	private JButton btnEdit;
 	
-	// Check Box
-	private JCheckBox chckbxCheckInput;
 	
 	private MainGUI mainGUI;
 	private int receiptNumber;
@@ -144,98 +142,47 @@ public class EditReceipt extends JFrame implements ActionListener {
 		btnEdit.addActionListener(act);
 		btnEdit.setEnabled(false);
 		
-		// Check Boxes
-		chckbxCheckInput = new JCheckBox("Check Input");
-		jPanel.add(chckbxCheckInput, "cell 1 8");
-		chckbxCheckInput.addActionListener(act);
+		
 
 		lblCustomer.setText(customer);
 		
-		if (txtPrice.getText().trim().length() != 0 ){
-		    priceField = true;
-		}
-		else priceField = false;
-		
-		if (txtStaff.getText().trim().length() != 0 ){
-		    staffField = true;
-		}
-		else staffField = false;
-		
 		txtPrice.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e) {
+			public void changedUpdate(DocumentEvent e){
 				changed();
 			}
-
-			public void removeUpdate(DocumentEvent e) {
+			public void removeUpdate(DocumentEvent e){
 				changed();
 			}
-
-			public void insertUpdate(DocumentEvent e) {
+			public void insertUpdate(DocumentEvent e){
 				changed();
 			}
-
+			@SuppressWarnings("deprecation")
 			public void changed() {
-				if (txtPrice.getText().equals("")) {
-					priceField = false;
-				} else {
-					priceField = true;
-				}
+				if (txtPrice.getText().equals("") || txtStaff.getText().equals(""))
+					btnEdit.setEnabled(false);
+				else 
+					btnEdit.setEnabled(true);
 			}
-			
 		});
-
+		
 		txtStaff.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e) {
+			public void changedUpdate(DocumentEvent e){
 				changed();
 			}
-
-			public void removeUpdate(DocumentEvent e) {
+			public void removeUpdate(DocumentEvent e){
 				changed();
 			}
-
-			public void insertUpdate(DocumentEvent e) {
+			public void insertUpdate(DocumentEvent e){
 				changed();
 			}
-
+			@SuppressWarnings("deprecation")
 			public void changed() {
-				if (txtPrice.getText().equals("")) {
-					staffField = false;
-				} else {
-					staffField = true;
-				}
+				if (txtPrice.getText().equals("") || txtStaff.getText().equals(""))
+					btnEdit.setEnabled(false);
+				else 
+					btnEdit.setEnabled(true);
 			}
-			
 		});
-
-		 txtStaff.addFocusListener(new FocusListener() {
-	            @Override
-	            public void focusGained(FocusEvent e) {
-	            	chckbxCheckInput.setSelected(false);
-	            	btnEdit.setEnabled(false);
-	            }
-
-	            @Override
-	            public void focusLost(FocusEvent e) {
-	            	chckbxCheckInput.setSelected(false);
-	            	btnEdit.setEnabled(false);
-	            }
-	            
-	     });
-		 
-		 txtPrice.addFocusListener(new FocusListener() {
-	            @Override
-	            public void focusGained(FocusEvent e) {
-	            	chckbxCheckInput.setSelected(false);
-	            	btnEdit.setEnabled(false);
-	            }
-
-	            @Override
-	            public void focusLost(FocusEvent e) {
-	            	chckbxCheckInput.setSelected(false);
-	            	btnEdit.setEnabled(false);
-	            }
-	            
-		 });
 		
 		 AutoCompleteDecorator.decorate(this.cmbProductName);
 		 AutoCompleteDecorator.decorate(this.cmbQuantity);
@@ -248,21 +195,6 @@ public class EditReceipt extends JFrame implements ActionListener {
 
 	private class ActListener implements ActionListener {
 		public void actionPerformed(ActionEvent a) {
-			if (a.getSource() == chckbxCheckInput){
-				if (txtPrice.getText().trim().length() != 0 ){
-				    priceField = true;
-				}
-				else priceField = false;
-				
-				if (txtStaff.getText().trim().length() != 0 ){
-				    staffField = true;
-				}
-				else staffField = false;
-				
-				if(priceField == true && staffField == true){
-					btnEdit.setEnabled(true);
-				}
-			}
 			
 			if (a.getSource() == cmbProductName) {
 				ArrayList<String> quantityContent = new ArrayList<String>();
