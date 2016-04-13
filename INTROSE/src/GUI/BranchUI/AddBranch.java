@@ -172,19 +172,25 @@ public class AddBranch {
 	private class ActListener implements ActionListener {
 		public void actionPerformed(ActionEvent a) {
 				if (a.getSource() == btnAdd) {
-					//bawal ata same branch?
-					//continue working here
-					ArrayList<Branch> branch = new ArrayList<Branch>();
-					branch = manBranch.getBranches();
-					for (int i = 0; i < branch.size(); i++) {
-						
+					boolean sameBranchName = false;
+					boolean sameUserName = false;
+					ArrayList<Branch> branches = new ArrayList<Branch>();
+					branches = manBranch.getBranches();
+					for (int i = 0; i < branches.size(); i++) {
+						if(branches.get(i).getBranchName().equalsIgnoreCase(txtBranchName.getText()))
+							sameBranchName = true;
+						if(branches.get(i).getBranchUsername().equalsIgnoreCase(txtUsername.getText()))
+							sameUserName = true;
 					}
 					
-					
-					if(!(password.getText().equals(confirmPass.getText()))){
+					if(sameBranchName == true){
+						JOptionPane.showMessageDialog(null, "Branch Name is already existing!");
+					}else if(sameUserName == true){
+						JOptionPane.showMessageDialog(null, "Username is already existing!");
+					}
+					else if(!(password.getText().equals(confirmPass.getText()))){
 						JOptionPane.showMessageDialog(null, "Password and Confirm Password did not match!");
-						password.setText("");
-						confirmPass.setText("");
+
 					}
 					else{
 						ManagerBranch managerBranch = new ManagerBranch();

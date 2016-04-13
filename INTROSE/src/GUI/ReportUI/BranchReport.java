@@ -41,6 +41,7 @@ import Branch.ManagerBranch;
 import DB.DBConnect;
 import GUI.MainGUI;
 import GUI.Receipt.EditReceipt;
+import GUI.Receipt.EditReceiptDailySales;
 import GUI.Receipt.POSReceipt;
 import Receipt.ManagerReceipt;
 import Receipt.Receipt;
@@ -431,7 +432,7 @@ public class BranchReport {
 
 					
 					
-					EditReceipt editReceipt = new EditReceipt(mainGUI, receiptNumber, productName, price, quantity,
+					EditReceiptDailySales editReceiptDailySales = new EditReceiptDailySales(branchNumber, mainGUI, receiptNumber, productName, price, quantity,
 							customer, staff);
 
 				}
