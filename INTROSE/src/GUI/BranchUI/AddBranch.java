@@ -21,6 +21,7 @@ import Branch.ManagerBranch;
 
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
+import java.awt.Font;
 
 public class AddBranch {
 	private JPanel jPanel = new JPanel();
@@ -51,12 +52,17 @@ public class AddBranch {
 		
 		jPanel.setPreferredSize(new Dimension(1037, 628));
 		jPanel.setLayout(new MigLayout("", "[20.00][130.00][130.00][20.00]", "[20.00][40.00][25.00][25][25][25][25][25][20]"));
+		lblBranchCreation.setFont(new Font("Tahoma", Font.BOLD, 18));
 		
 		
 		jPanel.add(lblBranchCreation, "cell 1 1 2 1,alignx center,aligny center");
+		lblBranchName.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblBranchName, "cell 1 2,alignx center,aligny center");
+		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblUsername, "cell 1 4,alignx center,aligny center");
+		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblPassword, "cell 1 5,alignx center,aligny center");
+		lblConfirmPass.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblConfirmPass, "cell 1 6,alignx center,aligny center");
 		
 		jPanel.add(txtBranchName, "cell 2 2,grow");
@@ -65,6 +71,7 @@ public class AddBranch {
 		txtUsername.setColumns(10);
 		jPanel.add(password, "cell 2 5,grow");
 		jPanel.add(confirmPass, "cell 2 6,grow");
+		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(btnAdd, "cell 2 7,grow");
 		btnAdd.addActionListener(act);
 		btnAdd.setEnabled(false);
