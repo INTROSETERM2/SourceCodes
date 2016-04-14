@@ -88,6 +88,8 @@ public class EditReceipt extends JFrame implements ActionListener {
 
 			}
 		});
+		
+		mainGUI.getJFrame().setEnabled(false);
 		jPanel.setLayout(new MigLayout("", "[52px][57px,grow][][][][][][][][]", "[20px][20px][23px][][][][][][][][]"));
 		jPanel.setSize(300, 250);
 		jPanel.setOpaque(true);
