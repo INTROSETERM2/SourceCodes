@@ -78,7 +78,7 @@ public class GUIClientUpperControlPanel implements ActionListener{
 		
 		branches = manBranch.getBranches();
 		
-		for(int i = 0; i < branches.size();i++){
+		for(int i = 1; i < branches.size();i++){
 			model.addRow(new Object[]{branches.get(i).getBranchName()});
 		}
 		
