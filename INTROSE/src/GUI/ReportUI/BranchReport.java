@@ -109,6 +109,7 @@ public class BranchReport {
 
 	public BranchReport(MainGUI mainGUI, int branchNumber) {
 		this.mainGUI = mainGUI;
+		txtDay.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtDay.setColumns(10);
 		this.branchNumber = branchNumber;
 		ArrayList<Branch> branches = new ArrayList<Branch>();
@@ -121,6 +122,7 @@ public class BranchReport {
 
 		lblBranchD.setText(branch);
 		lblBranchM.setText(branch);
+		lblTotalSalesD.setFont(new Font("Tahoma", Font.BOLD, 18));
 
 		lblTotalSalesD.setText("");
 		mainPanel.setSize(1040, 609);
@@ -177,6 +179,7 @@ public class BranchReport {
 		gbc_lblDay.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDay.gridx = 2;
 		gbc_lblDay.gridy = 2;
+		lblDay.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		dailyPanel.add(lblDay, gbc_lblDay);
 
 		GridBagConstraints gbc_txtDay = new GridBagConstraints();
@@ -195,6 +198,7 @@ public class BranchReport {
 		gbc_btnPickDate.insets = new Insets(0, 0, 5, 5);
 		gbc_btnPickDate.gridx = 4;
 		gbc_btnPickDate.gridy = 3;
+		btnPickDate.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		dailyPanel.add(btnPickDate, gbc_btnPickDate);
 
 		GridBagConstraints gbc_dailyScroll = new GridBagConstraints();
@@ -239,18 +243,21 @@ public class BranchReport {
 		gbc_lblTotalSalesM.insets = new Insets(0, 0, 5, 5);
 		gbc_lblTotalSalesM.gridx = 9;
 		gbc_lblTotalSalesM.gridy = 1;
+		lblTotalSalesM.setFont(new Font("Tahoma", Font.BOLD, 18));
 		monthlyPanel.add(lblTotalSalesM, gbc_lblTotalSalesM);
 
 		GridBagConstraints gbc_lblMonth = new GridBagConstraints();
 		gbc_lblMonth.insets = new Insets(0, 0, 5, 5);
 		gbc_lblMonth.gridx = 2;
 		gbc_lblMonth.gridy = 2;
+		lblMonth.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		monthlyPanel.add(lblMonth, gbc_lblMonth);
 
 		GridBagConstraints gbc_lblYear = new GridBagConstraints();
 		gbc_lblYear.insets = new Insets(0, 0, 5, 5);
 		gbc_lblYear.gridx = 5;
 		gbc_lblYear.gridy = 2;
+		lblYear.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		monthlyPanel.add(lblYear, gbc_lblYear);
 
 		GridBagConstraints gbc_btnPrevMonth = new GridBagConstraints();
@@ -258,6 +265,7 @@ public class BranchReport {
 		gbc_btnPrevMonth.insets = new Insets(0, 0, 5, 5);
 		gbc_btnPrevMonth.gridx = 1;
 		gbc_btnPrevMonth.gridy = 3;
+		btnPrevMonth.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		monthlyPanel.add(btnPrevMonth, gbc_btnPrevMonth);
 
 		GridBagConstraints gbc_cmbMonth = new GridBagConstraints();
@@ -265,6 +273,7 @@ public class BranchReport {
 		gbc_cmbMonth.fill = GridBagConstraints.VERTICAL;
 		gbc_cmbMonth.gridx = 2;
 		gbc_cmbMonth.gridy = 3;
+		cmbMonth.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		monthlyPanel.add(cmbMonth, gbc_cmbMonth);
 
 		GridBagConstraints gbc_btnNextMonth = new GridBagConstraints();
@@ -272,6 +281,7 @@ public class BranchReport {
 		gbc_btnNextMonth.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNextMonth.gridx = 3;
 		gbc_btnNextMonth.gridy = 3;
+		btnNextMonth.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		monthlyPanel.add(btnNextMonth, gbc_btnNextMonth);
 
 		GridBagConstraints gbc_btnPrevYear = new GridBagConstraints();
@@ -279,6 +289,7 @@ public class BranchReport {
 		gbc_btnPrevYear.insets = new Insets(0, 0, 5, 5);
 		gbc_btnPrevYear.gridx = 4;
 		gbc_btnPrevYear.gridy = 3;
+		btnPrevYear.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		monthlyPanel.add(btnPrevYear, gbc_btnPrevYear);
 
 		GridBagConstraints gbc_cmbYear = new GridBagConstraints();
@@ -286,6 +297,7 @@ public class BranchReport {
 		gbc_cmbYear.fill = GridBagConstraints.VERTICAL;
 		gbc_cmbYear.gridx = 5;
 		gbc_cmbYear.gridy = 3;
+		cmbYear.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cmbYear.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		monthlyPanel.add(cmbYear, gbc_cmbYear);
 
@@ -294,6 +306,7 @@ public class BranchReport {
 		gbc_btnNextYear.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNextYear.gridx = 6;
 		gbc_btnNextYear.gridy = 3;
+		btnNextYear.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		monthlyPanel.add(btnNextYear, gbc_btnNextYear);
 
 		GridBagConstraints gbc_btnGenerate = new GridBagConstraints();
@@ -301,6 +314,7 @@ public class BranchReport {
 		gbc_btnGenerate.insets = new Insets(0, 0, 5, 5);
 		gbc_btnGenerate.gridx = 7;
 		gbc_btnGenerate.gridy = 3;
+		btnGenerate.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		monthlyPanel.add(btnGenerate, gbc_btnGenerate);
 
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
