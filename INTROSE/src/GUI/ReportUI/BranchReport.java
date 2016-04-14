@@ -482,6 +482,10 @@ public class BranchReport {
 					btnNextMonth.setEnabled(false);
 					btnPrevMonth.setEnabled(true);
 				}
+				if (cmbMonth.getSelectedIndex() != 0 && cmbMonth.getSelectedIndex() != 11){
+					btnPrevMonth.setEnabled(true);
+					btnNextMonth.setEnabled(true);
+				}
 			}
 
 			if (e.getSource() == cmbYear) {
@@ -491,6 +495,10 @@ public class BranchReport {
 				}
 				if (cmbYear.getSelectedIndex() == max) {
 					btnNextYear.setEnabled(false);
+					btnPrevYear.setEnabled(true);
+				}
+				if (cmbYear.getSelectedIndex() != 0 && cmbYear.getSelectedIndex() != max){
+					btnNextYear.setEnabled(true);
 					btnPrevYear.setEnabled(true);
 				}
 			}
@@ -549,6 +557,7 @@ public class BranchReport {
 
 	// updates the monthly table
 	public void setMonthlyTable() {
+		total = 0;
 		DefaultTableModel monthlyModel = new DefaultTableModel(
 				new Object[] { "Date", "Receipt Number", "Product", "Price", "Quantity", "Customer", "Staff" }, 0) {
 			@Override
@@ -572,11 +581,11 @@ public class BranchReport {
 		lblTotalSalesM.setText(df.format(total));
 		monthlyTable.setModel(monthlyModel);
 		monthlyScroll.setViewportView(monthlyTable);
-		total = 0;
 	}
 
 	// updates the daily table
 	public void setDailyTable() {
+		total = 0;
 		DefaultTableModel dailyModel = new DefaultTableModel(
 				new Object[] { "Date", "Receipt Number", "Product", "Price", "Quantity", "Customer", "Staff" }, 0) {
 			@Override
@@ -599,7 +608,6 @@ public class BranchReport {
 		lblTotalSalesD.setText(df.format(total));
 		dailyTable.setModel(dailyModel);
 		dailyScroll.setViewportView(dailyTable);
-		total = 0;
 	}
 
 	public JPanel getJPanel() {
