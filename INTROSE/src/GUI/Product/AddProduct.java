@@ -282,7 +282,7 @@ public class AddProduct implements ActionListener {
 				return false;
 			}
 		};
-
+		productTable.getTableHeader().setReorderingAllowed(false);
 		ListSelectionModel listSelectionModel = productTable.getSelectionModel();
 		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {

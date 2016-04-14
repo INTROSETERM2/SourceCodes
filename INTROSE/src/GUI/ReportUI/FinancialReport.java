@@ -95,6 +95,7 @@ public class FinancialReport implements ActionListener {
 		tblYearReport = new JTable();
 		tblYearReport.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		scrollPane.setViewportView(tblYearReport);
+		tblYearReport.getTableHeader().setReorderingAllowed(false);
 
 		tblYearReport.setModel(
 				db.retrieveYearlyReport(db.getEarliestDate().toString(), db.getLatestDate().toString(), "None"));
