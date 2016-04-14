@@ -1,4 +1,6 @@
 package ProductType;
+import java.util.ArrayList;
+
 import DB.DBConnect;
 
 public class ManagerProductType {
@@ -17,5 +19,9 @@ public class ManagerProductType {
 	public void modifyProductType()
 	{
 		
+	}
+	
+	public ArrayList<ProductType> getProductTypes(){
+		return db.getProductTypes();
 	}
 }

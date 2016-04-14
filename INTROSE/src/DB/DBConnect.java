@@ -29,7 +29,7 @@ public class DBConnect {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			// always changed this for DB access
-			 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","root");
+			 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
 //			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp", "root", "");
 			// con =
 			// DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root",
@@ -216,7 +216,7 @@ public class DBConnect {
 	}
 
 	public ArrayList<String> getProductTypeNames() {
-		String query = "SELECT product_type_name FROM introse_mp.product_types";
+		String query = "SELECT product_type_name FROM product_types";
 		ArrayList<String> productTypes = new ArrayList<String>();
 		productTypes.add("Select");
 
@@ -767,6 +767,7 @@ public class DBConnect {
 
 		return receipts;
 	}
+	
 
 	public void deleteReceipt(int receiptID) {
 		String query = "delete from receipts where receiptID = ?";

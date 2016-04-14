@@ -1,6 +1,8 @@
 package GUI.Receipt;
 
 import java.awt.Color;
+import java.awt.Dimension;
+
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 
@@ -30,6 +32,8 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import java.awt.Font;
+import java.awt.Toolkit;
+
 import javax.swing.JCheckBox;
 
 public class EditReceipt extends JFrame implements ActionListener {
@@ -75,6 +79,7 @@ public class EditReceipt extends JFrame implements ActionListener {
 	
 	public EditReceipt(MainGUI mainGUI, int receiptNumber, String productName, double price, int quantity, String customer,
 			String staff) {
+		
 		jPanel.setLayout(new MigLayout("", "[52px][57px,grow][][][][][][][][]", "[20px][20px][23px][][][][][][][][]"));
 		jPanel.setSize(300, 250);
 		jPanel.setOpaque(true);

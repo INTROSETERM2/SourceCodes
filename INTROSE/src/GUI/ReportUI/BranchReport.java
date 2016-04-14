@@ -417,13 +417,6 @@ public class BranchReport {
 					customer = dailyTable.getValueAt(row, 5).toString();
 					staff = dailyTable.getValueAt(row, 6).toString();
 
-					System.out.println(dailyTable.getValueAt(row, 1));
-					System.out.println(dailyTable.getValueAt(row, 2));
-					System.out.println(dailyTable.getValueAt(row, 3).toString());
-					System.out.println(dailyTable.getValueAt(row, 4));
-					System.out.println(dailyTable.getValueAt(row, 5));
-					System.out.println(dailyTable.getValueAt(row, 6));
-
 					EditReceiptDailySales editReceiptDailySales = new EditReceiptDailySales(branchNumber, mainGUI,
 							receiptNumber, productName, price, quantity, customer, staff);
 

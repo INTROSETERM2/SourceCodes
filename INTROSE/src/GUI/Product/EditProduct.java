@@ -48,7 +48,6 @@ public class EditProduct extends JFrame implements ActionListener {
 
 	ActionListener act = new ActListener();
 	JPanel jPanel = new JPanel();
-	private JComboBox cmbProductType;
 
 	// Text Fields
 	private JTextField txtNewProductName = new JTextField();
@@ -63,7 +62,6 @@ public class EditProduct extends JFrame implements ActionListener {
 	private JLabel lblProductNo = new JLabel("Product No:");
 	private JLabel lblProductNumber;
 	private JLabel lblTotalPrice = new JLabel("Price:");
-	private JLabel lblProductType = new JLabel("Product Type:");
 	private JLabel lblCustomer;
 	private JLabel lblPicture = new JLabel("Picture");
 	private JLabel lblNewProductName = new JLabel("Product Name");
@@ -113,7 +111,7 @@ public class EditProduct extends JFrame implements ActionListener {
 		txtPicture.setColumns(10);
 		txtQuantity.setColumns(10);
 		jPanel.setLayout(
-				new MigLayout("", "[52px][57px,grow][][][][][][][][][][][]", "[20px][20px][23px][][][][][][][][][][]"));
+				new MigLayout("", "[52px][57px,grow][][][][][][][][][][][]", "[20px][20px][23px][][][][][][][][][]"));
 		jPanel.setSize(300, 250);
 		jPanel.setOpaque(true);
 
@@ -140,10 +138,6 @@ public class EditProduct extends JFrame implements ActionListener {
 
 		jPanel.add(txtNewProductName, "cell 1 3 10 1,growx,aligny top");
 
-		cmbProductType = new JComboBox(db.getProductTypeNames().toArray());
-
-		jPanel.add(cmbProductType, "cell 1 5 10 1,growx");
-
 		// Text Fields
 		jPanel.add(txtTotalPrice, "cell 1 4 10 1,growx");
 		txtTotalPrice.setColumns(10);
@@ -158,46 +152,42 @@ public class EditProduct extends JFrame implements ActionListener {
 		lblProductNumber.setFont(new Font("Tahoma", Font.BOLD, 11));
 		jPanel.add(lblProductNumber, "cell 1 1 10 1");
 		jPanel.add(lblTotalPrice, "cell 0 4,alignx trailing");
-		jPanel.add(lblProductType, "cell 0 5,alignx trailing");
-
-		AutoCompleteDecorator.decorate(this.cmbProductType);
 
 		getContentPane().add(jPanel);
 
-		jPanel.add(lblQuantity, "cell 0 6,alignx trailing");
+		jPanel.add(lblQuantity, "cell 0 5,alignx trailing");
 
-		jPanel.add(txtQuantity, "cell 1 6 10 1,growx,aligny top");
+		jPanel.add(txtQuantity, "cell 1 5 10 1,growx,aligny top");
 
-		jPanel.add(lblDate, "cell 0 7,alignx trailing");
+		jPanel.add(lblDate, "cell 0 6,alignx trailing");
 		txtDate.setColumns(10);
 
-		jPanel.add(txtDate, "cell 1 7 7 1,growx");
+		jPanel.add(txtDate, "cell 1 6 7 1,growx");
 
-		jPanel.add(btnChange, "cell 8 7 3 1");
+		jPanel.add(btnChange, "cell 8 6 3 1");
 
 		JLabel lblOrigin = new JLabel("Origin:");
-		jPanel.add(lblOrigin, "cell 0 8,alignx trailing");
+		jPanel.add(lblOrigin, "cell 0 7,alignx trailing");
 		txtOrigin.setColumns(10);
 
-		jPanel.add(txtOrigin, "cell 1 8 10 1,growx");
+		jPanel.add(txtOrigin, "cell 1 7 10 1,growx");
 
-		jPanel.add(lblPicture, "cell 0 9,alignx trailing");
+		jPanel.add(lblPicture, "cell 0 8,alignx trailing");
 
 		lbloldProductName.setText(productName);
 		txtNewProductName.setText(productName);
 		txtTotalPrice.setText(Double.toString(totalCost));
-		cmbProductType.setSelectedItem(productType);
 		txtQuantity.setText(Integer.toString(quantity));
 		txtDate.setText(dateBought.toString());
 		txtOrigin.setText(origin);
 		txtPicture.setText(picture);
 
-		jPanel.add(txtPicture, "cell 1 9 10 1,growx");
+		jPanel.add(txtPicture, "cell 1 8 10 1,growx");
 		btnChangePicture.setHorizontalAlignment(SwingConstants.LEADING);
 
-		jPanel.add(btnChangePicture, "flowx,cell 1 10 3 1,growx");
+		jPanel.add(btnChangePicture, "flowx,cell 1 9 3 1,growx");
 
-		jPanel.add(btnPreview, "cell 4 10,growx");
+		jPanel.add(btnPreview, "cell 4 9,growx");
 
 		//
 		// // Check Boxes
@@ -207,7 +197,7 @@ public class EditProduct extends JFrame implements ActionListener {
 
 		// Buttons
 		btnEdit = new JButton("Edit");
-		jPanel.add(btnEdit, "cell 1 12 10 1,growx");
+		jPanel.add(btnEdit, "cell 1 11 10 1,growx");
 		btnChangePicture.addActionListener(act);
 		btnEdit.addActionListener(act);
 		btnChange.addActionListener(act);
@@ -405,13 +395,16 @@ public class EditProduct extends JFrame implements ActionListener {
 				}else if (Double.parseDouble(txtTotalPrice.getText()) < 0) {//positive number checker
 					JOptionPane.showMessageDialog(null, "Please input numbers not less than 0!");
 					txtTotalPrice.setText("");
-				}else if(cmbProductType.getSelectedItem().toString().equals("Select")){//Check if there is a selected product type
-					JOptionPane.showMessageDialog(null, "Please select Product Type!");
-				}else{
+				}
+//				else if(cmbProductType.getSelectedItem().toString().equals("Select")){//Check if there is a selected product type
+//					JOptionPane.showMessageDialog(null, "Please select Product Type!");
+//				}
+				else{
 				Product product = new Product(Integer.parseInt(txtQuantity.getText()), dateFrom,
 						txtNewProductName.getText(), Double.parseDouble(txtTotalPrice.getText()),
 						Integer.parseInt(lblProductNumber.getText()),
-						db.getProductTypeID(cmbProductType.getSelectedItem().toString()), txtPicture.getText(),
+//						db.getProductTypeID(cmbProductType.getSelectedItem().toString())
+						1, txtPicture.getText(),
 						txtOrigin.getText());
 
 				db.editProduct(product);
