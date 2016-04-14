@@ -23,6 +23,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import DB.DBConnect;
 import GUI.MainGUI;
 import net.miginfocom.swing.MigLayout;
+import java.awt.Color;
 
 public class FinancialReport implements ActionListener {
 	private JPanel jPanel = new JPanel();
@@ -37,7 +38,7 @@ public class FinancialReport implements ActionListener {
 	private JScrollPane scrollPane = new JScrollPane();
 	private final JLabel lblTo = new JLabel("To  ");
 
-	private final JLabel lblFilterBranch = new JLabel("Filter Branch:");
+	private final JLabel lblFilterBranch = new JLabel("                 Filter Branch:");
 	private JComboBox cmbBranches;
 
 	private MainGUI mainGUI;
@@ -70,17 +71,22 @@ public class FinancialReport implements ActionListener {
 		pickerDefault.setFormats(new SimpleDateFormat("dd/MM/yyyy"));
 		formatterDefault = new SimpleDateFormat("yyyy/MM/dd");
 		dateDefault = pickerDefault.getDate();
+		cmbFromYear.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 
 		
 		jPanel.add(cmbFromYear, "cell 1 1,grow");
+		cmbToYear.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		jPanel.add(cmbToYear, "cell 3 1,grow");
+		lblFilterBranch.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		jPanel.add(lblFilterBranch, "flowx,cell 4 1,alignx left,aligny center");
 
 		lblTotalCapital.setFont(new Font("Tahoma", Font.BOLD, 16));
 		jPanel.add(lblTotalCapital, "cell 0 3 2 1,alignx left,growy");
+		lblTotalCapitalDisplay.setForeground(Color.BLACK);
+		lblTotalCapitalDisplay.setFont(new Font("Tahoma", Font.BOLD, 18));
 		
 		jPanel.add(lblTotalCapitalDisplay, "cell 2 3 2 1,grow");
 
@@ -88,6 +94,7 @@ public class FinancialReport implements ActionListener {
 		jPanel.add(lblTotalNet, "cell 0 4 2 1,grow");
 
 		tblYearReport = new JTable();
+		tblYearReport.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		scrollPane.setViewportView(tblYearReport);
 
 		tblYearReport.setModel(
@@ -101,6 +108,7 @@ public class FinancialReport implements ActionListener {
 			totalNetSales += Double.parseDouble(tblYearReport.getValueAt(i, 3).toString());
 		}
 		lblTotalCapitalDisplay.setText(totalCapital.toString());
+		lblTotalNetSalesDisplay.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblTotalNetSalesDisplay.setText(totalNetSales.toString());
 		
 
@@ -108,15 +116,17 @@ public class FinancialReport implements ActionListener {
 
 		JLabel lblFrom = new JLabel("From");
 		lblFrom.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		jPanel.add(lblFrom, "flowx,cell 0 1,alignx left,growy");
+		jPanel.add(lblFrom, "flowx,cell 0 1,alignx center,growy");
 		lblTo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
-		jPanel.add(lblTo, "flowx,cell 2 1,alignx trailing,growy");
+		jPanel.add(lblTo, "flowx,cell 2 1,alignx center,growy");
 
 		cmbBranches = new JComboBox(db.getBranchNames().toArray());
+		cmbBranches.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		AutoCompleteDecorator.decorate(this.cmbBranches);
 
 		jPanel.add(cmbBranches, "cell 4 1,grow");
+		btnGenerate.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		jPanel.add(btnGenerate, "cell 4 1,growy");
 		
