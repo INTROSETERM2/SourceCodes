@@ -143,6 +143,17 @@ public class FinancialReport implements ActionListener {
 
 		tblYearReport.setModel(
 				db.retrieveYearlyReport(db.getEarliestDate().toString(), db.getLatestDate().toString(), "None"));
+		
+		int row = tblYearReport.getRowCount();
+		Double totalCapital = 0.0;
+		Double totalNetSales = 0.0;
+		for (int i = 0; i < row; i++) {
+			totalCapital += Double.parseDouble(tblYearReport.getValueAt(i, 0).toString());
+			totalNetSales += Double.parseDouble(tblYearReport.getValueAt(i, 3).toString());
+		}
+		lblTotalCapitalDisplay.setText(totalCapital.toString());
+		lblTotalNetSalesDisplay.setText(totalNetSales.toString());
+		
 
 		jPanel.add(scrollPane, "cell 0 2 6 1,grow");
 
@@ -154,9 +165,9 @@ public class FinancialReport implements ActionListener {
 		jPanel.add(lblTo, "flowx,cell 3 1,alignx left,growy");
 
 		btnFromSet = new JButton("Set");
-		jPanel.add(btnFromSet, "cell 0 1,growx,aligny bottom");
+		jPanel.add(btnFromSet, "cell 0 1,grow");
 
-		jPanel.add(btnToSet, "cell 3 1,growx");
+		jPanel.add(btnToSet, "cell 3 1,grow");
 
 		cmbBranches = new JComboBox(db.getBranchNames().toArray());
 		AutoCompleteDecorator.decorate(this.cmbBranches);
