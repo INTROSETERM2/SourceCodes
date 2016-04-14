@@ -21,7 +21,7 @@ public class ManagerReceipt {
 
 	}
 	
-	public ArrayList<Receipt> getMonthReceipts(int branchNum, int month, int year){
+	public ArrayList<String> getMonthReceipts(int branchNum, int month, int year){
 		return db.getMonthReceipts(branchNum, month, year);
 	}
 	

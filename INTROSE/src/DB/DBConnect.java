@@ -722,9 +722,12 @@ public class DBConnect {
 		return earlyDate;
 	}
 
-	public ArrayList<Receipt> getMonthReceipts(int branchNum, int month, int year) {
-		String query = "SELECT * fROM receipts WHERE year(sold_date) = ? && month(sold_date) = ? && sold_branch = ?";
-		ArrayList<Receipt> receipts = new ArrayList<Receipt>();
+	public ArrayList<String> getMonthReceipts(int branchNum, int month, int year) {
+		String query = "SELECT sold_date, sum(sold_price) "
+				+ "FROM receipts WHERE year(sold_date) = ? && month(sold_date) = ? && sold_branch = ? "
+				+ "GROUP BY sold_date;";
+		
+		ArrayList<String> receipts = new ArrayList<String>();
 		ArrayList<Branch> branches = new ArrayList<Branch>();
 		Branch branch = new Branch();
 		branches = getBranches();
@@ -742,17 +745,8 @@ public class DBConnect {
 			preparedStatement.setInt(3, branchNum);
 			rs = preparedStatement.executeQuery();
 			while (rs.next()) {
-				int receiptID = rs.getInt("receiptID");
-				String staffName = rs.getString("staffName");
-				double soldPrice = rs.getDouble("sold_price");
-				int soldQuantity = rs.getInt("sold_Quantity");
-				Date soldDate = rs.getDate("sold_date");
-				String customerName = rs.getString("customer_name");
-				int soldProductID = rs.getInt("productID");
-				String soldProductName = rs.getString("sold_ProductName");
-				System.out.println(branch.getBranchCreationDate());
-				receipts.add(new Receipt(receiptID, staffName, soldPrice, soldQuantity, soldDate, customerName, branch,
-						soldProductID, soldProductName));
+				receipts.add(rs.getString("sold_date"));
+				receipts.add(Double.toString(rs.getDouble("sum(sold_price)")));
 			}
 		} catch (Exception e) {
 			System.out.println("Error: getReceipts " + e);

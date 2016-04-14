@@ -573,23 +573,20 @@ public class BranchReport {
 	public void setMonthlyTable() {
 		total = 0;
 		DefaultTableModel monthlyModel = new DefaultTableModel(
-				new Object[] { "Date", "Receipt Number", "Product", "Price", "Quantity", "Customer", "Staff" }, 0) {
+				new Object[] { "Date", "Total Sales"}, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
 		};
 
-		ArrayList<Receipt> receiptMonthly = manRec.getMonthReceipts(branchNumber,
+		ArrayList<String> display = manRec.getMonthReceipts(branchNumber,
 				Integer.parseInt(cmbMonth.getSelectedItem().toString()),
 				Integer.parseInt(cmbYear.getSelectedItem().toString()));
 
-		for (int i = 0; i < receiptMonthly.size(); i++) {
-			monthlyModel.addRow(new Object[] { receiptMonthly.get(i).getSoldDate(),
-					receiptMonthly.get(i).getReceiptID(), receiptMonthly.get(i).getSoldProductName(),
-					receiptMonthly.get(i).getSoldPrice(), receiptMonthly.get(i).getSoldQuantity(),
-					receiptMonthly.get(i).getCustomerName(), receiptMonthly.get(i).getStaffName() });
-			total += receiptMonthly.get(i).getSoldPrice();
+		for (int i = 0; i < display.size(); i+=2) {
+			monthlyModel.addRow(new Object[] { display.get(i), display.get(i+1) });
+			total += Double.parseDouble(display.get(i+1));
 		}
 		DecimalFormat df = new DecimalFormat("#.00");
 		lblTotalSalesM.setText(df.format(total));
