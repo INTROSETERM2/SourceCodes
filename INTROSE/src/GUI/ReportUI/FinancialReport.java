@@ -46,19 +46,12 @@ public class FinancialReport implements ActionListener {
 	// Labels
 	private JLabel lblYearlyReport = new JLabel("Yearly Report of All Branches");
 	private JLabel lblTotalCapital = new JLabel("Total Capital:");
-	private JLabel lblCapital = new JLabel("");
 	private JLabel lblTotalNet = new JLabel("Total Net:");
-	private JLabel lblNet = new JLabel("");
 	private JTable tblYearReport = new JTable();
 
 	// Scroll Pane
 	private JScrollPane scrollPane = new JScrollPane();
 	private final JLabel lblTo = new JLabel("To  ");
-	private final JLabel lblFromDate = new JLabel("None");
-	private final JButton btnToSet = new JButton("Set");
-	private final JLabel lblToDate = new JLabel("None");
-
-	JButton btnFromSet;
 	private JXDatePicker pickerFrom;
 	private Date dateFrom;
 	private JFrame calenderFrameFrom;
@@ -81,19 +74,19 @@ public class FinancialReport implements ActionListener {
 	private JXDatePicker pickerDefault;
 	private JLabel lblTotalCapitalDisplay = new JLabel();
 	private JLabel lblTotalNetSalesDisplay = new JLabel();
+	private final JComboBox cmbFromYear = new JComboBox();
+	private final JComboBox cmbToYear = new JComboBox();
 	
 	public FinancialReport(MainGUI mainGUI) {
-		this.mainGUI = mainGUI;
-
 		ActListener act = new ActListener();
+		this.mainGUI = mainGUI;
 		jPanel.setPreferredSize(new Dimension(1000, 778));
 		jPanel.setLayout(
-				new MigLayout("", "[132px][-77.00px][77px][117.00px][72px][610px]", "[50px][25px][495px][23px][23px]"));
+				new MigLayout("", "[70.00px][90.00px][70.00px][90.00px][610px]", "[50px][25px][495px][23px][23px]"));
 
 		// Labels
 		lblYearlyReport.setFont(new Font("Tahoma", Font.BOLD, 18));
-		jPanel.add(lblYearlyReport, "cell 5 0,alignx left,growy");
-		lblFromDate.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
+		jPanel.add(lblYearlyReport, "cell 4 0,alignx left,growy");
 		
 		//for the defaultDate
 		pickerDefault = new JXDatePicker();
@@ -102,41 +95,21 @@ public class FinancialReport implements ActionListener {
 		formatterDefault = new SimpleDateFormat("yyyy/MM/dd");
 		dateDefault = pickerDefault.getDate();
 		
-		lblFromDate.setText(formatterDefault.format(dateDefault));
-		lblToDate.setText(formatterDefault.format(dateDefault));
+
 		
-
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-		try {
-			Date start = sdf.parse(lblFromDate.getText());
-			Date end = sdf.parse(lblToDate.getText());
-			dateFrom = start;
-			dateTo = end;
-
-
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		jPanel.add(cmbFromYear, "cell 1 1,grow");
 		
+		jPanel.add(cmbToYear, "cell 3 1,grow");
 
-		jPanel.add(lblFromDate, "cell 2 1,alignx left");
-		lblToDate.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
-
-		jPanel.add(lblToDate, "cell 4 1");
-
-		jPanel.add(lblFilterBranch, "flowx,cell 5 1,alignx left");
+		jPanel.add(lblFilterBranch, "flowx,cell 4 1,alignx left,aligny center");
 
 		lblTotalCapital.setFont(new Font("Tahoma", Font.BOLD, 16));
-		jPanel.add(lblTotalCapital, "cell 0 3,alignx left,growy");
+		jPanel.add(lblTotalCapital, "cell 0 3 2 1,alignx left,growy");
 		
 		jPanel.add(lblTotalCapitalDisplay, "cell 2 3 2 1,grow");
 
 		lblTotalNet.setFont(new Font("Tahoma", Font.BOLD, 16));
-		jPanel.add(lblTotalNet, "cell 0 4,grow");
-
-		jPanel.add(lblCapital, "cell 1 3,alignx trailing,growy");
-		jPanel.add(lblNet, "cell 1 4,alignx trailing,growy");
+		jPanel.add(lblTotalNet, "cell 0 4 2 1,grow");
 
 		tblYearReport = new JTable();
 		scrollPane.setViewportView(tblYearReport);
@@ -148,174 +121,71 @@ public class FinancialReport implements ActionListener {
 		Double totalCapital = 0.0;
 		Double totalNetSales = 0.0;
 		for (int i = 0; i < row; i++) {
-			totalCapital += Double.parseDouble(tblYearReport.getValueAt(i, 0).toString());
+			totalCapital += Double.parseDouble(tblYearReport.getValueAt(i, 2).toString());
 			totalNetSales += Double.parseDouble(tblYearReport.getValueAt(i, 3).toString());
 		}
 		lblTotalCapitalDisplay.setText(totalCapital.toString());
 		lblTotalNetSalesDisplay.setText(totalNetSales.toString());
 		
 
-		jPanel.add(scrollPane, "cell 0 2 6 1,grow");
+		jPanel.add(scrollPane, "cell 0 2 5 1,grow");
 
 		JLabel lblFrom = new JLabel("From");
 		lblFrom.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		jPanel.add(lblFrom, "flowx,cell 0 1,alignx left,growy");
 		lblTo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
-		jPanel.add(lblTo, "flowx,cell 3 1,alignx left,growy");
-
-		btnFromSet = new JButton("Set");
-		jPanel.add(btnFromSet, "cell 0 1,grow");
-
-		jPanel.add(btnToSet, "cell 3 1,grow");
+		jPanel.add(lblTo, "flowx,cell 2 1,alignx trailing,growy");
 
 		cmbBranches = new JComboBox(db.getBranchNames().toArray());
 		AutoCompleteDecorator.decorate(this.cmbBranches);
 
-		jPanel.add(cmbBranches, "cell 5 1,growx");
+		jPanel.add(cmbBranches, "cell 4 1,grow");
 
-		jPanel.add(btnGenerate, "cell 5 1");
+		jPanel.add(btnGenerate, "cell 4 1,growy");
 		
 		jPanel.add(lblTotalNetSalesDisplay, "cell 2 4 2 1,grow");
-
-		btnFromSet.addActionListener(act);
-		btnToSet.addActionListener(act);
-		btnSetFrom.addActionListener(act);
-		btnSetTo.addActionListener(act);
+		for (int i = db.getEarliestYear(); i <= db.getLatestYear(); i++) {
+			cmbFromYear.addItem(i);
+			cmbToYear.addItem(i);
+		}
 		btnGenerate.addActionListener(act);
 
 	}
 
+	private class ActListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == btnGenerate) {
+ 
+            	if(Integer.parseInt(cmbFromYear.getSelectedItem().toString()) > 
+            	Integer.parseInt(cmbToYear.getSelectedItem().toString())){
+            		JOptionPane.showMessageDialog(null, "From Year cannot be more than To Year!");
+            	}else{
+	                mainGUI.removeAllRightSplit();
+	 
+	                tblYearReport.setModel(db.retrieveYearlyReport(cmbFromYear.getSelectedItem().toString(), cmbToYear.getSelectedItem().toString(),
+	                        cmbBranches.getSelectedItem().toString()));
+	                
+	        		int row = tblYearReport.getRowCount();
+	        		Double totalCapital = 0.0;
+	        		Double totalNetSales = 0.0;
+	        		for (int i = 0; i < row; i++) {
+	        			totalCapital += Double.parseDouble(tblYearReport.getValueAt(i, 2).toString());
+	        			totalNetSales += Double.parseDouble(tblYearReport.getValueAt(i, 3).toString());
+	        		}
+	        		lblTotalCapitalDisplay.setText(totalCapital.toString());
+	        		lblTotalNetSalesDisplay.setText(totalNetSales.toString());
+	 
+	                FinancialReport financialReport = new FinancialReport(mainGUI);
+	                mainGUI.setRightSplit(getJPanel());
+            	}
+ 
+            }
+        }
+    }
+	
 	public JPanel getJPanel() {
 		return this.jPanel;
-	}
-
-	private class ActListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == btnFromSet) {
-				// for calendar
-				mainGUI.getJFrame().setEnabled(false);
-
-				calenderFrameFrom = new JFrame("Calendar");
-
-				calenderFrameFrom.addWindowListener(new java.awt.event.WindowAdapter() {
-					@Override
-					public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-						mainGUI.getJFrame().setEnabled(true);
-
-					}
-				});
-
-				JPanel panel = new JPanel();
-				calenderFrameFrom.setBounds(400, 400, 250, 100);
-
-				pickerFrom = new JXDatePicker();
-				pickerFrom.setDate(Calendar.getInstance().getTime());
-				pickerFrom.setFormats(new SimpleDateFormat("dd/MM/yyyy"));
-
-				panel.add(pickerFrom);
-				panel.add(btnSetFrom);
-				calenderFrameFrom.getContentPane().add(panel);
-
-				calenderFrameFrom.setVisible(true);
-
-				// end of calendar
-			}
-
-			if (e.getSource() == btnSetFrom)
-
-			{
-				mainGUI.getJFrame().setEnabled(true);
-				SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-				dateFrom = pickerFrom.getDate();
-
-				lblFromDate.setText("");
-
-				lblFromDate.setText(formatter.format(dateFrom));
-
-				calenderFrameFrom.dispose();
-				
-
-			}
-
-			if (e.getSource() == btnToSet) {
-				// for calendar
-				mainGUI.getJFrame().setEnabled(false);
-
-				calenderFrameTo = new JFrame("Calendar");
-
-				calenderFrameTo.addWindowListener(new java.awt.event.WindowAdapter() {
-					@Override
-					public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-						mainGUI.getJFrame().setEnabled(true);
-
-					}
-				});
-
-				JPanel panel = new JPanel();
-				calenderFrameTo.setBounds(400, 400, 250, 100);
-
-				pickerTo = new JXDatePicker();
-				pickerTo.setDate(Calendar.getInstance().getTime());
-				pickerTo.setFormats(new SimpleDateFormat("dd/MM/yyyy"));
-
-				panel.add(pickerTo);
-				panel.add(btnSetTo);
-				calenderFrameTo.getContentPane().add(panel);
-
-				calenderFrameTo.setVisible(true);
-
-				// end of calendar
-			}
-
-			if (e.getSource() == btnSetTo)
-
-			{
-				mainGUI.getJFrame().setEnabled(true);
-				SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-				dateTo = pickerTo.getDate();
-
-				lblToDate.setText("");
-
-				lblToDate.setText(formatter.format(dateTo));
-
-				calenderFrameTo.dispose();
-				
-
-			}
-
-			if (e.getSource() == btnGenerate) {
-
-				if (dateTo.before(dateFrom)) {
-					JOptionPane.showMessageDialog(null, "Date FROM should be before TO");
-				} 
-				else{
-					mainGUI.removeAllRightSplit();
-				// tblYearReport.setModel(db.retrieveYearlyReport(db.convertJavaDateToSqlDate(dateFrom),
-				// db.convertJavaDateToSqlDate(dateFrom),
-				// cmbBranches.getSelectedItem().toString()));
-				//
-
-				tblYearReport.setModel(db.retrieveYearlyReport(lblFromDate.getText(), lblToDate.getText(),
-						cmbBranches.getSelectedItem().toString()));
-				int row = tblYearReport.getRowCount();
-				Double totalCapital = 0.0;
-				Double totalNetSales = 0.0;
-				for (int i = 0; i < row; i++) {
-					totalCapital += Double.parseDouble(tblYearReport.getValueAt(i, 0).toString());
-					totalNetSales += Double.parseDouble(tblYearReport.getValueAt(i, 3).toString());
-				}
-				lblTotalCapitalDisplay.setText(totalCapital.toString());
-				lblTotalNetSalesDisplay.setText(totalNetSales.toString());
-				
-				
-
-				FinancialReport financialReport = new FinancialReport(mainGUI);
-				mainGUI.setRightSplit(getJPanel());
-				}
-
-			}
-		}
 	}
 
 	@Override

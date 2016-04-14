@@ -614,22 +614,7 @@ public class DBConnect {
 		}
 	}
 
-	public int getEarliestYear(int branchNum) {
-		String query = "SELECT year(min(sold_date)) as EarlyDate FROM receipts WHERE sold_branch = " + branchNum;
-		int earlyDate = 0;
-		try {
-			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
-			rs = preparedStatement.executeQuery(query);
 
-			while (rs.next()) {
-				earlyDate = rs.getInt("EarlyDate");
-			}
-		} catch (Exception ex) {
-			System.out.println("Error: getEarliestDate " + ex);
-		}
-
-		return earlyDate;
-	}
 
 	public Date getEarliestDate() {
 		String query = "select min(sold_Date) from receipts";
@@ -667,7 +652,59 @@ public class DBConnect {
 
 		return latestDate;
 	}
+	
+	public int getEarliestYear() {
+		String query = "select min(Year(sold_Date)) from receipts";
+		String earlyDate = null;
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			rs = preparedStatement.executeQuery(query);
 
+			while (rs.next()) {
+				earlyDate = rs.getString("min(Year(sold_Date))");
+			}
+		} catch (Exception ex) {
+			System.out.println("Error: getEarliestDate " + ex);
+		}
+
+		return Integer.parseInt(earlyDate);
+	}
+
+	public int getLatestYear() {
+		String query = "select max(Year(sold_Date)) from receipts";
+		String latestDate = null;
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			rs = preparedStatement.executeQuery(query);
+
+			while (rs.next()) {
+				latestDate = rs.getString("max(Year(sold_Date))");
+
+			}
+		} catch (Exception ex) {
+			System.out.println("Error: getEarliestDate " + ex);
+		}
+
+		return Integer.parseInt(latestDate);
+	}
+
+	public int getEarliestYear(int branchNum) {
+		String query = "SELECT year(min(sold_date)) as EarlyDate FROM receipts WHERE sold_branch = " + branchNum;
+		int earlyDate = 0;
+		try {
+			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
+			rs = preparedStatement.executeQuery(query);
+
+			while (rs.next()) {
+				earlyDate = rs.getInt("EarlyDate");
+			}
+		} catch (Exception ex) {
+			System.out.println("Error: getEarliestDate " + ex);
+		}
+
+		return earlyDate;
+	}
+	
 	public int getLatestYear(int branchNum) {
 		String query = "SELECT year(max(sold_date)) as LateDate FROM receipts WHERE sold_branch = " + branchNum;
 		int earlyDate = 0;
@@ -962,7 +999,7 @@ public class DBConnect {
 
 		String query = "";
 		if (branch.equals("None")) {
-			query = "select sum(r.sold_price/2) as total_sales, sum(r.sold_quantity), p.buy_price*r.sold_quantity as capital, sum(r.sold_price/2) - (p.buy_price*r.sold_quantity) as net_sales, b.branchName, month(r.sold_date), year(r.sold_date) from receipts r, products p, branches b where R.sold_date >= ? and R.sold_date <=? and b.branchid = r.sold_branch group by r.sold_branch, r.sold_date order by r.sold_branch asc";
+			query = "select sum(r.sold_price/2) as total_sales, sum(r.sold_quantity), p.buy_price*r.sold_quantity as capital, sum(r.sold_price/2) - (p.buy_price*r.sold_quantity) as net_sales, b.branchName, month(r.sold_date), year(r.sold_date) from receipts r, products p, branches b where Year(R.sold_date) >= ? and Year(R.sold_date) <= ? and b.branchid = r.sold_branch group by r.sold_branch, r.sold_date order by r.sold_branch asc";
 
 			try {	
 				PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
@@ -976,7 +1013,7 @@ public class DBConnect {
 			}
 
 		} else {
-			query = "select sum(r.sold_price/2) as total_sales, sum(r.sold_quantity), p.buy_price*r.sold_quantity as capital, sum(r.sold_price/2)- (p.buy_price*r.sold_quantity) as net_sales, b.branchName, month(r.sold_date), year(r.sold_date) from receipts r, products p, branches b where R.sold_date >= ? and R.sold_date <=? and b.branchid = r.sold_branch and b.branchid = ? group by r.sold_branch, r.sold_date order by r.sold_branch asc";
+			query = "select sum(r.sold_price/2) as total_sales, sum(r.sold_quantity), p.buy_price*r.sold_quantity as capital, sum(r.sold_price/2)- (p.buy_price*r.sold_quantity) as net_sales, b.branchName, month(r.sold_date), year(r.sold_date) from receipts r, products p, branches b where Year(R.sold_date) >= ? and Year(R.sold_date) <= ? and b.branchid = r.sold_branch and b.branchid = ? group by r.sold_branch, r.sold_date order by r.sold_branch asc";
 
 			try {
 				PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);

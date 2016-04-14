@@ -121,6 +121,7 @@ public class GUIClientUpperControlPanel implements ActionListener{
     		}
     		if(e.getSource() == btnAddBranch){
     			mainGUI.removeAllRightSplit();
+//    			AddBranch addBranch = new AddBranch(mainGUI);
     			mainGUI.setRightSplit(addBranch.getJPanel());
     		}
     		if(e.getSource() == btnDeleteBranch){
