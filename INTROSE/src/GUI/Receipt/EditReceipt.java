@@ -73,8 +73,6 @@ public class EditReceipt extends JFrame implements ActionListener {
 	private String staff;
 	
 	private int oldQuantity;
-	private boolean priceField;
-	private boolean staffField;
 	private JLabel lblCustomer_1;
 	
 	JFrame jFrame = new JFrame();
@@ -172,9 +170,12 @@ public class EditReceipt extends JFrame implements ActionListener {
 		btnEdit.addActionListener(act);
 		btnEdit.setEnabled(false);
 		
+		txtStaff.setEnabled(false);
 		
 
 		lblCustomer_1.setText(customer);
+		if(!(txtPrice.getText().equals("")))
+			btnEdit.setEnabled(true);
 		
 		txtPrice.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e){
@@ -195,24 +196,24 @@ public class EditReceipt extends JFrame implements ActionListener {
 			}
 		});
 		
-		txtStaff.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e){
-				changed();
-			}
-			public void removeUpdate(DocumentEvent e){
-				changed();
-			}
-			public void insertUpdate(DocumentEvent e){
-				changed();
-			}
-			@SuppressWarnings("deprecation")
-			public void changed() {
-				if (txtPrice.getText().equals("") || txtStaff.getText().equals(""))
-					btnEdit.setEnabled(false);
-				else 
-					btnEdit.setEnabled(true);
-			}
-		});
+//		txtStaff.getDocument().addDocumentListener(new DocumentListener() {
+//			public void changedUpdate(DocumentEvent e){
+//				changed();
+//			}
+//			public void removeUpdate(DocumentEvent e){
+//				changed();
+//			}
+//			public void insertUpdate(DocumentEvent e){
+//				changed();
+//			}
+//			@SuppressWarnings("deprecation")
+//			public void changed() {
+//				if (txtPrice.getText().equals("") || txtStaff.getText().equals(""))
+//					btnEdit.setEnabled(false);
+//				else 
+//					btnEdit.setEnabled(true);
+//			}
+//		});
 		
 		 AutoCompleteDecorator.decorate(this.cmbProductName);
 		 AutoCompleteDecorator.decorate(this.cmbQuantity);

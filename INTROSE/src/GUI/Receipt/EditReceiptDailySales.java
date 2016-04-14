@@ -172,6 +172,9 @@ public class EditReceiptDailySales extends JFrame implements ActionListener {
 
 
 		lblCustomer_1.setText(customer);
+		
+		if(!(txtPrice.getText().equals("")) || !(txtStaff.getText().equals("")))
+			btnEdit.setEnabled(true);
 
 		txtPrice.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e){
