@@ -102,10 +102,23 @@ public class EditProduct extends JFrame implements ActionListener {
 	private PictureFinder pictureFinder;
 	private JButton btnPreview = new JButton("Preview");
 	public static ImageIcon IMAGE = null;
+	private JFrame jFrame = new JFrame();
 
 	public EditProduct(MainGUI mainGUI, int productID, Date dateBought, String productName, String productType,
 			int quantity, double totalCost, String origin, String picture) {
 
+		jFrame = this;
+
+		jFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				mainGUI.getJFrame().setEnabled(true);
+
+			}
+		});
+		
+		mainGUI.getJFrame().setEnabled(false);
+		
 		ActListener act = new ActListener();
 
 		txtPicture.setColumns(10);
@@ -413,7 +426,7 @@ public class EditProduct extends JFrame implements ActionListener {
 				mainGUI.removeAllRightSplit();
 				AddProduct addProduct = new AddProduct(mainGUI);
 				mainGUI.setRightSplit(addProduct.getJPanel());
-				
+				mainGUI.getJFrame().setEnabled(true);
 				dispose();
 				}
 			}

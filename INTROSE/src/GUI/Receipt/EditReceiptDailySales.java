@@ -227,7 +227,7 @@ public class EditReceiptDailySales extends JFrame implements ActionListener {
 	private class ActListener implements ActionListener {
 		public void actionPerformed(ActionEvent a) {
 			if (a.getSource() == cmbProductName) {
-				mainGUI.getJFrame().setEnabled(true);
+				
 				ArrayList<String> quantityContent = new ArrayList<String>();
 
 				String selectedItem = cmbProductName.getSelectedItem().toString();
@@ -268,7 +268,7 @@ public class EditReceiptDailySales extends JFrame implements ActionListener {
 			}
 
 			if (a.getSource() == btnEdit) {
-				
+				mainGUI.getJFrame().setEnabled(true);
 				boolean ret = true;
 				try {
 					Double.parseDouble(txtPrice.getText().toString());
