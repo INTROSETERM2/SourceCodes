@@ -29,8 +29,8 @@ public class DBConnect {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			// always changed this for DB access
-			// con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
-			 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp", "root", "root");
+			 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
+//			 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp", "root", "root");
 			// con =
 			// DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root",
 			// "");

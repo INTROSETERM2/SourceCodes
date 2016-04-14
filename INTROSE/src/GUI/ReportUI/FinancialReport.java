@@ -44,15 +44,14 @@ public class FinancialReport implements ActionListener {
 	private MainGUI mainGUI;
 
 	private DBConnect db = new DBConnect();
-	private final JButton btnGenerate = new JButton("Generate");
 	
 	SimpleDateFormat formatterDefault;
 	Date dateDefault;	
 	private JXDatePicker pickerDefault;
 	private JLabel lblTotalCapitalDisplay = new JLabel();
 	private JLabel lblTotalNetSalesDisplay = new JLabel();
-	private final JComboBox cmbFromYear = new JComboBox();
-	private final JComboBox cmbToYear = new JComboBox();
+	private JComboBox cmbFromYear = new JComboBox();
+	private JComboBox cmbToYear = new JComboBox();
 	
 	public FinancialReport(MainGUI mainGUI) {
 		ActListener act = new ActListener();
@@ -124,25 +123,26 @@ public class FinancialReport implements ActionListener {
 		cmbBranches = new JComboBox(db.getBranchNames().toArray());
 		cmbBranches.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		AutoCompleteDecorator.decorate(this.cmbBranches);
+		AutoCompleteDecorator.decorate(this.cmbFromYear);
+		AutoCompleteDecorator.decorate(this.cmbToYear);
 
 		jPanel.add(cmbBranches, "cell 4 1,grow");
-		btnGenerate.setFont(new Font("Tahoma", Font.PLAIN, 14));
-
-		jPanel.add(btnGenerate, "cell 4 1,growy");
 		
 		jPanel.add(lblTotalNetSalesDisplay, "cell 2 4 2 1,grow");
 		for (int i = db.getEarliestYear(); i <= db.getLatestYear(); i++) {
 			cmbFromYear.addItem(i);
 			cmbToYear.addItem(i);
 		}
-		btnGenerate.addActionListener(act);
+		cmbFromYear.addActionListener(act);
+		cmbToYear.addActionListener(act);
+		cmbBranches.addActionListener(act);
 
 	}
 
 	private class ActListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == btnGenerate) {
- 
+            
+            if(e.getSource() == cmbFromYear){
             	if(Integer.parseInt(cmbFromYear.getSelectedItem().toString()) > 
             	Integer.parseInt(cmbToYear.getSelectedItem().toString())){
             		JOptionPane.showMessageDialog(null, "From Year cannot be more than To Year!");
@@ -165,7 +165,56 @@ public class FinancialReport implements ActionListener {
 	                FinancialReport financialReport = new FinancialReport(mainGUI);
 	                mainGUI.setRightSplit(getJPanel());
             	}
- 
+            }
+            
+            if(e.getSource() == cmbToYear){
+            	if(Integer.parseInt(cmbFromYear.getSelectedItem().toString()) > 
+            	Integer.parseInt(cmbToYear.getSelectedItem().toString())){
+            		JOptionPane.showMessageDialog(null, "From Year cannot be more than To Year!");
+            	}else{
+	                mainGUI.removeAllRightSplit();
+	 
+	                tblYearReport.setModel(db.retrieveYearlyReport(cmbFromYear.getSelectedItem().toString(), cmbToYear.getSelectedItem().toString(),
+	                        cmbBranches.getSelectedItem().toString()));
+	                
+	        		int row = tblYearReport.getRowCount();
+	        		Double totalCapital = 0.0;
+	        		Double totalNetSales = 0.0;
+	        		for (int i = 0; i < row; i++) {
+	        			totalCapital += Double.parseDouble(tblYearReport.getValueAt(i, 2).toString());
+	        			totalNetSales += Double.parseDouble(tblYearReport.getValueAt(i, 3).toString());
+	        		}
+	        		lblTotalCapitalDisplay.setText(totalCapital.toString());
+	        		lblTotalNetSalesDisplay.setText(totalNetSales.toString());
+	 
+	                FinancialReport financialReport = new FinancialReport(mainGUI);
+	                mainGUI.setRightSplit(getJPanel());
+            	}
+            }
+            
+            if(e.getSource() == cmbBranches){
+            	if(Integer.parseInt(cmbFromYear.getSelectedItem().toString()) > 
+            	Integer.parseInt(cmbToYear.getSelectedItem().toString())){
+            		JOptionPane.showMessageDialog(null, "From Year cannot be more than To Year!");
+            	}else{
+	                mainGUI.removeAllRightSplit();
+	 
+	                tblYearReport.setModel(db.retrieveYearlyReport(cmbFromYear.getSelectedItem().toString(), cmbToYear.getSelectedItem().toString(),
+	                        cmbBranches.getSelectedItem().toString()));
+	                
+	        		int row = tblYearReport.getRowCount();
+	        		Double totalCapital = 0.0;
+	        		Double totalNetSales = 0.0;
+	        		for (int i = 0; i < row; i++) {
+	        			totalCapital += Double.parseDouble(tblYearReport.getValueAt(i, 2).toString());
+	        			totalNetSales += Double.parseDouble(tblYearReport.getValueAt(i, 3).toString());
+	        		}
+	        		lblTotalCapitalDisplay.setText(totalCapital.toString());
+	        		lblTotalNetSalesDisplay.setText(totalNetSales.toString());
+	 
+	                FinancialReport financialReport = new FinancialReport(mainGUI);
+	                mainGUI.setRightSplit(getJPanel());
+            	}
             }
         }
     }
