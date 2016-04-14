@@ -93,29 +93,37 @@ public class POSReceipt implements ActionListener {
 		
 		// Combo Boxes
 		cmbItemName = new JComboBox(db.getNameProducts().toArray());
+		cmbItemName.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cmbItemName.addActionListener(act);
 		jPanel.add(cmbItemName, "cell 0 18 3 1,growx,aligny center");
 		AutoCompleteDecorator.decorate(this.cmbItemName);
 		
 		cmbQuantity = new JComboBox();
+		cmbQuantity.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cmbQuantity.addActionListener(act);
 		jPanel.add(cmbQuantity, "cell 3 18,growx,aligny center");
 		AutoCompleteDecorator.decorate(this.cmbQuantity);
+		txtCustomer.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		// Text Fields
 		txtCustomer.setColumns(10);
 		jPanel.add(txtCustomer, "cell 5 18 3 1,growx");
+		txtPrice.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		txtPrice.setColumns(10);
 		jPanel.add(txtPrice, "cell 8 18 4 1,growx,aligny center");
+		txtStaff.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		txtStaff.setColumns(10);
 		jPanel.add(txtStaff, "cell 13 18,alignx left,aligny center");
 		txtStaff.setText("");
+		lblBranch.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		// Labels
-		jPanel.add(lblBranch, "cell 0 0,alignx right,aligny center");
+		jPanel.add(lblBranch, "cell 0 0,alignx left,aligny center");
+		branchNumber.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(branchNumber, "cell 2 0");
+		lblTotalAmount.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblTotalAmount, "cell 7 0,alignx left,aligny center");
 		
 		lblTotalAmountComputed.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -123,18 +131,27 @@ public class POSReceipt implements ActionListener {
 		lblTotalAmountComputed.setBackground(Color.white);
 		lblTotalAmountComputed.setOpaque(true);
 		jPanel.add(lblTotalAmountComputed, "cell 8 0 6 1");
+		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		jPanel.add(lblDate, "cell 0 1,alignx right,aligny center");
+		jPanel.add(lblDate, "cell 0 1,alignx left,aligny center");
+		lblDatenow.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblDatenow, "cell 2 1");
+		lblItemName.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblItemName, "cell 0 17,growx,aligny bottom");
+		lblQuantity.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblQuantity, "cell 3 17,alignx left,aligny bottom");
+		lblCustomer.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblCustomer, "cell 5 17,aligny bottom");
+		lblPrice.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblPrice, "cell 8 17,alignx left,aligny bottom");
+		lblStaff.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblStaff, "cell 13 17,alignx left,aligny bottom");
+		btnPreview.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		// Buttons
 		btnPreview.addActionListener(act);
 		jPanel.add(btnPreview, "cell 2 17,growx,aligny top");
+		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		btnAdd.addActionListener(act);
 		jPanel.add(btnAdd, "cell 0 19 14 1,growx,aligny top");

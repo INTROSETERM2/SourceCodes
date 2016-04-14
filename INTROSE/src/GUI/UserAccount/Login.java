@@ -33,20 +33,25 @@ public class Login implements ActionListener{
 		jPanel.setLayout(new MigLayout("", "[52px][57px][][][][][][][][]", "[20px][20px][23px][][][][][][][][]"));
 		jPanel.setSize(600,450);
 		JLabel lblUsername = new JLabel("Username:");
+		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblUsername, "cell 4 7,alignx left,aligny center");
 		
 		txtUsername = new JTextField();
+		txtUsername.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(txtUsername, "cell 5 7,growx,aligny top");
 		txtUsername.setColumns(10);
+		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		jPanel.add(lblPassword, "cell 4 8,alignx left,aligny center");
 		
 		txtPassword = new JPasswordField();
+		txtPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(txtPassword, "cell 5 8,growx,aligny top");
 		txtPassword.setColumns(10);
+		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		btnLogin.addActionListener(act);
-		jPanel.add(btnLogin, "cell 5 9,alignx left,aligny top");
+		jPanel.add(btnLogin, "cell 5 9,growx,aligny top");
 		
 		
 	}
