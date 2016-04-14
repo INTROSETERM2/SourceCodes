@@ -1,44 +1,28 @@
 package GUI.ReportUI;
 
-import javax.swing.JPanel;
-
-import GUI.MainGUI;
-import GUI.Product.AddProduct;
-import Product.PictureFinder;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
-
 import DB.DBConnect;
-
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.JTextField;
+import GUI.MainGUI;
+import net.miginfocom.swing.MigLayout;
 
 public class FinancialReport implements ActionListener {
 	private JPanel jPanel = new JPanel();
@@ -46,21 +30,13 @@ public class FinancialReport implements ActionListener {
 	// Labels
 	private JLabel lblYearlyReport = new JLabel("Yearly Report of All Branches");
 	private JLabel lblTotalCapital = new JLabel("Total Capital:");
-	private JLabel lblTotalNet = new JLabel("Total Net:");
+	private JLabel lblTotalNet = new JLabel("Total Net Sales:");
 	private JTable tblYearReport = new JTable();
 
 	// Scroll Pane
 	private JScrollPane scrollPane = new JScrollPane();
 	private final JLabel lblTo = new JLabel("To  ");
-	private JXDatePicker pickerFrom;
-	private Date dateFrom;
-	private JFrame calenderFrameFrom;
-	private JButton btnSetFrom = new JButton("Set");
 
-	private JXDatePicker pickerTo;
-	private Date dateTo;
-	private JFrame calenderFrameTo;
-	private JButton btnSetTo = new JButton("Set");
 	private final JLabel lblFilterBranch = new JLabel("Filter Branch:");
 	private JComboBox cmbBranches;
 
