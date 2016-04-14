@@ -60,7 +60,7 @@ public class POSReceipt implements ActionListener {
 	private JLabel lblBranch = new JLabel("Branch:");
 	private JLabel branchNumber = new JLabel(Integer.toString(MainGUI.BRANCH.getBranchID()));
 	private JLabel lblTotalAmount = new JLabel("Total Amount");
-	private JLabel lblTotalAmountComputed = new JLabel(String.valueOf(db.getTotalSalesToday()) + " php");
+	private JLabel lblTotalAmountComputed = new JLabel();
 	private JLabel lblDate = new JLabel("Date:");
 	private JLabel lblDatenow = new JLabel(currentDate);
 	private JLabel lblItemName = new JLabel("Item name");
@@ -84,6 +84,8 @@ public class POSReceipt implements ActionListener {
 	public POSReceipt(MainGUI mainGUI) {
 		this.mainGUI = mainGUI;
 		ActListener act = new ActListener();
+		lblTotalAmountComputed.setText("");
+		lblTotalAmountComputed.setText(String.valueOf(db.getTotalSalesToday(mainGUI.BRANCH.getBranchID())) + " php");
 		
 		// Panel
 		jPanel.setPreferredSize(new Dimension(1000, 500));

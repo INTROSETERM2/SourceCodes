@@ -29,9 +29,8 @@ public class DBConnect {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			// always changed this for DB access
-			// con =
-			// DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp", "root", "");
+			 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
+//			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp", "root", "");
 			// con =
 			// DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root",
 			// "");
@@ -43,13 +42,13 @@ public class DBConnect {
 		}
 	}
 
-	public double getTotalSalesToday() {
-		String query = "select sum(sold_price) from receipts where sold_date = ?";
+	public double getTotalSalesToday(int branchID) {
+		String query = "select sum(sold_price) from receipts where sold_date = ? && sold_branch = ?";
 		double total = 0;
 		try {
 			PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
 			preparedStatement.setDate(1, getCurrentDate());
-
+			preparedStatement.setInt(2, branchID);
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
