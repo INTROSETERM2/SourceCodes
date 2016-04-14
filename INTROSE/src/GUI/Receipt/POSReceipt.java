@@ -377,22 +377,15 @@ public class POSReceipt implements ActionListener {
 				} 
 				else if (dec == false) { //2 decimal places checker
 					JOptionPane.showMessageDialog(null, "Decimal places are limited to 2");
-					mainGUI.removeAllRightSplit();
-					POSReceipt posReceipt = new POSReceipt(mainGUI);
-					mainGUI.setRightSplit(posReceipt.getJPanel());
+					txtPrice.setText("");
 				} //positive number checker
 				else if (Double.parseDouble(txtPrice.getText()) < 0) {
 					JOptionPane.showMessageDialog(null, "Please input numbers not less than 0");
-					mainGUI.removeAllRightSplit();
-					POSReceipt posReceipt = new POSReceipt(mainGUI);
-					mainGUI.setRightSplit(posReceipt.getJPanel());
+					txtPrice.setText("");
 				}
 				else if (cmbItemName.getSelectedItem().toString() == "Select"
 						|| cmbQuantity.getSelectedItem().toString() == "Select") {
 					JOptionPane.showMessageDialog(null, "Please fill in all the data");
-					mainGUI.removeAllRightSplit();
-					POSReceipt posReceipt = new POSReceipt(mainGUI);
-					mainGUI.setRightSplit(posReceipt.getJPanel());
 
 				} else { 
 					table = new JTable();
