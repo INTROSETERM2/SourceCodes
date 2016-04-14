@@ -73,6 +73,7 @@ public class EditReceiptDailySales extends JFrame implements ActionListener {
 	private boolean staffField;
 
 	private int branchNumber;
+	private JLabel lblCustomer_1;
 
 	public EditReceiptDailySales(int branchNumber, MainGUI mainGUI, int receiptNumber, String productName, double price,
 			int quantity, String customer, String staff) {
@@ -96,56 +97,70 @@ public class EditReceiptDailySales extends JFrame implements ActionListener {
 
 		// Combo Boxes
 		cmbProductName = new JComboBox(db.getNameProducts().toArray());
+		cmbProductName.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cmbProductName.addActionListener(act);
 		jPanel.add(cmbProductName, "cell 1 3 7 1,growx");
 
 		cmbQuantity = new JComboBox();
+		cmbQuantity.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(cmbQuantity, "cell 1 5 7 1,growx");
+		txtPrice.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		// Text Fields
 		txtPrice.setText(Double.toString(price));
 		jPanel.add(txtPrice, "cell 1 4 7 1,growx");
 		txtPrice.setColumns(10);
+		txtStaff.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		txtStaff.setText(staff);
 		jPanel.add(txtStaff, "cell 1 7 7 1,growx");
 		txtStaff.setColumns(10);
 
 		// Labels
-		lblEditReceipt.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblEditReceipt.setFont(new Font("Tahoma", Font.BOLD, 18));
 		jPanel.add(lblEditReceipt, "cell 0 0");
+		lblReceiptNo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		jPanel.add(lblReceiptNo, "cell 0 1,alignx right");
+		jPanel.add(lblReceiptNo, "cell 0 1,alignx left");
 
 		lblReceiptNumber = new JLabel(Integer.toString(receiptNumber));
-		lblReceiptNumber.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblReceiptNumber.setFont(new Font("Tahoma", Font.BOLD, 14));
 		jPanel.add(lblReceiptNumber, "cell 1 1");
+		lblCurrentProduct.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
 		jPanel.add(lblCurrentProduct, "cell 0 2");
 
 		lblOldProduct = new JLabel(productName);
+		lblOldProduct.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblOldProduct, "cell 1 2");
+		lblNewProduct.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		jPanel.add(lblNewProduct, "cell 0 3,alignx trailing");
-		jPanel.add(lblPrice, "cell 0 4,alignx trailing");
-		jPanel.add(lblQuantity, "cell 0 5,alignx trailing");
+		jPanel.add(lblNewProduct, "cell 0 3,alignx left");
+		lblPrice.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		jPanel.add(lblPrice, "cell 0 4,alignx left");
+		lblQuantity.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		jPanel.add(lblQuantity, "cell 0 5,alignx left");
 
 		JLabel lblCustomer = new JLabel("Customer:");
-		jPanel.add(lblCustomer, "cell 0 6,alignx trailing");
+		lblCustomer.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		jPanel.add(lblCustomer, "cell 0 6,alignx left");
 
-		lblCustomer = new JLabel("Name");
-		jPanel.add(lblCustomer, "cell 1 6 7 1");
+		lblCustomer_1 = new JLabel("Name");
+		lblCustomer_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		jPanel.add(lblCustomer_1, "cell 1 6 7 1");
+		lblStaff.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		jPanel.add(lblStaff, "cell 0 7,alignx trailing");
+		jPanel.add(lblStaff, "cell 0 7,alignx left");
 
 		// Buttons
 		btnEdit = new JButton("Edit");
+		btnEdit.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(btnEdit, "cell 1 9 7 1,growx");
 		btnEdit.addActionListener(act);
 		btnEdit.setEnabled(false);
 
 
-		lblCustomer.setText(customer);
+		lblCustomer_1.setText(customer);
 
 		txtPrice.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e){

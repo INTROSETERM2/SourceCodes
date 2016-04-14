@@ -34,7 +34,7 @@ public class GUIUpperControlPanel implements ActionListener{
 		jPanel.setLayout(null);
 		lblControlPanel.setBounds(7, 11, 190, 20);
 		
-		lblControlPanel.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		lblControlPanel.setFont(new Font("Tahoma", Font.BOLD, 19));
 		lblControlPanel.setText(mainGUI.BRANCH.getBranchName());
 		jPanel.add(lblControlPanel);
 		btnPushDailyReport.setBounds(7, 107, 190, 23);
