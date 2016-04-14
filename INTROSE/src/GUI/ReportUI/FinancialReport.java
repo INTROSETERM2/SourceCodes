@@ -38,6 +38,7 @@ import DB.DBConnect;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JButton;
+import javax.swing.JTextField;
 
 public class FinancialReport implements ActionListener {
 	private JPanel jPanel = new JPanel();
@@ -78,6 +79,8 @@ public class FinancialReport implements ActionListener {
 	SimpleDateFormat formatterDefault;
 	Date dateDefault;	
 	private JXDatePicker pickerDefault;
+	private JLabel lblTotalCapitalDisplay = new JLabel();
+	private JLabel lblTotalNetSalesDisplay = new JLabel();
 	
 	public FinancialReport(MainGUI mainGUI) {
 		this.mainGUI = mainGUI;
@@ -126,12 +129,14 @@ public class FinancialReport implements ActionListener {
 
 		lblTotalCapital.setFont(new Font("Tahoma", Font.BOLD, 16));
 		jPanel.add(lblTotalCapital, "cell 0 3,alignx left,growy");
+		
+		jPanel.add(lblTotalCapitalDisplay, "cell 2 3 2 1,grow");
 
 		lblTotalNet.setFont(new Font("Tahoma", Font.BOLD, 16));
 		jPanel.add(lblTotalNet, "cell 0 4,grow");
 
-		jPanel.add(lblCapital, "cell 1 3,alignx left,growy");
-		jPanel.add(lblNet, "cell 1 4,alignx left,growy");
+		jPanel.add(lblCapital, "cell 1 3,alignx trailing,growy");
+		jPanel.add(lblNet, "cell 1 4,alignx trailing,growy");
 
 		tblYearReport = new JTable();
 		scrollPane.setViewportView(tblYearReport);
@@ -159,6 +164,8 @@ public class FinancialReport implements ActionListener {
 		jPanel.add(cmbBranches, "cell 5 1,growx");
 
 		jPanel.add(btnGenerate, "cell 5 1");
+		
+		jPanel.add(lblTotalNetSalesDisplay, "cell 2 4 2 1,grow");
 
 		btnFromSet.addActionListener(act);
 		btnToSet.addActionListener(act);
@@ -280,6 +287,17 @@ public class FinancialReport implements ActionListener {
 
 				tblYearReport.setModel(db.retrieveYearlyReport(lblFromDate.getText(), lblToDate.getText(),
 						cmbBranches.getSelectedItem().toString()));
+				int row = tblYearReport.getRowCount();
+				Double totalCapital = 0.0;
+				Double totalNetSales = 0.0;
+				for (int i = 0; i < row; i++) {
+					totalCapital += Double.parseDouble(tblYearReport.getValueAt(i, 0).toString());
+					totalNetSales += Double.parseDouble(tblYearReport.getValueAt(i, 3).toString());
+				}
+				lblTotalCapitalDisplay.setText(totalCapital.toString());
+				lblTotalNetSalesDisplay.setText(totalNetSales.toString());
+				
+				
 
 				FinancialReport financialReport = new FinancialReport(mainGUI);
 				mainGUI.setRightSplit(getJPanel());
