@@ -37,6 +37,7 @@ import Receipt.ManagerReceipt;
 import Receipt.Receipt;
 import net.miginfocom.swing.MigLayout;
 import java.awt.Font;
+import java.awt.SystemColor;
 
 public class POSReceipt implements ActionListener {
 	JPanel jPanel = new JPanel();
@@ -126,9 +127,8 @@ public class POSReceipt implements ActionListener {
 		lblTotalAmount.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblTotalAmount, "cell 7 0,alignx left,aligny center");
 		
-		lblTotalAmountComputed.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblTotalAmountComputed.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblTotalAmountComputed.setForeground(Color.red);
-		lblTotalAmountComputed.setBackground(Color.white);
 		lblTotalAmountComputed.setOpaque(true);
 		jPanel.add(lblTotalAmountComputed, "cell 8 0 6 1");
 		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 14));
