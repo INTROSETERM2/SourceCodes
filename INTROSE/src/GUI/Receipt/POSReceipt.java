@@ -176,6 +176,8 @@ public class POSReceipt implements ActionListener {
 		table.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				if (e.getClickCount() == 2) {
+					mainGUI.getJFrame().setEnabled(false);
+					
 					mainGUI.removeAllRightSplit();
 					POSReceipt posReceipt = new POSReceipt(mainGUI);
 					mainGUI.setRightSplit(posReceipt.getJPanel());

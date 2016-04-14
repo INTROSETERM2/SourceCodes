@@ -74,9 +74,20 @@ public class EditReceiptDailySales extends JFrame implements ActionListener {
 
 	private int branchNumber;
 	private JLabel lblCustomer_1;
+	
+	private JFrame jFrame = new JFrame();
 
 	public EditReceiptDailySales(int branchNumber, MainGUI mainGUI, int receiptNumber, String productName, double price,
 			int quantity, String customer, String staff) {
+		jFrame = this;
+
+		jFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				mainGUI.getJFrame().setEnabled(true);
+
+			}
+		});
 		jPanel.setLayout(new MigLayout("", "[52px][57px,grow][][][][][][][][]", "[20px][20px][23px][][][][][][][][]"));
 		jPanel.setSize(300, 250);
 		jPanel.setOpaque(true);
@@ -211,6 +222,7 @@ public class EditReceiptDailySales extends JFrame implements ActionListener {
 	private class ActListener implements ActionListener {
 		public void actionPerformed(ActionEvent a) {
 			if (a.getSource() == cmbProductName) {
+				mainGUI.getJFrame().setEnabled(true);
 				ArrayList<String> quantityContent = new ArrayList<String>();
 
 				String selectedItem = cmbProductName.getSelectedItem().toString();
@@ -339,11 +351,7 @@ public class EditReceiptDailySales extends JFrame implements ActionListener {
 								cmbProductName.getSelectedItem().toString());
 						db.editReceipt(receipt);
 						JOptionPane.showMessageDialog(null, "Transaction was successfully edited");
-
 						mainGUI.removeAllRightSplit();
-						POSReceipt posReceipt = new POSReceipt(mainGUI);
-						mainGUI.setRightSplit(posReceipt.getJPanel());
-						
 						BranchReport branchReport = new BranchReport(mainGUI, branchNumber);
 						mainGUI.setRightSplit(branchReport.getJPanel());
 						dispose();
