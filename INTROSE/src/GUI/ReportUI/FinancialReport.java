@@ -207,6 +207,7 @@ public class FinancialReport implements ActionListener {
 			if (e.getSource() == btnSetFrom)
 
 			{
+				mainGUI.getJFrame().setEnabled(true);
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 				dateFrom = pickerFrom.getDate();
 
@@ -215,7 +216,7 @@ public class FinancialReport implements ActionListener {
 				lblFromDate.setText(formatter.format(dateFrom));
 
 				calenderFrameFrom.dispose();
-				mainGUI.getJFrame().setEnabled(true);
+				
 
 			}
 
@@ -252,6 +253,7 @@ public class FinancialReport implements ActionListener {
 			if (e.getSource() == btnSetTo)
 
 			{
+				mainGUI.getJFrame().setEnabled(true);
 				SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 				dateTo = pickerTo.getDate();
 
@@ -260,7 +262,7 @@ public class FinancialReport implements ActionListener {
 				lblToDate.setText(formatter.format(dateTo));
 
 				calenderFrameTo.dispose();
-				mainGUI.getJFrame().setEnabled(true);
+				
 
 			}
 
