@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -38,6 +39,7 @@ import javax.swing.JCheckBox;
 
 public class EditReceipt extends JFrame implements ActionListener {
 	private DBConnect db = new DBConnect();
+	private DecimalFormat df = new DecimalFormat("#.00");
 	
 	JPanel jPanel = new JPanel();
 	// Combo Box
@@ -120,7 +122,7 @@ public class EditReceipt extends JFrame implements ActionListener {
 		txtPrice.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		// Text Fields
-		txtPrice.setText(Double.toString(price));
+		txtPrice.setText(df.format(price));
 		jPanel.add(txtPrice, "cell 1 4 7 1,growx");
 		txtPrice.setColumns(10);
 		txtStaff.setFont(new Font("Tahoma", Font.PLAIN, 14));

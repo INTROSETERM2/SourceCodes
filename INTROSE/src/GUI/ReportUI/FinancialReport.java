@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,9 +37,9 @@ public class FinancialReport implements ActionListener {
 
 	// Scroll Pane
 	private JScrollPane scrollPane = new JScrollPane();
-	private final JLabel lblTo = new JLabel("To  ");
+	private JLabel lblTo = new JLabel("To  ");
 
-	private final JLabel lblFilterBranch = new JLabel("                 Filter Branch:");
+	private JLabel lblFilterBranch = new JLabel("                 Filter Branch:");
 	private JComboBox cmbBranches;
 
 	private MainGUI mainGUI;
@@ -52,6 +53,7 @@ public class FinancialReport implements ActionListener {
 	private JLabel lblTotalNetSalesDisplay = new JLabel();
 	private JComboBox cmbFromYear = new JComboBox();
 	private JComboBox cmbToYear = new JComboBox();
+	private DecimalFormat df = new DecimalFormat("#.00");
 	
 	public FinancialReport(MainGUI mainGUI) {
 		ActListener act = new ActListener();
@@ -87,7 +89,7 @@ public class FinancialReport implements ActionListener {
 		lblTotalCapitalDisplay.setForeground(Color.BLACK);
 		lblTotalCapitalDisplay.setFont(new Font("Tahoma", Font.BOLD, 18));
 		
-		jPanel.add(lblTotalCapitalDisplay, "cell 2 3 2 1,grow");
+		jPanel.add(lblTotalCapitalDisplay, "cell 2 3 3 1,grow");
 
 		lblTotalNet.setFont(new Font("Tahoma", Font.BOLD, 16));
 		jPanel.add(lblTotalNet, "cell 0 4 2 1,grow");
@@ -107,9 +109,9 @@ public class FinancialReport implements ActionListener {
 			totalCapital += Double.parseDouble(tblYearReport.getValueAt(i, 2).toString());
 			totalNetSales += Double.parseDouble(tblYearReport.getValueAt(i, 3).toString());
 		}
-		lblTotalCapitalDisplay.setText(totalCapital.toString());
+		lblTotalCapitalDisplay.setText(df.format(totalCapital));
+		lblTotalNetSalesDisplay.setText(df.format(totalNetSales));
 		lblTotalNetSalesDisplay.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblTotalNetSalesDisplay.setText(totalNetSales.toString());
 		
 
 		jPanel.add(scrollPane, "cell 0 2 5 1,grow");
@@ -129,7 +131,7 @@ public class FinancialReport implements ActionListener {
 
 		jPanel.add(cmbBranches, "cell 4 1,grow");
 		
-		jPanel.add(lblTotalNetSalesDisplay, "cell 2 4 2 1,grow");
+		jPanel.add(lblTotalNetSalesDisplay, "cell 2 4 3 1,grow");
 		for (int i = db.getEarliestYear(); i <= db.getLatestYear(); i++) {
 			cmbFromYear.addItem(i);
 			cmbToYear.addItem(i);
@@ -160,8 +162,8 @@ public class FinancialReport implements ActionListener {
 	        			totalCapital += Double.parseDouble(tblYearReport.getValueAt(i, 2).toString());
 	        			totalNetSales += Double.parseDouble(tblYearReport.getValueAt(i, 3).toString());
 	        		}
-	        		lblTotalCapitalDisplay.setText(totalCapital.toString());
-	        		lblTotalNetSalesDisplay.setText(totalNetSales.toString());
+	        		lblTotalCapitalDisplay.setText(df.format(totalCapital));
+	        		lblTotalNetSalesDisplay.setText(df.format(totalNetSales));
 	 
 	                FinancialReport financialReport = new FinancialReport(mainGUI);
 	                mainGUI.setRightSplit(getJPanel());
@@ -185,8 +187,8 @@ public class FinancialReport implements ActionListener {
 	        			totalCapital += Double.parseDouble(tblYearReport.getValueAt(i, 2).toString());
 	        			totalNetSales += Double.parseDouble(tblYearReport.getValueAt(i, 3).toString());
 	        		}
-	        		lblTotalCapitalDisplay.setText(totalCapital.toString());
-	        		lblTotalNetSalesDisplay.setText(totalNetSales.toString());
+	        		lblTotalCapitalDisplay.setText(df.format(totalCapital));
+	        		lblTotalNetSalesDisplay.setText(df.format(totalNetSales));
 	 
 	                FinancialReport financialReport = new FinancialReport(mainGUI);
 	                mainGUI.setRightSplit(getJPanel());
@@ -210,8 +212,8 @@ public class FinancialReport implements ActionListener {
 	        			totalCapital += Double.parseDouble(tblYearReport.getValueAt(i, 2).toString());
 	        			totalNetSales += Double.parseDouble(tblYearReport.getValueAt(i, 3).toString());
 	        		}
-	        		lblTotalCapitalDisplay.setText(totalCapital.toString());
-	        		lblTotalNetSalesDisplay.setText(totalNetSales.toString());
+	        		lblTotalCapitalDisplay.setText(df.format(totalCapital));
+	        		lblTotalNetSalesDisplay.setText(df.format(totalNetSales));
 	 
 	                FinancialReport financialReport = new FinancialReport(mainGUI);
 	                mainGUI.setRightSplit(getJPanel());

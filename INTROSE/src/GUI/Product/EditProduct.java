@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,7 +46,8 @@ import javax.swing.SwingConstants;
 
 public class EditProduct extends JFrame implements ActionListener {
 	private DBConnect db = new DBConnect();
-
+	private DecimalFormat df = new DecimalFormat("#.00");
+	
 	ActionListener act = new ActListener();
 	JPanel jPanel = new JPanel();
 
@@ -189,7 +191,7 @@ public class EditProduct extends JFrame implements ActionListener {
 
 		lbloldProductName.setText(productName);
 		txtNewProductName.setText(productName);
-		txtTotalPrice.setText(Double.toString(totalCost));
+		txtTotalPrice.setText(df.format(totalCost));
 		txtQuantity.setText(Integer.toString(quantity));
 		txtDate.setText(dateBought.toString());
 		txtOrigin.setText(origin);
