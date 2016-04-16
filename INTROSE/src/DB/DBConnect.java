@@ -175,7 +175,7 @@ public class DBConnect {
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
-
+		products.remove(1);
 		return products;
 	}
 
