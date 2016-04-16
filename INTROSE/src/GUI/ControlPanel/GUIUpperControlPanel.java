@@ -34,7 +34,7 @@ public class GUIUpperControlPanel implements ActionListener{
 		jPanel.setLayout(null);
 		lblControlPanel.setBounds(7, 11, 190, 20);
 		
-		lblControlPanel.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		lblControlPanel.setFont(new Font("Tahoma", Font.BOLD, 19));
 		lblControlPanel.setText(mainGUI.BRANCH.getBranchName());
 		jPanel.add(lblControlPanel);
 		btnPushDailyReport.setBounds(7, 107, 190, 23);
@@ -42,17 +42,17 @@ public class GUIUpperControlPanel implements ActionListener{
 
 			
 		btnPushDailyReport.addActionListener(act);
-		btnAddSales.setBounds(7, 53, 190, 23);
+		btnAddSales.setBounds(7, 56, 190, 20);
 		btnAddSales.addActionListener(act);
 		btnViewDailyReport.setBounds(7, 134, 190, 23);
 		btnViewDailyReport.addActionListener(act);
-		btnLogout.setBounds(7, 161, 190, 23);
+		btnLogout.setBounds(7, 309, 190, 33);
 		btnLogout.addActionListener(act);
 
 		
-		jPanel.add(btnAddSales);
-		jPanel.add(btnPushDailyReport );
-		jPanel.add(btnViewDailyReport );
+		//jPanel.add(btnAddSales);
+		//jPanel.add(btnPushDailyReport );
+		//jPanel.add(btnViewDailyReport );
 		jPanel.add(btnLogout );
 		
 	}

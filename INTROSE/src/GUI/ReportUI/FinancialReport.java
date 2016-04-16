@@ -1,87 +1,224 @@
 package GUI.ReportUI;
 
-import javax.swing.JPanel;
-
-import GUI.MainGUI;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JLabel;
-
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
-import javax.swing.JComboBox;
+import org.jdesktop.swingx.JXDatePicker;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
-public class FinancialReport implements ActionListener  {
+import DB.DBConnect;
+import GUI.MainGUI;
+import net.miginfocom.swing.MigLayout;
+import java.awt.Color;
+
+public class FinancialReport implements ActionListener {
 	private JPanel jPanel = new JPanel();
-	
+
 	// Labels
 	private JLabel lblYearlyReport = new JLabel("Yearly Report of All Branches");
 	private JLabel lblTotalCapital = new JLabel("Total Capital:");
-	private JLabel lblCapital = new JLabel("");
-	private JLabel lblTotalNet = new JLabel("Total Net:");
-	private JLabel lblNet = new JLabel("");
-	private JTable tblYearReport;
-	
-	//Scroll Pane
+	private JLabel lblTotalNet = new JLabel("Total Net Sales:");
+	private JTable tblYearReport = new JTable();
+
+	// Scroll Pane
 	private JScrollPane scrollPane = new JScrollPane();
+	private final JLabel lblTo = new JLabel("To  ");
+
+	private final JLabel lblFilterBranch = new JLabel("                 Filter Branch:");
+	private JComboBox cmbBranches;
+
+	private MainGUI mainGUI;
+
+	private DBConnect db = new DBConnect();
 	
-	public FinancialReport(MainGUI mainGUI){
+	SimpleDateFormat formatterDefault;
+	Date dateDefault;	
+	private JXDatePicker pickerDefault;
+	private JLabel lblTotalCapitalDisplay = new JLabel();
+	private JLabel lblTotalNetSalesDisplay = new JLabel();
+	private JComboBox cmbFromYear = new JComboBox();
+	private JComboBox cmbToYear = new JComboBox();
+	
+	public FinancialReport(MainGUI mainGUI) {
+		ActListener act = new ActListener();
+		this.mainGUI = mainGUI;
 		jPanel.setPreferredSize(new Dimension(1000, 778));
-		jPanel.setLayout(null);
-		lblYearlyReport.setBounds(368, 28, 263, 50);
-		
+		jPanel.setLayout(
+				new MigLayout("", "[70.00px][90.00px][70.00px][90.00px][610px]", "[50px][25px][495px][23px][23px]"));
+
 		// Labels
 		lblYearlyReport.setFont(new Font("Tahoma", Font.BOLD, 18));
-		jPanel.add(lblYearlyReport);
-		lblTotalCapital.setBounds(21, 627, 122, 23);
+		jPanel.add(lblYearlyReport, "cell 4 0,alignx left,growy");
 		
+		//for the defaultDate
+		pickerDefault = new JXDatePicker();
+		pickerDefault.setDate(Calendar.getInstance().getTime());
+		pickerDefault.setFormats(new SimpleDateFormat("dd/MM/yyyy"));
+		formatterDefault = new SimpleDateFormat("yyyy/MM/dd");
+		dateDefault = pickerDefault.getDate();
+		cmbFromYear.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+
+		
+		jPanel.add(cmbFromYear, "cell 1 1,grow");
+		cmbToYear.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		jPanel.add(cmbToYear, "cell 3 1,grow");
+		lblFilterBranch.setFont(new Font("Tahoma", Font.PLAIN, 14));
+
+		jPanel.add(lblFilterBranch, "flowx,cell 4 1,alignx left,aligny center");
+
 		lblTotalCapital.setFont(new Font("Tahoma", Font.BOLD, 16));
-		jPanel.add(lblTotalCapital);
-		lblTotalNet.setBounds(21, 661, 122, 23);
+		jPanel.add(lblTotalCapital, "cell 0 3 2 1,alignx left,growy");
+		lblTotalCapitalDisplay.setForeground(Color.BLACK);
+		lblTotalCapitalDisplay.setFont(new Font("Tahoma", Font.BOLD, 18));
 		
+		jPanel.add(lblTotalCapitalDisplay, "cell 2 3 2 1,grow");
+
 		lblTotalNet.setFont(new Font("Tahoma", Font.BOLD, 16));
-		jPanel.add(lblTotalNet);
-		lblCapital.setBounds(153, 627, 0, 23);
-		
-		jPanel.add(lblCapital);
-		lblNet.setBounds(153, 661, 0, 23);
-		jPanel.add(lblNet);
-		
+		jPanel.add(lblTotalNet, "cell 0 4 2 1,grow");
+
 		tblYearReport = new JTable();
-		scrollPane.setBounds(21, 121, 957, 495);
+		tblYearReport.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		scrollPane.setViewportView(tblYearReport);
+		tblYearReport.getTableHeader().setReorderingAllowed(false);
+
+		tblYearReport.setModel(
+				db.retrieveYearlyReport(db.getEarliestDate().toString(), db.getLatestDate().toString(), "None"));
 		
-		jPanel.add(scrollPane);
+		int row = tblYearReport.getRowCount();
+		Double totalCapital = 0.0;
+		Double totalNetSales = 0.0;
+		for (int i = 0; i < row; i++) {
+			totalCapital += Double.parseDouble(tblYearReport.getValueAt(i, 2).toString());
+			totalNetSales += Double.parseDouble(tblYearReport.getValueAt(i, 3).toString());
+		}
+		lblTotalCapitalDisplay.setText(totalCapital.toString());
+		lblTotalNetSalesDisplay.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblTotalNetSalesDisplay.setText(totalNetSales.toString());
 		
-		DefaultTableModel model = new DefaultTableModel(new Object[]{"Period Covered","Branches","Gross","Net"}, 0) {
- 		   @Override
- 		   public boolean isCellEditable(int row, int column) {
- 		       return false;
- 		   }
-		};
+
+		jPanel.add(scrollPane, "cell 0 2 5 1,grow");
+
+		JLabel lblFrom = new JLabel("From");
+		lblFrom.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		jPanel.add(lblFrom, "flowx,cell 0 1,alignx center,growy");
+		lblTo.setFont(new Font("Tahoma", Font.PLAIN, 16));
+
+		jPanel.add(lblTo, "flowx,cell 2 1,alignx center,growy");
+
+		cmbBranches = new JComboBox(db.getBranchNames().toArray());
+		cmbBranches.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		AutoCompleteDecorator.decorate(this.cmbBranches);
+		AutoCompleteDecorator.decorate(this.cmbFromYear);
+		AutoCompleteDecorator.decorate(this.cmbToYear);
+
+		jPanel.add(cmbBranches, "cell 4 1,grow");
 		
-		tblYearReport.setModel(model);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(88, 89, 79, 23);
-		jPanel.add(comboBox);
-		
-		JLabel lblYear = new JLabel("Year: ");
-		lblYear.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblYear.setBounds(34, 87, 65, 23);
-		jPanel.add(lblYear);
-		
+		jPanel.add(lblTotalNetSalesDisplay, "cell 2 4 2 1,grow");
+		for (int i = db.getEarliestYear(); i <= db.getLatestYear(); i++) {
+			cmbFromYear.addItem(i);
+			cmbToYear.addItem(i);
+		}
+		cmbFromYear.addActionListener(act);
+		cmbToYear.addActionListener(act);
+		cmbBranches.addActionListener(act);
+
 	}
+
+	private class ActListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            
+            if(e.getSource() == cmbFromYear){
+            	if(Integer.parseInt(cmbFromYear.getSelectedItem().toString()) > 
+            	Integer.parseInt(cmbToYear.getSelectedItem().toString())){
+            		JOptionPane.showMessageDialog(null, "From Year cannot be more than To Year!");
+            	}else{
+	                mainGUI.removeAllRightSplit();
+	 
+	                tblYearReport.setModel(db.retrieveYearlyReport(cmbFromYear.getSelectedItem().toString(), cmbToYear.getSelectedItem().toString(),
+	                        cmbBranches.getSelectedItem().toString()));
+	                
+	        		int row = tblYearReport.getRowCount();
+	        		Double totalCapital = 0.0;
+	        		Double totalNetSales = 0.0;
+	        		for (int i = 0; i < row; i++) {
+	        			totalCapital += Double.parseDouble(tblYearReport.getValueAt(i, 2).toString());
+	        			totalNetSales += Double.parseDouble(tblYearReport.getValueAt(i, 3).toString());
+	        		}
+	        		lblTotalCapitalDisplay.setText(totalCapital.toString());
+	        		lblTotalNetSalesDisplay.setText(totalNetSales.toString());
+	 
+	                FinancialReport financialReport = new FinancialReport(mainGUI);
+	                mainGUI.setRightSplit(getJPanel());
+            	}
+            }
+            
+            if(e.getSource() == cmbToYear){
+            	if(Integer.parseInt(cmbFromYear.getSelectedItem().toString()) > 
+            	Integer.parseInt(cmbToYear.getSelectedItem().toString())){
+            		JOptionPane.showMessageDialog(null, "From Year cannot be more than To Year!");
+            	}else{
+	                mainGUI.removeAllRightSplit();
+	 
+	                tblYearReport.setModel(db.retrieveYearlyReport(cmbFromYear.getSelectedItem().toString(), cmbToYear.getSelectedItem().toString(),
+	                        cmbBranches.getSelectedItem().toString()));
+	                
+	        		int row = tblYearReport.getRowCount();
+	        		Double totalCapital = 0.0;
+	        		Double totalNetSales = 0.0;
+	        		for (int i = 0; i < row; i++) {
+	        			totalCapital += Double.parseDouble(tblYearReport.getValueAt(i, 2).toString());
+	        			totalNetSales += Double.parseDouble(tblYearReport.getValueAt(i, 3).toString());
+	        		}
+	        		lblTotalCapitalDisplay.setText(totalCapital.toString());
+	        		lblTotalNetSalesDisplay.setText(totalNetSales.toString());
+	 
+	                FinancialReport financialReport = new FinancialReport(mainGUI);
+	                mainGUI.setRightSplit(getJPanel());
+            	}
+            }
+            
+            if(e.getSource() == cmbBranches){
+            	if(Integer.parseInt(cmbFromYear.getSelectedItem().toString()) > 
+            	Integer.parseInt(cmbToYear.getSelectedItem().toString())){
+            		JOptionPane.showMessageDialog(null, "From Year cannot be more than To Year!");
+            	}else{
+	                mainGUI.removeAllRightSplit();
+	 
+	                tblYearReport.setModel(db.retrieveYearlyReport(cmbFromYear.getSelectedItem().toString(), cmbToYear.getSelectedItem().toString(),
+	                        cmbBranches.getSelectedItem().toString()));
+	                
+	        		int row = tblYearReport.getRowCount();
+	        		Double totalCapital = 0.0;
+	        		Double totalNetSales = 0.0;
+	        		for (int i = 0; i < row; i++) {
+	        			totalCapital += Double.parseDouble(tblYearReport.getValueAt(i, 2).toString());
+	        			totalNetSales += Double.parseDouble(tblYearReport.getValueAt(i, 3).toString());
+	        		}
+	        		lblTotalCapitalDisplay.setText(totalCapital.toString());
+	        		lblTotalNetSalesDisplay.setText(totalNetSales.toString());
+	 
+	                FinancialReport financialReport = new FinancialReport(mainGUI);
+	                mainGUI.setRightSplit(getJPanel());
+            	}
+            }
+        }
+    }
 	
 	public JPanel getJPanel() {
 		return this.jPanel;
@@ -90,6 +227,6 @@ public class FinancialReport implements ActionListener  {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

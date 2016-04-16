@@ -1,6 +1,8 @@
 package GUI;
 import java.awt.BorderLayout;
+
 import java.awt.Dimension;
+import java.awt.Frame;
 
 import javax.swing.*;
 
@@ -117,5 +119,9 @@ public class MainGUI {
 		frame.dispose(); 
 		MainGUI sp = new MainGUI();
 		
+	}
+	
+	public Frame getJFrame(){
+		return frame;
 	}
 }

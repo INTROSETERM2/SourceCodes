@@ -1,6 +1,7 @@
 package Receipt;
 import java.util.ArrayList;
 
+
 import DB.DBConnect;
 
 public class ManagerReceipt {
@@ -20,8 +21,20 @@ public class ManagerReceipt {
 
 	}
 	
-	public ArrayList<Receipt> getTodayReceipt(int branchNumber){
-		return db.getTodayReceipts(branchNumber);
+	public ArrayList<String> getMonthReceipts(int branchNum, int month, int year){
+		return db.getMonthReceipts(branchNum, month, year);
+	}
+	
+	public ArrayList<Receipt> getDayReceipt(int branchNumber, String date){
+		return db.getDayReceipts(branchNumber, date);
+	}
+	
+	public int getEarlyYear(int branchNumber){
+		return db.getEarliestYear(branchNumber);
+	}
+	
+	public int getLatestYear(int branchNumber){
+		return db.getLatestYear(branchNumber);
 	}
 	
 

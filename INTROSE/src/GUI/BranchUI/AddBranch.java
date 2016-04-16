@@ -3,6 +3,7 @@ package GUI.BranchUI;
 import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import GUI.MainGUI;
 import GUI.ControlPanel.GUIClientUpperControlPanel;
@@ -20,6 +21,7 @@ import Branch.ManagerBranch;
 
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
+import java.awt.Font;
 
 public class AddBranch {
 	private JPanel jPanel = new JPanel();
@@ -41,6 +43,8 @@ public class AddBranch {
 	// Buttons
 	private JButton btnAdd = new JButton("Add");
 	
+	private ManagerBranch manBranch = new ManagerBranch();
+	
 	public AddBranch(MainGUI mainGUI){
 		ActListener act = new ActListener();
 
@@ -48,12 +52,17 @@ public class AddBranch {
 		
 		jPanel.setPreferredSize(new Dimension(1037, 628));
 		jPanel.setLayout(new MigLayout("", "[20.00][130.00][130.00][20.00]", "[20.00][40.00][25.00][25][25][25][25][25][20]"));
+		lblBranchCreation.setFont(new Font("Tahoma", Font.BOLD, 18));
 		
 		
 		jPanel.add(lblBranchCreation, "cell 1 1 2 1,alignx center,aligny center");
+		lblBranchName.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblBranchName, "cell 1 2,alignx center,aligny center");
+		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblUsername, "cell 1 4,alignx center,aligny center");
+		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblPassword, "cell 1 5,alignx center,aligny center");
+		lblConfirmPass.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(lblConfirmPass, "cell 1 6,alignx center,aligny center");
 		
 		jPanel.add(txtBranchName, "cell 2 2,grow");
@@ -62,6 +71,7 @@ public class AddBranch {
 		txtUsername.setColumns(10);
 		jPanel.add(password, "cell 2 5,grow");
 		jPanel.add(confirmPass, "cell 2 6,grow");
+		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		jPanel.add(btnAdd, "cell 2 7,grow");
 		btnAdd.addActionListener(act);
 		btnAdd.setEnabled(false);
@@ -169,11 +179,25 @@ public class AddBranch {
 	private class ActListener implements ActionListener {
 		public void actionPerformed(ActionEvent a) {
 				if (a.getSource() == btnAdd) {
-					//bawal ata same branch?
-					if(!(password.getText().equals(confirmPass.getText()))){
-						JOptionPane.showMessageDialog(null, "Password and Confirm Password did not macth!");
-						password.setText("");
-						confirmPass.setText("");
+					boolean sameBranchName = false;
+					boolean sameUserName = false;
+					ArrayList<Branch> branches = new ArrayList<Branch>();
+					branches = manBranch.getBranches();
+					for (int i = 0; i < branches.size(); i++) {
+						if(branches.get(i).getBranchName().equalsIgnoreCase(txtBranchName.getText()))
+							sameBranchName = true;
+						if(branches.get(i).getBranchUsername().equalsIgnoreCase(txtUsername.getText()))
+							sameUserName = true;
+					}
+					
+					if(sameBranchName == true){
+						JOptionPane.showMessageDialog(null, "Branch Name is already existing!");
+					}else if(sameUserName == true){
+						JOptionPane.showMessageDialog(null, "Username is already existing!");
+					}
+					else if(!(password.getText().equals(confirmPass.getText()))){
+						JOptionPane.showMessageDialog(null, "Password and Confirm Password did not match!");
+
 					}
 					else{
 						ManagerBranch managerBranch = new ManagerBranch();

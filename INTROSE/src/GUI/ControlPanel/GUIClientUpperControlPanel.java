@@ -40,8 +40,8 @@ public class GUIClientUpperControlPanel implements ActionListener{
 	private JButton btnLogout = new JButton("Logout");		
 	
 	
-	private FinancialReport financialReport = new FinancialReport(mainGUI);
-	private AddProduct addProduct = new AddProduct(mainGUI); 
+	private FinancialReport financialReport;
+	private AddProduct addProduct;
 	private AddBranch addBranch;
 	private JScrollPane scrollPane = new JScrollPane();
 	private JTable jTable = new JTable();
@@ -51,6 +51,7 @@ public class GUIClientUpperControlPanel implements ActionListener{
 	public GUIClientUpperControlPanel(MainGUI mainGUI){
 		ActListener act = new ActListener();
 		this.mainGUI = mainGUI;
+		financialReport = new FinancialReport(mainGUI);
 		addBranch = new AddBranch(mainGUI);
 		jPanel.setSize(240,450);
 		jPanel.setLayout(new MigLayout("", "[28.00][190px][28.00]", "[23px][146px][23px][23px][23px]"));
@@ -77,7 +78,7 @@ public class GUIClientUpperControlPanel implements ActionListener{
 		
 		branches = manBranch.getBranches();
 		
-		for(int i = 0; i < branches.size();i++){
+		for(int i = 1; i < branches.size();i++){
 			model.addRow(new Object[]{branches.get(i).getBranchName()});
 		}
 		
@@ -120,6 +121,7 @@ public class GUIClientUpperControlPanel implements ActionListener{
     		}
     		if(e.getSource() == btnAddBranch){
     			mainGUI.removeAllRightSplit();
+//    			AddBranch addBranch = new AddBranch(mainGUI);
     			mainGUI.setRightSplit(addBranch.getJPanel());
     		}
     		if(e.getSource() == btnDeleteBranch){
@@ -140,6 +142,8 @@ public class GUIClientUpperControlPanel implements ActionListener{
     			
     		}
     		if(e.getSource() == btnInventory){
+
+    			addProduct = new AddProduct (mainGUI);
     			mainGUI.removeAllRightSplit();
     			mainGUI.setRightSplit(addProduct.getJPanel());
     		}
