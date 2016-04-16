@@ -29,8 +29,8 @@ public class DBConnect {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			// always changed this for DB access
-			 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
-//		 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp", "root", "root");
+//			 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
+		 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp", "root", "");
 			// con =
 			// DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root",
 			// "");
@@ -417,7 +417,7 @@ public class DBConnect {
 	}
 
 	public Branch login(String username, String password) {
-		String query = "select branchUsername, branchPassword, branchID, branchCreationDate, branchName from branches where branchUsername = ? and branchPassword = ?";
+		String query = "select branchUsername, branchPassword, branchID, branchCreationDate, branchName from branches where binary branchUsername = ? and binary branchPassword = ?";
 		String dbBranchPassword = "";
 		String dbBranchUsername = "";
 		String dbBranchName = "";
