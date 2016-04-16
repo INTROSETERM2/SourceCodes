@@ -69,10 +69,13 @@ public class MainGUI {
 		rightJPanel.removeAll();
 		frame.revalidate(); // For Java 1.7 or above
 		frame.repaint();
+		frame.pack();
+		
 	}
 	   
 	public void setRightSplit(JPanel guiClass) {
 		rightJPanel.add(guiClass, BorderLayout.LINE_START);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 	}
 	
 	public void removeRightSplit(JPanel guiClass)

@@ -518,7 +518,7 @@ public class AddProduct implements ActionListener {
 	}
 
 	public JPanel getJPanel() {
-		return jPanel;
+		return this.jPanel;
 	}
 
 	private class ActListener implements ActionListener {

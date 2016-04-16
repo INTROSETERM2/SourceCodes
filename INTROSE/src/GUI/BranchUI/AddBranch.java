@@ -23,7 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import java.awt.Font;
 
-public class AddBranch {
+public class AddBranch implements ActionListener {
 	private JPanel jPanel = new JPanel();
 	private MainGUI mainGUI;
 	
@@ -38,7 +38,7 @@ public class AddBranch {
 	private JLabel lblBranchName = new JLabel("Branch Name");
 	private JLabel lblUsername = new JLabel("Username: ");
 	private JLabel lblPassword = new JLabel("Password:");
-	private final JLabel lblConfirmPass = new JLabel("Confirm Password:");
+	private JLabel lblConfirmPass = new JLabel("Confirm Password:");
 	
 	// Buttons
 	private JButton btnAdd = new JButton("Add");
@@ -75,6 +75,7 @@ public class AddBranch {
 		jPanel.add(btnAdd, "cell 2 7,grow");
 		btnAdd.addActionListener(act);
 		btnAdd.setEnabled(false);
+		jPanel.setVisible(true);
 		
 		txtBranchName.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
@@ -170,10 +171,11 @@ public class AddBranch {
 			}
 			
 		});
+		
 	}
 	
 	public JPanel getJPanel() {
-		return jPanel;
+		return this.jPanel;
 	}
 
 	private class ActListener implements ActionListener {
