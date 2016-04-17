@@ -73,6 +73,8 @@ public class MainGUI {
 	   
 	public void setRightSplit(JPanel guiClass) {
 		rightJPanel.add(guiClass, BorderLayout.LINE_START);
+		frame.revalidate(); // For Java 1.7 or above
+		frame.repaint();
 	}
 	
 	public void removeRightSplit(JPanel guiClass)
@@ -101,6 +103,7 @@ public class MainGUI {
 	
 	public Dimension getRightJPanelSize(){
 		return rightJPanel.getSize();
+
 	}
 	
 	public static void main(String[] args) {

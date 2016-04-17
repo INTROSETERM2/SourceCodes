@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -98,8 +99,10 @@ public class AddProduct implements ActionListener {
 	private Date dateFrom;
 	private PictureFinder pictureFinder;
 
-	SimpleDateFormat formatterDefault;
-	Date dateDefault;
+	private SimpleDateFormat formatterDefault;
+	private Date dateDefault;
+	
+	private DecimalFormat df = new DecimalFormat("#.00");
 
 	public static ImageIcon IMAGE = null;
 
@@ -300,7 +303,7 @@ public class AddProduct implements ActionListener {
 			model.addRow(new Object[] { products.get(i).getProductID(), products.get(i).getBuyDate(),
 					products.get(i).getProductName(), 
 //					db.getProductTypeName(products.get(i).getProductTypeID()),
-					products.get(i).getQuantity(), products.get(i).getBuyPrice(), products.get(i).getBuyOrigin(),
+					products.get(i).getQuantity(), df.format(products.get(i).getBuyPrice()), products.get(i).getBuyOrigin(),
 					products.get(i).getPicture() });
 		}
 		productTable.setModel(model);

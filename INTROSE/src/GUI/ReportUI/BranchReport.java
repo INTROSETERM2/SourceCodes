@@ -106,7 +106,8 @@ public class BranchReport {
 	private Date dateFrom;
 	private String resultDateFrom;
 	private MainGUI mainGUI;
-
+	private DecimalFormat df = new DecimalFormat("#.00");
+	
 	public BranchReport(MainGUI mainGUI, int branchNumber) {
 		this.mainGUI = mainGUI;
 		txtDay.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -379,7 +380,7 @@ public class BranchReport {
 
 		for (int i = 0; i < receiptDaily.size(); i++) {
 			dailyModel.addRow(new Object[] { receiptDaily.get(i).getSoldDate(), receiptDaily.get(i).getReceiptID(),
-					receiptDaily.get(i).getSoldProductName(), receiptDaily.get(i).getSoldPrice(),
+					receiptDaily.get(i).getSoldProductName(), df.format(receiptDaily.get(i).getSoldPrice()),
 					receiptDaily.get(i).getSoldQuantity(), receiptDaily.get(i).getCustomerName(),
 					receiptDaily.get(i).getStaffName() });
 			total += receiptDaily.get(i).getSoldPrice();
@@ -609,7 +610,7 @@ public class BranchReport {
 
 		for (int i = 0; i < receiptDaily.size(); i++) {
 			dailyModel.addRow(new Object[] { receiptDaily.get(i).getSoldDate(), receiptDaily.get(i).getReceiptID(),
-					receiptDaily.get(i).getSoldProductName(), receiptDaily.get(i).getSoldPrice(),
+					receiptDaily.get(i).getSoldProductName(), df.format(receiptDaily.get(i).getSoldPrice()),
 					receiptDaily.get(i).getSoldQuantity(), receiptDaily.get(i).getCustomerName(),
 					receiptDaily.get(i).getStaffName() });
 			total += receiptDaily.get(i).getSoldPrice();

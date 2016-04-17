@@ -38,7 +38,7 @@ public class AddBranch {
 	private JLabel lblBranchName = new JLabel("Branch Name");
 	private JLabel lblUsername = new JLabel("Username: ");
 	private JLabel lblPassword = new JLabel("Password:");
-	private final JLabel lblConfirmPass = new JLabel("Confirm Password:");
+	private JLabel lblConfirmPass = new JLabel("Confirm Password:");
 	
 	// Buttons
 	private JButton btnAdd = new JButton("Add");

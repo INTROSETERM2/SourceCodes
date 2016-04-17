@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -24,6 +25,7 @@ public class DBConnect {
 
 	private java.sql.Connection con;
 	private ResultSet rs;
+	private DecimalFormat df = new DecimalFormat("#.00");
 
 	public DBConnect() {
 		try {
@@ -106,8 +108,8 @@ public class DBConnect {
 				sold_customer = rs.getString("customer_name");
 				staffName = rs.getString("staffName");
 
-				model.addRow(new Object[] { Integer.toString(receipt_number), productName, String.valueOf(sold_price),
-						String.valueOf(sold_quantity), sold_customer, staffName });
+				model.addRow(new Object[] { Integer.toString(receipt_number), productName, df.format(sold_price),
+						 Integer.toString(sold_quantity), sold_customer, staffName });
 			}
 
 		} catch (Exception ex) {
@@ -175,7 +177,7 @@ public class DBConnect {
 		} catch (Exception ex) {
 			System.out.println(ex);
 		}
-
+		products.remove(1);
 		return products;
 	}
 
@@ -417,7 +419,7 @@ public class DBConnect {
 	}
 
 	public Branch login(String username, String password) {
-		String query = "select branchUsername, branchPassword, branchID, branchCreationDate, branchName from branches where branchUsername = ? and branchPassword = ?";
+		String query = "select branchUsername, branchPassword, branchID, branchCreationDate, branchName from branches where binary branchUsername = ? and binary branchPassword = ?";
 		String dbBranchPassword = "";
 		String dbBranchUsername = "";
 		String dbBranchName = "";
@@ -746,7 +748,7 @@ public class DBConnect {
 			rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				receipts.add(rs.getString("sold_date"));
-				receipts.add(Double.toString(rs.getDouble("sum(sold_price)")));
+				receipts.add(df.format(rs.getDouble("sum(sold_price)")));
 			}
 		} catch (Exception e) {
 			System.out.println("Error: getReceipts " + e);
@@ -1039,8 +1041,8 @@ public class DBConnect {
 				month = rs.getInt(6);
 				year = rs.getInt(7);
 
-				model.addRow(new Object[] { Double.toString(total_sales), Integer.toString(quantity),
-						Double.toString(capital), Double.toString(netSales), branchName, Integer.toString(month), Integer.toString(year) });
+				model.addRow(new Object[] { df.format(total_sales), quantity,
+						 df.format(capital), df.format(netSales), branchName, month, year });
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

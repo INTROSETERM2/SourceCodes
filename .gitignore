@@ -19,3 +19,5 @@
 .metadata/.plugins/org.eclipse.core.resources/.projects/INTROSE v5/.markers.snap
 *.zip
 *.txt
+.metadata/.plugins/org.eclipse.m2e.logback.configuration/0.log
+.metadata/.plugins/org.eclipse.m2e.logback.configuration/0.log

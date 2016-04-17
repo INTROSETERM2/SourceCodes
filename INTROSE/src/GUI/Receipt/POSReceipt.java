@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,9 +41,9 @@ import java.awt.Font;
 import java.awt.SystemColor;
 
 public class POSReceipt implements ActionListener {
-	JPanel jPanel = new JPanel();
-	DBConnect db = new DBConnect();
-	
+	private JPanel jPanel = new JPanel();
+	private DBConnect db = new DBConnect();
+	private DecimalFormat af = new DecimalFormat("#.00");
 	// for Date
 	private DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	private Date today = Calendar.getInstance().getTime();
@@ -86,7 +87,7 @@ public class POSReceipt implements ActionListener {
 		this.mainGUI = mainGUI;
 		ActListener act = new ActListener();
 		lblTotalAmountComputed.setText("");
-		lblTotalAmountComputed.setText(String.valueOf(db.getTotalSalesToday(mainGUI.BRANCH.getBranchID())) + " php");
+		lblTotalAmountComputed.setText(af.format(db.getTotalSalesToday(mainGUI.BRANCH.getBranchID())) + " php");
 		
 		// Panel
 		jPanel.setPreferredSize(new Dimension(1000, 500));
@@ -207,12 +208,12 @@ public class POSReceipt implements ActionListener {
 						JOptionPane.showMessageDialog(null, "Decimal places are limited to 2");
 
 					} else {
-						receiptNumber = Integer.parseInt((String) table.getValueAt(row, 0));
-						productName = (String) table.getValueAt(row, 1);
+						receiptNumber = Integer.parseInt(table.getValueAt(row, 0).toString());
+						productName = table.getValueAt(row, 1).toString();
 						price = new Double(table.getValueAt(row, 2).toString());
 						quantity = Integer.parseInt((String) table.getValueAt(row, 3));
-						customer = (String) table.getValueAt(row, 4);
-						staff = (String) table.getValueAt(row, 5);
+						customer = table.getValueAt(row, 4).toString();
+						staff = table.getValueAt(row, 5).toString();
 
 						EditReceipt editReceipt = new EditReceipt(mainGUI, receiptNumber, productName, price, quantity,
 								customer, staff);
