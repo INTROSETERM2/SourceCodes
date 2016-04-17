@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,6 +49,7 @@ import GUI.Receipt.EditReceipt;
 import GUI.Receipt.POSReceipt;
 import Product.ManagerProduct;
 import Product.PictureFinder;
+import Product.Picturemover;
 import Product.Product;
 
 public class AddProduct implements ActionListener {
@@ -646,10 +648,12 @@ public class AddProduct implements ActionListener {
 
 				} else {
 
+					File pictureFile = new File(txtPicturePath.getText());
+					String newPath = "C:\\School\\INTROSE\\INTROSE Github\\SourceCodes\\INTROSE\\Pictures\\" + pictureFile.getName();
 					product = new Product(Integer.parseInt(txtQuantity.getText()), dateFrom, txtProductName.getText(),
 							Double.parseDouble(txtTotalCost.getText()) / Integer.parseInt(txtQuantity.getText()),
 							Integer.parseInt(lblNextAvailableID.getText()),
-							1, txtPicturePath.getText(),
+							1,	newPath,
 							txtOrigin.getText());
 
 					managerProduct.addProduct(product);
@@ -658,6 +662,7 @@ public class AddProduct implements ActionListener {
 					mainGUI.removeAllRightSplit();
 					AddProduct addProduct = new AddProduct(mainGUI);
 					mainGUI.setRightSplit(addProduct.getJPanel());
+					Picturemover picturemover = new Picturemover(txtPicturePath.getText().toString());
 				}
 			}
 		}
