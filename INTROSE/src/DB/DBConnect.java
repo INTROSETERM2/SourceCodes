@@ -31,8 +31,8 @@ public class DBConnect {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			// always changed this for DB access
-//			 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
-		 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp", "root", "");
+			 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root","Helloworld123");
+//		 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp", "root", "");
 			// con =
 			// DriverManager.getConnection("jdbc:mysql://localhost:3306/introse_mp","root",
 			// "");
@@ -995,7 +995,7 @@ public class DBConnect {
 
 		String query = "";
 		if (branch.equals("None")) {
-			query = "select ROUND(sum(r.sold_price/2),2) as total_sales, sum(r.sold_quantity), p.buy_price*r.sold_quantity as capital, ROUND(sum(r.sold_price/2) - (p.buy_price*r.sold_quantity),2) as net_sales, b.branchName, month(r.sold_date), year(r.sold_date) from receipts r, products p, branches b where Year(R.sold_date) >= ? and Year(R.sold_date) <= ? and b.branchid = r.sold_branch group by r.sold_branch, r.sold_date order by r.sold_branch asc";
+			query = "select ROUND(sum(r.sold_price/2),2) as total_sales, sum(r.sold_quantity), sum(p.buy_price*r.sold_quantity) as capital, ROUND(sum(r.sold_price/2) - (p.buy_price*r.sold_quantity),2) as net_sales, b.branchName, month(r.sold_date), year(r.sold_date) from receipts r, products p, branches b where Year(R.sold_date) >= ? and Year(R.sold_date) <= ? and b.branchid = r.sold_branch group by r.sold_branch, year(r.sold_date), month(r.sold_date) order by r.sold_branch asc";
 
 			try {	
 				PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
@@ -1009,7 +1009,7 @@ public class DBConnect {
 			}
 
 		} else {
-			query = "select ROUND(sum(r.sold_price/2),2) as total_sales, sum(r.sold_quantity), p.buy_price*r.sold_quantity as capital, ROUND(sum(r.sold_price/2) - (p.buy_price*r.sold_quantity),2) as net_sales, b.branchName, month(r.sold_date), year(r.sold_date) from receipts r, products p, branches b where Year(R.sold_date) >= ? and Year(R.sold_date) <= ? and b.branchid = r.sold_branch and b.branchid = ? group by r.sold_branch, r.sold_date order by r.sold_branch asc";
+			query = "select ROUND(sum(r.sold_price/2),2) as total_sales, sum(r.sold_quantity), sum(p.buy_price*r.sold_quantity) as capital, ROUND(sum(r.sold_price/2) - (p.buy_price*r.sold_quantity),2) as net_sales, b.branchName, month(r.sold_date), year(r.sold_date) from receipts r, products p, branches b where Year(R.sold_date) >= ? and Year(R.sold_date) <= ? and b.branchid = r.sold_branch and b.branchid = ? group by r.sold_branch, year(r.sold_date), month(r.sold_date) order by r.sold_branch asc";
 
 			try {
 				PreparedStatement preparedStatement = (PreparedStatement) con.prepareStatement(query);
